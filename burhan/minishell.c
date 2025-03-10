@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:30:55 by bhajili           #+#    #+#             */
-/*   Updated: 2025/03/10 10:49:16 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/03/10 13:00:11 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	show_tokens(t_token *head)
 {
 	while (head)
 	{
-		printf("token = |%s| (type = %d)\n", head->value, head->type);
+		printf("type = %d: token = |%s|\n", head->type, head->value);
 		head = head->next;
 	}
 }

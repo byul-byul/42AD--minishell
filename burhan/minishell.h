@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 08:52:46 by bhajili           #+#    #+#             */
-/*   Updated: 2025/03/10 10:24:30 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:05:02 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "./libft/libft.h"
 
 # define PIPE			1
 # define REDIR_IN		2

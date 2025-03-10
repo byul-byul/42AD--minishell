@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 09:53:44 by bhajili           #+#    #+#              #
-#    Updated: 2025/03/10 10:21:20 by bhajili          ###   ########.fr        #
+#    Updated: 2025/03/10 15:03:30 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,17 +25,24 @@ SRCS    =   $(D_SRC)main.c \
 
 OBJS    =   $(SRCS:.c=.o)
 
-all:    $(NAME)
+# Define the targets
+all:	$(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+# linking with dependencies on object files
+$(NAME): $(OBJS) libft/libft.a
+	$(CC) -o $@ $^ -Llibft -lft $(LDFLAGS)
+
+# Library rule to build libft if needed
+libft/libft.a:
+	make -C libft
 
 clean:
 	rm -f $(OBJS)
+	make -C libft clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f libft/libft.a $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all libft clean fclean re bonus
