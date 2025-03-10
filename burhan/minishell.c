@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:30:55 by bhajili           #+#    #+#             */
-/*   Updated: 2025/03/10 10:31:59 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/03/10 10:49:16 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	minishell(void)
 {
 	char	*input;
 	t_token	*tokens;
+
 	while (1)
 	{
 		input = readline("minishell$ ");
