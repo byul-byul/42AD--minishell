@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:10:19 by bhajili           #+#    #+#             */
-/*   Updated: 2025/03/10 15:18:12 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/04/02 10:28:15 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,23 @@ int	is_operator(char c)
 	return (c == '|' || c == '&' || c == '<' || c == '>');
 }
 
-void	define_token(const char *input, int *index)
+void	define_token(const char *input, int *i)
 {
 	char	quote;
 
 	quote = 0;
-	while (input[*index] && (quote || (!is_operator(input[*index]) && input[*index] != ' ')))
+	while (input[*i] && (quote || (!is_operator(input[*i]) && input[*i] != ' ')))
 	{
-		if (input[*index] == '\\' && input[*index + 1])
+		if (input[*i] == '\\' && input[*i + 1] && quote != '\'')
 		{
-			(*index)++; // Пропускаем `\`, но переходим на следующий символ
+			(*i) += 2; // Пропускаем `\`, только если вне кавычек или внутри двойных
+			continue ;
 		}
-		else if (!quote && (input[*index] == '"' || input[*index] == '\''))
-			quote = input[*index]; // Открываем кавычки
-		else if (quote && input[*index] == quote)
+		else if (!quote && (input[*i] == '"' || input[*i] == '\''))
+			quote = input[*i]; // Открываем кавычки
+		else if (quote && input[*i] == quote)
 			quote = 0; // Закрываем кавычки
-		(*index)++;
+		(*i)++;
 	}
 }
 
@@ -101,6 +102,35 @@ void	skip_spaces(const char *input, int *i)
 		(*i)++;
 }
 
+char	*process_token_value(const char *input, int start, int end)
+{
+	char	quote = 0;
+	int		i = start;
+	int		j = 0;
+	char	*result = malloc(end - start + 1);
+	if (!result)
+		return (NULL);
+	while (i < end)
+	{
+		if (!quote && (input[i] == '"' || input[i] == '\''))
+			quote = input[i++];
+		else if (quote && input[i] == quote)
+		{
+			quote = 0;
+			i++;
+		}
+		else if (input[i] == '\\' && input[i + 1] && quote != '\'')
+		{
+			i++;                     // пропускаем `\`
+			result[j++] = input[i++]; // копируем следующий символ
+		}
+		else
+			result[j++] = input[i++];
+	}
+	result[j] = '\0';
+	return (result);
+}
+
 t_token	*create_token(const char *input, int *i)
 {
 	t_token	*token;
@@ -115,7 +145,8 @@ t_token	*create_token(const char *input, int *i)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	token->value = ft_strndup(&input[start], *i - start);
+	// token->value = ft_strndup(&input[start], *i - start);
+	token->value = process_token_value(input, start, *i);
 	token->type = identify_token_type(token->value);
 	token->next = NULL;
 	return (token);

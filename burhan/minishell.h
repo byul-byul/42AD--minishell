@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 08:52:46 by bhajili           #+#    #+#             */
-/*   Updated: 2025/03/10 15:05:02 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/04/02 10:02:23 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,22 @@
 # include <readline/history.h>
 # include "./libft/libft.h"
 
-# define PIPE			1
-# define REDIR_IN		2
-# define REDIR_OUT		3
-# define HEREDOC		4
-# define APPEND			5
-# define LOGICAL_AND	6
-# define LOGICAL_OR		7
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	HEREDOC,
+	APPEND,
+	LOGICAL_AND,
+	LOGICAL_OR
+}			t_token_type;
 
 typedef struct s_token
 {
 	char			*value;
-	int				type;
+	t_token_type	type;
 	struct s_token	*next;
 }				t_token;
 
