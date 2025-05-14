@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:44:08 by bhajili           #+#    #+#             */
-/*   Updated: 2024/08/23 15:45:52 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:44:49 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,9 @@ int	ft_issquare(int nb)
 	if (nb == 0 || ft_sqrt(nb))
 		return (1);
 	return (0);
+}
+
+int	ft_iswhitespace(int c)
+{
+	return (c == 32);
 }

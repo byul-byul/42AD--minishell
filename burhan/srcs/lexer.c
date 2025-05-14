@@ -6,32 +6,40 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/14 20:12:23 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/15 01:11:51 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incls/lexer.h"
-#include <stdlib.h>
-#include <string.h>
 
-static char	*expand_variables(char *str)
+void	clean_token_list(t_token *token_list)
 {
-	int		i;
-	int		j;
-	char	buffer[EXPAND_BUFFER_SIZE];
-	char	quote;
+	t_token	*tmp;
 
-	i = -1;
-	j = 0;
-	quote = 0;
-	while (str[++i])
-		handle_variable_char(buffer, str, &i, &quote, &j);
-	buffer[j] = '\0';
-	return(ft_strdup(buffer));
+	while (token_list)
+	{
+		tmp = token_list->next;
+		free(token_list->value);
+		free(token_list);
+		token_list = tmp;
+	}
 }
 
-static t_token_type	get_token_type(char *str, size_t len)
+static int	is_word_type_token(t_token_type type)
 {
+	return (WORD == type);
+}
+
+int	is_metachar(char c)
+{
+	return (c == '|' || c == '<' || c == '>' || c == '&');
+}
+
+static t_token_type	get_token_type(char *str)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
 	if (len == 1 && str[0] == '|')
 		return (PIPE);
 	if (len == 1 && str[0] == '<')
@@ -49,92 +57,156 @@ static t_token_type	get_token_type(char *str, size_t len)
 	return (WORD);
 }
 
-void	find_token_end(char *input, int *i)
+char	*expand_value(const char *value, int last_exit_status)
 {
-	char	quote;
+	char	*result;
+	char	*tmp;
+	size_t	i;
 
-	if (is_metachar(input[*i]))
-		(*i)++;
-	else
+	result = ft_strdup("");
+	i = 0;
+	while (value[i])
 	{
-		while (input[*i] && !is_whitespace(input[*i]) && !is_metachar(input[*i]))
+		if (value[i] == '$' && value[i + 1])
 		{
-			if (input[*i] == '\'' || input[*i] == '"')
+			if (value[i + 1] == '?')
 			{
-				quote = input[*i];
-				(*i)++;
-				while (input[*i] && input[*i] != quote)
-					(*i)++;
-				if (input[*i] == quote)
-					(*i)++;
+				tmp = result;
+				result = ft_strjoin(result, ft_itoa(last_exit_status));
+				free(tmp);
+				i += 2;
+			}
+			else if (ft_isalpha(value[i + 1]) || value[i + 1] == '_')
+			{
+				size_t	start = i + 1;
+				while (ft_isalnum(value[i + 1]) || value[i + 1] == '_')
+					i++;
+				tmp = ft_substr(value, start, i - start + 1);
+				char *env_value = getenv(tmp);
+				free(tmp);
+				tmp = result;
+				result = ft_strjoin(result, env_value ? env_value : "");
+				free(tmp);
+				i++;
 			}
 			else
-				(*i)++;
+			{
+				tmp = result;
+				result = ft_strjoin(result, "$");
+				free(tmp);
+				i++;
+			}
+		}
+		else
+		{
+			tmp = result;
+			result = ft_strjoin(result, (char[]){value[i], '\0'});
+			free(tmp);
+			i++;
 		}
 	}
+	return (result);
 }
 
-t_token	*fetch_token(char *input, int *i)
+void	extract_to_token(t_token *token, char **input)
 {
-	int		start;
-	char	*tmp;
-	t_token	*token;
+	char	quote;
+	char	*start;
 
-	while (is_whitespace(input[*i]))
-		(*i)++;
-	start = *i;
-	find_token_end(input, i);
+	start = *input;
+	if (is_metachar(**input))
+	{
+		if (((**input == '|' || **input == '&' || **input == '<' || **input == '>'))
+			&& (*(*input + 1) == **input))
+		// if (!is_word_type_token(get_token_type(*input)))
+			(*input)++; // захватываем второй символ для ||, &&, <<, >>
+		(*input)++;
+	}
+	else
+	{
+		while (**input && !ft_iswhitespace(**input) && !is_metachar(**input))
+		{
+			if (**input == '\'' || **input == '"')
+			{
+				quote = **input;
+				(*input)++;
+				while (**input && **input != quote)
+					(*input)++;
+				if (**input == quote)
+				{
+					token->quoted = TRUE;
+					(*input)++;
+				}
+				else
+				{
+					token->value = NULL;
+					return ;
+				}
+			}
+			else
+				(*input)++;
+		}
+	}
+	token->value = ft_strndup(start, *input - start);
+}
+
+static void	init_token(t_token *token)
+{
+	token->next = NULL;
+	token->quoted = FALSE;
+	token->expanded = FALSE;
+	token->heredoc_expand = FALSE;
+}
+
+t_token	*fetch_token(char **input, t_token *prev_token, int exit_status)
+{
+	t_token	*token;
+	char	*tmp;
+
 	token = malloc(sizeof(t_token));
 	if (token)
 	{
-		tmp = ft_strndup(input + start, *i - start);
-		if (tmp)
+		init_token(token);
+		while (ft_iswhitespace(**input))
+			(*input)++;
+		extract_to_token(token, input);
+		if (!token->value)
+			return (free(token), NULL);
+		token->type = get_token_type(token->value);
+		if (is_word_type_token(token->type))
 		{
-			token->value = expand_variables(tmp);
+			tmp = token->value;
+			token->value = expand_value(token->value, exit_status);
 			free(tmp);
-			token->type = get_token_type(input + start, *i - start);
+			token->type = get_token_type(token->value);
 		}
+		if (prev_token && prev_token->type == HEREDOC)
+			if (!(token->quoted && token->value[0] == '\''))
+				token->heredoc_expand = TRUE;
 	}
 	return (token);
 }
 
-t_token	*lexer(char *input)
+t_token	*lexer(char *input, int exit_status)
 {
-	int		i;
-	int		j;
-	t_token	token_list[TOKEN_LIST_SIZE];
+	t_token	*new_token;
+	t_token	*last_token;
+	t_token	*token_list;
 
-	i = -1;
-	j = 0;
-	if (input)
+	new_token = fetch_token(&input, NULL, exit_status);
+	if (!new_token)
+		return (NULL);
+	token_list = new_token;
+	last_token = new_token;
+	while (1)
 	{
-		while (1)
-		{
-			token = fetch_token_value(&input);
-			token_list[j].value = fetch_token_value(&input);
-			token_list[j].type = define_token_type(token_list[j].value);
-		}
+		new_token = fetch_token(&input, last_token, exit_status);
+		if (!new_token)
+			return (clean_token_list(token_list), NULL);
+		last_token->next = new_token;
+		last_token = new_token;
+		if (!*input)
+			break ;
 	}
 	return (token_list);
 }
-
-// t_token	*lexer(char *input)
-// {
-// 	int		i;
-// 	t_token	*token;
-// 	t_token	*token_list;
-
-// 	i = -1;
-// 	token_list = NULL;
-// 	if (input)
-// 	{
-// 		while (input[++i])
-// 		{
-// 			token = fetch_token(input, &i);
-// 			if (!token->value)
-// 				break ;
-// 			add_token(&token_list, token);
-// 		}
-// 	}
-// 	return (token_list);
-// }

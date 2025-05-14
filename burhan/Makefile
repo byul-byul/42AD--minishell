@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 09:53:44 by bhajili           #+#    #+#              #
-#    Updated: 2025/05/14 20:51:00 by bhajili          ###   ########.fr        #
+#    Updated: 2025/05/14 23:59:01 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ CFLAGS  =   -Wall -Wextra -Werror
 LDFLAGS =   -lreadline
 
 SRCS    =   $(D_SRC)main.c \
-			$(D_SRC)minishell.c
+			$(D_SRC)minishell.c \
+			$(D_SRC)lexer.c
 
 OBJS    =   $(SRCS:.c=.o)
 

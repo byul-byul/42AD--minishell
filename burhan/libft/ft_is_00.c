@@ -6,9 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:08:58 by bhajili           #+#    #+#             */
-/*   Updated: 2024/08/25 10:45:23 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:46:08 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_isascii(int c)
 {
@@ -32,5 +34,5 @@ int	ft_isprint(int c)
 
 int	ft_isspace(int c)
 {
-	return ((c >= 9 && c <= 13) || c == 32);
+	return ((c >= 9 && c <= 13) || ft_iswhitespace(c));
 }

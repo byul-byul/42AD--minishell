@@ -6,39 +6,123 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/13 00:09:48 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/15 01:21:05 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tester.h"
-#include "lexer.h" // потом подключим, когда напишем
+// #include "tester.h"
+// #include "../incls/lexer.h" // потом подключим, когда напишем
+// #include <stdio.h>
+// #include <string.h>
+
+// static void	test_case(const char *input, const char *expected[])
+// {
+// 	t_token *tokens = lexer((char *)input);
+// 	int i = 0;
+
+// 	printf("Test: \"%s\"\n", input);
+// 	while (tokens && expected[i])
+// 	{
+// 		if (!tokens || strcmp(tokens->value, expected[i]) != 0)
+// 			printf("❌ Fail: expected \"%s\", got \"%s\"\n", expected[i], tokens ? tokens->value : "(null)");
+// 		else
+// 			printf("✅ Ok: \"%s\"\n", expected[i]);
+// 		tokens = tokens->next;
+// 		i++;
+// 	}
+// 	if (tokens || expected[i])
+// 		printf("❌ Fail: token count mismatch\n");
+// 	printf("\n");
+// }
+
+// void	run_lexer_tests(void)
+// {
+// 	const char *test1[] = {"echo", "hello", NULL};
+// 	test_case("echo hello", test1);
+
+// 	// сюда будем добавлять новые тесты
+// }
+
 #include <stdio.h>
-#include <string.h>
+#include "../incls/minishell.h" // твой minishell.h
+#include "../incls/lexer.h" // твой minishell.h
 
-static void	test_case(const char *input, const char *expected[])
+#define RED     "\033[0;31m"
+#define GREEN   "\033[0;32m"
+#define YELLOW  "\033[0;33m"
+#define CYAN    "\033[0;36m"
+#define RESET   "\033[0m"
+
+void	clean_token_list(t_token *token_list);
+
+static const char	*g_token_names[] = {
+	[WORD] = "WORD",
+	[PIPE] = "PIPE",
+	[REDIR_IN] = "REDIR_IN",
+	[REDIR_OUT] = "REDIR_OUT",
+	[HEREDOC] = "HEREDOC",
+	[APPEND] = "APPEND",
+	[LOGICAL_AND] = "LOGICAL_AND",
+	[LOGICAL_OR] = "LOGICAL_OR"
+};
+
+void	print_token(t_token *token)
 {
-	t_token *tokens = lexer((char *)input);
-	int i = 0;
-
-	printf("Test: \"%s\"\n", input);
-	while (tokens && expected[i])
+	while (token)
 	{
-		if (!tokens || strcmp(tokens->value, expected[i]) != 0)
-			printf("❌ Fail: expected \"%s\", got \"%s\"\n", expected[i], tokens ? tokens->value : "(null)");
-		else
-			printf("✅ Ok: \"%s\"\n", expected[i]);
-		tokens = tokens->next;
-		i++;
+		printf(GREEN "value: %-15s" RESET " | "
+			   YELLOW "type: %-12s" RESET " | "
+			   "quoted: %d | heredoc_expand: %d | expanded: %d\n",
+			token->value ? token->value : "(null)",
+			g_token_names[token->type],
+			token->quoted,
+			token->heredoc_expand,
+			token->expanded);
+		token = token->next;
 	}
-	if (tokens || expected[i])
-		printf("❌ Fail: token count mismatch\n");
+}
+
+void	run_test(const char *input, int exit_status)
+{
+	t_token	*token_list;
+
+	printf(CYAN "==== INPUT: \"%s\" ====\n" RESET, input);
+	token_list = lexer((char *)input, exit_status);
+	if (!token_list)
+	{
+		printf(RED "Lexer returned NULL (syntax error)\n\n" RESET);
+		return ;
+	}
+	print_token(token_list);
+	clean_token_list(token_list);
 	printf("\n");
 }
 
 void	run_lexer_tests(void)
 {
-	const char *test1[] = {"echo", "hello", NULL};
-	test_case("echo hello", test1);
+	// Базовые
+	run_test("echo hello world", 0);
+	run_test("ls -la | grep src", 0);
+	run_test("cat < infile > outfile", 0);
 
-	// сюда будем добавлять новые тесты
+	// Кавычки
+	run_test("echo 'quoted text'", 0);
+	run_test("echo \"quoted $HOME\"", 0);
+	run_test("echo 'unclosed", 0); // syntax error
+
+	// Переменные
+	run_test("echo $HOME $?", 42);
+	run_test("echo $UNSET_VAR", 0);
+
+	// Heredoc
+	run_test("cat << EOF", 0);
+	run_test("cat << 'EOF'", 0);
+
+	// Логические операторы
+	run_test("make && make clean || echo fail", 0);
+
+	// Пограничные случаи
+	run_test("", 0);
+	run_test("     ", 0);
+	run_test("||| >>> <<< && ||", 0);
 }
