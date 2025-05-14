@@ -6,21 +6,22 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 09:53:44 by bhajili           #+#    #+#              #
-#    Updated: 2025/05/14 20:51:00 by bhajili          ###   ########.fr        #
+#    Updated: 2025/03/10 15:03:30 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME    =   minishell
 
-D_HDR   =   ./incls/
-D_SRC   =   ./srcs/
+D_HDR   =   ./
+D_SRC   =   ./
 
 CC      =   cc
 CFLAGS  =   -Wall -Wextra -Werror
 LDFLAGS =   -lreadline
 
 SRCS    =   $(D_SRC)main.c \
-			$(D_SRC)minishell.c
+			$(D_SRC)minishell.c \
+			$(D_SRC)lexer.c
 
 OBJS    =   $(SRCS:.c=.o)
 

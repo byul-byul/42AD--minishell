@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:10:19 by bhajili           #+#    #+#             */
-/*   Updated: 2025/04/02 10:28:15 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:22:40 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,39 +102,121 @@ void	skip_spaces(const char *input, int *i)
 		(*i)++;
 }
 
+// char	*process_token_value(const char *input, int start, int end)
+// {
+// 	char	quote = 0;
+// 	int		i = start;
+// 	int		j = 0;
+// 	char	*result = malloc(end - start + 1);
+// 	if (!result)
+// 		return (NULL);
+// 	while (i < end)
+// 	{
+// 		if (!quote && (input[i] == '"' || input[i] == '\''))
+// 			quote = input[i++];
+// 		else if (quote && input[i] == quote)
+// 		{
+// 			quote = 0;
+// 			i++;
+// 		}
+// 		else if (input[i] == '\\' && input[i + 1] && quote != '\'')
+// 		{
+// 			i++;                     // пропускаем `\`
+// 			result[j++] = input[i++]; // копируем следующий символ
+// 		}
+// 		else
+// 			result[j++] = input[i++];
+// 	}
+// 	result[j] = '\0';
+// 	return (result);
+// }
+
 char	*process_token_value(const char *input, int start, int end)
 {
-	char	quote = 0;
-	int		i = start;
-	int		j = 0;
-	char	*result = malloc(end - start + 1);
-	if (!result)
-		return (NULL);
-	while (i < end)
+	int		i;
+	int		j;
+	char	quote;
+	char	*result;
+
+	i = start;
+	j = 0;
+	quote = 0;
+	result = (char *)malloc(sizeof(char) * (end - start + 1));
+	if (result)
 	{
-		if (!quote && (input[i] == '"' || input[i] == '\''))
-			quote = input[i++];
-		else if (quote && input[i] == quote)
+		while (i < end)
 		{
-			quote = 0;
+			if (!quote && (input[i] == '"' || input[i] == '\''))
+				quote = input[i];
+			else if (quote && input[i] == quote)
+				quote = 0;
+			else if (input[i] == '\\' && input[i + 1] && quote != '\'')
+				result[j++] = input[i + 1]; // копируем следующий символ
+			else
+				result[j++] = input[i];
 			i++;
 		}
-		else if (input[i] == '\\' && input[i + 1] && quote != '\'')
-		{
-			i++;                     // пропускаем `\`
-			result[j++] = input[i++]; // копируем следующий символ
-		}
-		else
-			result[j++] = input[i++];
+		result[j] = '\0';
 	}
-	result[j] = '\0';
 	return (result);
 }
 
-t_token	*create_token(const char *input, int *i)
+// Обрабатывает переменную окружения после символа `$`
+// Пример: $USER или $? → получает значение и добавляет к строке результата
+static void	handle_dollar(const char *s, int *i, char **res, t_shell *sh)
+{
+	char	*name;
+	char	*val;
+	int		start;
+
+	start = ++(*i); // пропускаем '$', начинаем считывание имени переменной
+	if (s[start] == '?') // если это $?
+		(*i)++;
+	else
+		while (ft_isalnum(s[*i]) || s[*i] == '_') // собираем имя переменной
+			(*i)++;
+	name = ft_substr(s, start, *i - start); // выделяем имя
+	val = get_var_value(name, sh);         // получаем значение переменной
+	*res = append_str(*res, val);          // добавляем к результату
+	free(name);
+	free(val);
+}
+
+// Подставляет переменные окружения в строку:
+// - $VAR и $? заменяются значениями
+// - внутри '...' переменные игнорируются
+// - внутри "..." и вне кавычек — подставляются
+char	*expand_variables(const char *s, t_shell *sh)
+{
+	char	*res;
+	char	q;
+	int		i;
+
+	i = 0;
+	q = 0;
+	res = ft_strdup(""); // начинаем с пустой строки
+	if (!res)
+		return (NULL);
+	while (s[i])
+	{
+		if (!q && (s[i] == '\'' || s[i] == '"')) // открываем кавычки
+			q = s[i++];
+		else if (q && s[i] == q) // закрываем кавычки
+			q = 0 + i++;
+		else if (s[i] == '$' && s[i + 1] && q != '\'') // обрабатываем переменную
+			handle_dollar(s, &i, &res, sh);
+		else
+			res = append_char(res, s[i++]); // просто добавляем символ
+	}
+	return (res);
+}
+
+t_token	*create_token(const char *input, int *i, t_shell *shell)
 {
 	t_token	*token;
 	int		start;
+	char	*raw;
+	char	*expanded;
 
 	skip_spaces(input, i);
 	start = *i;
@@ -142,11 +224,13 @@ t_token	*create_token(const char *input, int *i)
 		handle_operator(input, i);
 	else
 		define_token(input, i);
+	raw = process_token_value(input, start, *i);
+	expanded = expand_variables(raw, shell);
+	free(raw);
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	// token->value = ft_strndup(&input[start], *i - start);
-	token->value = process_token_value(input, start, *i);
+	token->value = expanded;
 	token->type = identify_token_type(token->value);
 	token->next = NULL;
 	return (token);
