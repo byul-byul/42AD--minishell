@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:13:03 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/15 01:02:12 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:38:43 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,10 @@ typedef struct s_token
 }				t_token;
 
 t_token	*lexer(char *input, int exit_status);
+t_token	*fetch_token(char **input, t_token *prev_token, int exit_status);
+void	extract_to_token(t_token *token, char **input);
+char	*expand_token_value(const char *value, int last_exit_status);
+int		is_metachar(char c);
+void	clean_token_list(t_token *token_list);
 
 #endif

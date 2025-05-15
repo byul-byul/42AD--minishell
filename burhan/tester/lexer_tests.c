@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/15 01:21:05 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:15:55 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,86 @@ void	run_lexer_tests(void)
 	run_test("", 0);
 	run_test("     ", 0);
 	run_test("||| >>> <<< && ||", 0);
+
+	// Смешанные кавычки
+	run_test("echo \"'inner single'\"", 0);
+	run_test("echo '\"inner double $HOME\"'", 0);
+	run_test("echo 'single $HOME inside'", 0);
+
+	// Экранированные кавычки (если поддерживаешь экранирование)
+	run_test("echo \\\"escaped double\\\"", 0);
+	run_test("echo \\\'escaped single\\\'", 0);
+
+	// Последовательности $
+	run_test("echo $ $ $", 0);
+	run_test("echo $$", 0);
+	run_test("echo $1abc", 0);
+	run_test("echo $- $@ $*", 0);
+
+	// Редиректы без файла
+	run_test("echo >", 0);
+	run_test("echo <", 0);
+
+	// Без пробелов между метатокенами
+	run_test("echo>file", 0);
+	run_test("echo>>file", 0);
+	run_test("echo<<EOF", 0);
+
+	// Пустой heredoc limiter
+	run_test("cat <<", 0);
+
+	// Wildcards
+	run_test("echo *", 0);
+	run_test("ls src/*.c", 0);
+
+	// Subshell (если бонусы)
+	run_test("(echo hello)", 0);
+	run_test("ls | (grep a && cat b) || echo fail", 0);
+
+	// Комбинированные сложные команды
+	run_test("echo \"$HOME\" 'literal' | grep -v 'pattern' >> output", 0);
+	run_test("cat << EOF | grep \"$USER\" || echo 'fail'", 0);
+
+	// Вложенные кавычки одного типа — ошибка
+	run_test("echo 'this 'is' wrong'", 0);
+	run_test("echo \"this \"is\" wrong\"", 0);
+
+	// Незакрытая кавычка внутри heredoc лимитера
+	run_test("cat << 'EOF", 0);
+	run_test("cat << \"EOF", 0);
+
+	// Heredoc без лимитера, но с метатокеном
+	run_test("cat << | grep", 0);
+	run_test("cat << && echo fail", 0);
+
+	// Переменная с уродским названием
+	run_test("echo $A_B_C_123_456_xXx", 0);
+
+	// Бесконечные доллары
+	run_test("echo $$$$$$$$$$", 0);
+
+	// Лимитер heredoc совпадает с метатокеном
+	run_test("cat << |", 0);
+	run_test("cat << &&", 0);
+
+	// Скобки в скобках
+	run_test("((()))", 0);
+	run_test("echo ((hello))", 0);
+
+	// Редирект сразу перед пайпом
+	run_test("echo >| file", 0);
+	run_test("echo >>| grep", 0);
+
+	// Странные символы / escape-последовательности
+	run_test("echo $'\\x41'", 0);
+	run_test("echo \\x41", 0);
+
+	// Пустая переменная в кавычках и без
+	run_test("echo \"$EMPTY\" unquoted-$EMPTY", 0);
+
+	// Бесконечная цепь логических операторов
+	run_test("cmd &&&&&&|| |||| &&&", 0);
+
+	// КРАШ-ТЕСТ: всё в одной строке
+	run_test("echo 'test \"unterminated $VAR' >>file | cat << 'EOF' && echo fail || grep ok", 0);
 }
