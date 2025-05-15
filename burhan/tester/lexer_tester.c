@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/15 21:02:12 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/15 22:17:00 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ void	print_token(t_token *token)
 void	run_test(const char *input, int exit_status, const char **expected)
 {
 	t_token	*token_list;
+	static int	test_no;
 
-	printf(CYAN "==== INPUT: \"%s\" ====\n" RESET, input);
+	printf(CYAN "test_%d\n==== INPUT: \"%s\" ====\n" RESET, ++test_no, input);
 	token_list = lexer((char *)input, exit_status);
 	if (!token_list)
 	{
@@ -166,6 +167,35 @@ void	run_lexer_tests(void)
 	const char *test46[] = {"cmd", "&&", "&&", "&&", "||", "||", "||", "&&", "&", NULL};
 	const char *test47[] = {"echo", "'test \"unterminated '", ">>", "file", "|", "cat", "<<", "'EOF'", "&&", "echo", "fail", "||", "grep", "ok", NULL};
 
+	// === Убийственные тесты ===
+	const char *test48[] = {"cat", "<<", "\"END\"", NULL}; // heredoc лимитер в двойных кавычках
+	const char *test49[] = {"cat", "<<", "EOF", NULL};     // heredoc с пробелами после
+	const char *test50[] = {"echo", "<", ">", ">>", "<<", NULL}; // последовательность редиректов
+	const char *test51[] = {"echo", "/", NULL};            // слэш как символ
+	const char *test52[] = {"echo", "\\", NULL};           // одинарный escape-слэш
+	const char *test53[] = {"echo", "'unterminated", "word", NULL}; // незакрытая кавычка, но продолжается текст
+	const char *test54[] = {"echo", ">", "bad", "<", "data", "|", "garbage", NULL}; // мусор после токенов
+	// const char *test55[] = {"echo", "$VAR1$VAR2$VAR3", NULL}; // конкатенация переменных
+	const char *test55[] = {"echo", "", NULL};
+	// const char *test56[] = {"echo", "$VAR", "text", NULL}; // echo$VAR без пробела
+	const char *test56[] = {"echo", "text", NULL};
+	const char *test57[] = {"echo", "\"string\"", NULL}; // echo"string" без пробела
+
+	// Heredoc с переменными и кавычками
+	const char *test58[] = {"cat", "<<", "EOF", "|", "echo", "$VAR", "<<", "'EOF2'", NULL};
+	const char *test59[] = {"cat", "<<", "`cmd`", "|", "grep", "pattern", NULL};
+	const char *test60[] = {"cat", "<<", "EOF1", "<<", "EOF2", "<<", "'EOF3'", NULL};
+
+	// Пустые после логических операторов
+	const char *test61[] = {"&&", "||", NULL};
+
+	// $ перед метасимволами
+	// const char *test62[] = {"echo", "$|", "$<", "$>", "$&", "$;", NULL};
+	const char *test62[] = {"echo", "|", "<", ">", "&", ";", NULL};
+
+	// Пайпы в начале и в конце
+	const char *test63[] = {"|", "echo", "start", "|", "middle", "|", "end", "|", NULL};
+
 	// === Тесты ===
 	run_test("echo hello world", 0, test1);
 	run_test("ls -la | grep src", 0, test2);
@@ -214,6 +244,25 @@ void	run_lexer_tests(void)
 	run_test("echo \"$EMPTY\" unquoted-$EMPTY", 0, test45);
 	run_test("cmd &&&&&&|| |||| &&&", 0, test46);
 	run_test("echo 'test \"unterminated $VAR' >>file | cat << 'EOF' && echo fail || grep ok", 0, test47);
+
+	// === Прогоним новые тесты ===
+	run_test("cat << \"END\"", 0, test48);
+	run_test("cat <<  EOF   ", 0, test49);
+	run_test("echo < > >> <<", 0, test50);
+	run_test("echo /", 0, test51);
+	run_test("echo \\", 0, test52);
+	run_test("echo 'unterminated word", 0, test53);
+	run_test("echo > bad < data | garbage", 0, test54);
+	run_test("echo $VAR1$VAR2$VAR3", 0, test55);
+	run_test("echo $VARtext", 0, test56);
+	run_test("echo\"string\"", 0, test57);
+
+	run_test("cat << EOF | echo $VAR << 'EOF2'", 0, test58);
+	run_test("cat << `cmd` | grep pattern", 0, test59);
+	run_test("cat << EOF1 << EOF2 << 'EOF3'", 0, test60);
+	run_test("&& ||", 0, test61);
+	run_test("echo $| $< $> $& $;", 0, test62);
+	run_test("| echo start | middle | end |", 0, test63);
 }
 
 int main(void)
