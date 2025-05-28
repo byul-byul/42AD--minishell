@@ -6,20 +6,18 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:13:03 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/15 13:38:43 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:56:16 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-# define TRUE	1
-# define FALSE	0
-# define EXPAND_BUFFER_SIZE	1024
-# define TOKEN_LIST_SIZE	256
-
 # include <stdlib.h>
 # include "libft.h"
+
+# define TRUE	1
+# define FALSE	0
 
 typedef enum e_token_type
 {
@@ -30,7 +28,9 @@ typedef enum e_token_type
 	HEREDOC,
 	APPEND,
 	LOGICAL_AND,
-	LOGICAL_OR
+	LOGICAL_OR,
+	OPEN_PAREN,
+	CLOSE_PAREN  
 }				t_token_type;
 
 typedef struct s_token
