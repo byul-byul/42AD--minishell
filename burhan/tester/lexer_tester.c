@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/15 22:17:00 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/05 16:11:35 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	validate_tokens(t_token *token, const char **expected)
 
 	while (token && expected[i])
 	{
-		if (token->value && strcmp(token->value, expected[i]) == 0)
+		// if (token->value && strcmp(token->value, expected[i]) == 0)
+		if (token->value && expected[i] && strcmp(token->value, expected[i]) == 0)
 			printf(GREEN "✅ Ok: \"%s\"\n" RESET, expected[i]);
 		else
 			printf(RED "❌ Fail: expected \"%s\", got \"%s\"\n" RESET,
@@ -51,7 +52,9 @@ void	validate_tokens(t_token *token, const char **expected)
 	if (expected[i])
 		printf(RED "❌ Fail: missing token \"%s\"\n" RESET, expected[i]);
 	if (token)
-		printf(RED "❌ Fail: extra token \"%s\"\n" RESET, token->value);
+		// printf(RED "❌ Fail: extra token \"%s\"\n" RESET, token->value);
+		if (token)
+		printf(RED "❌ Fail: extra token \"%s\"\n" RESET, token->value ? token->value : "(null)");
 }
 
 void	print_token(t_token *token)
@@ -94,8 +97,8 @@ void	run_lexer_tests(void)
 	const char *test3[] = {"cat", "<", "infile", ">", "outfile", NULL};
 
 	// === Кавычки ===
-	const char *test4[] = {"echo", "'quoted text'", NULL};
-	const char *test5[] = {"echo", "\"quoted /home/byulbyul\"", NULL};
+	const char *test4[] = {"echo", "quoted text", NULL};
+	const char *test5[] = {"echo", "quoted /home/byulbyul", NULL};
 
 	// === Переменные ===
 	const char *test6[] = {"echo", "/home/byulbyul", "42", NULL};
@@ -103,7 +106,8 @@ void	run_lexer_tests(void)
 
 	// === Heredoc ===
 	const char *test8[] = {"cat", "<<", "EOF", NULL};
-	const char *test9[] = {"cat", "<<", "'EOF'", NULL};
+	const char *test9[] = {"cat", "<<", "EOF", NULL};
+	const char *test9b[] = {"cat", "<<", "EOF", NULL};
 
 	// === Логические операторы ===
 	const char *test10[] = {"make", "&&", "make", "clean", "||", "echo", "fail", NULL};
@@ -112,13 +116,14 @@ void	run_lexer_tests(void)
 	const char *test11[] = {"||", "|", ">>", ">", "<<", "<", "&&", "||", NULL};
 
 	// === Смешанные кавычки ===
-	const char *test12[] = {"echo", "\"'inner single'\"", NULL};
-	const char *test13[] = {"echo", "'\"inner double /home/byulbyul\"'", NULL};
-	const char *test14[] = {"echo", "'single /home/byulbyul inside'", NULL};
+	const char *test12[] = {"echo", "'inner single'", NULL};
+	const char *test13[] = {"echo", "\"inner double $HOME\"", NULL};
+	const char *test14[] = {"echo", "single $HOME inside", NULL};
 
 	// === Экранирование ===
-	const char *test15[] = {"echo", "\\\"escaped double\\\"", NULL};
-	const char *test16[] = {"echo", "\\\'escaped single\\\'", NULL};
+	// const char *test15[] = {"echo", "\\escaped double\\", NULL};
+	const char *test15[] = {"echo", "escaped double", NULL};
+	const char *test16[] = {"echo", "\\escaped single\\", NULL};
 
 	// === Последовательности $ ===
 	const char *test17[] = {"echo", "$", "$", "$", NULL};
@@ -138,7 +143,8 @@ void	run_lexer_tests(void)
 	const char *test27[] = {"ls", "src/*.c", NULL};
 
 	// === Subshell ===
-	const char *test28[] = {"(echo", "hello)", NULL};
+	// const char *test28[] = {"(echo", "hello)", NULL};
+	const char *test28[] = {"(", "echo", "hello", ")", NULL};
 	const char *test29[] = {"ls", "|", "(grep", "a", "&&", "cat", "b)", "||", "echo", "fail", NULL};
 
 	// === Комбинированные ===
@@ -263,6 +269,8 @@ void	run_lexer_tests(void)
 	run_test("&& ||", 0, test61);
 	run_test("echo $| $< $> $& $;", 0, test62);
 	run_test("| echo start | middle | end |", 0, test63);
+
+	run_test("cat << \"EOF\"", 0, test9b); //test64
 }
 
 int main(void)
