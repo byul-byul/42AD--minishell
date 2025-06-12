@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/05 16:11:35 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:34:35 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,9 @@ void	run_lexer_tests(void)
 
 	// === Экранирование ===
 	// const char *test15[] = {"echo", "\\escaped double\\", NULL};
-	const char *test15[] = {"echo", "escaped double", NULL};
-	const char *test16[] = {"echo", "\\escaped single\\", NULL};
+	const char *test15[] = {"echo", "\\\"escaped", "double\\\"", NULL};
+	const char *test16[] = {"echo", "\\\'escaped", "single\\\'", NULL};
+
 
 	// === Последовательности $ ===
 	const char *test17[] = {"echo", "$", "$", "$", NULL};

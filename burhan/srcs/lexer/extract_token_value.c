@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/12 16:23:07 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:39:16 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	extract_quoted(char **input, char quote, char **value,
 			return ((*input)++, 1);
 		if (quote == '"' && **input == '\\')
 		{
-			(*input)++;  // Пропускаем '\'
+			(*input)++;
 			if (!safe_append_char(value, **input))
 				return (0);
 		}
@@ -40,33 +40,37 @@ static int	extract_quoted(char **input, char quote, char **value,
 static char	*extract_word_token(char **input, t_quote_type *quoted)
 {
 	char	*value;
+	char	prev_char;
 
 	if (!input || !*input)
 		return (NULL);
 	value = ft_strdup("");
 	if (!value)
 		return (NULL);
+	prev_char = '\0';
 	while (**input && !ft_iswhitespace(**input) && !is_metachar(**input))
 	{
-		if (is_quoting(**input))
+		if (is_quoting(**input) && prev_char != '\\')
 		{
 			if (!extract_quoted(input, **input, &value, quoted))
 				return (free(value), NULL);
+			prev_char = '\0';
 		}
 		else
 		{
 			if (!safe_append_char(&value, **input))
 				return (free(value), NULL);
+			prev_char = **input;
 			(*input)++;
 		}
 	}
 	return (value);
 }
 
-static char *extract_meta_token(char **input)
+static char	*extract_meta_token(char **input)
 {
 	char	*start;
-	int		len = 1;
+	int		len;
 
 	len = 1;
 	start = *input;
