@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/12 16:34:35 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/12 21:19:04 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ static const char	*g_token_names[] = {
 	[HEREDOC] = "HEREDOC",
 	[APPEND] = "APPEND",
 	[LOGICAL_AND] = "LOGICAL_AND",
-	[LOGICAL_OR] = "LOGICAL_OR"
+	[LOGICAL_OR] = "LOGICAL_OR",
+	[OPEN_PAREN] = "OPEN_PAREN",
+	[CLOSE_PAREN] = "CLOSE_PAREN"
 };
 
 void	validate_tokens(t_token *token, const char **expected)
@@ -121,10 +123,8 @@ void	run_lexer_tests(void)
 	const char *test14[] = {"echo", "single $HOME inside", NULL};
 
 	// === Экранирование ===
-	// const char *test15[] = {"echo", "\\escaped double\\", NULL};
 	const char *test15[] = {"echo", "\\\"escaped", "double\\\"", NULL};
 	const char *test16[] = {"echo", "\\\'escaped", "single\\\'", NULL};
-
 
 	// === Последовательности $ ===
 	const char *test17[] = {"echo", "$", "$", "$", NULL};
@@ -146,15 +146,15 @@ void	run_lexer_tests(void)
 	// === Subshell ===
 	// const char *test28[] = {"(echo", "hello)", NULL};
 	const char *test28[] = {"(", "echo", "hello", ")", NULL};
-	const char *test29[] = {"ls", "|", "(grep", "a", "&&", "cat", "b)", "||", "echo", "fail", NULL};
+	const char *test29[] = {"ls", "|", "(", "grep", "a", "&&", "cat", "b", ")", "||", "echo", "fail", NULL};
 
 	// === Комбинированные ===
-	const char *test30[] = {"echo", "\"/home/byulbyul\"", "'literal'", "|", "grep", "-v", "'pattern'", ">>", "output", NULL};
-	const char *test31[] = {"cat", "<<", "EOF", "|", "grep", "\"byulbyul\"", "||", "echo", "'fail'", NULL};
+	const char *test30[] = {"echo", "/home/byulbyul", "literal", "|", "grep", "-v", "pattern", ">>", "output", NULL};
+	const char *test31[] = {"cat", "<<", "EOF", "|", "grep", "byulbyul", "||", "echo", "fail", NULL};
 
 	// === Вложенные кавычки (некорректно, но в value есть текст) ===
-	const char *test32[] = {"echo", "'this 'is' wrong'", NULL};
-	const char *test33[] = {"echo", "\"this \"is\" wrong\"", NULL};
+	const char *test32[] = {"echo", "this is wrong", NULL};
+	const char *test33[] = {"echo", "this is wrong", NULL};
 
 	// === Heredoc с метатокеном ===
 	const char *test34[] = {"cat", "<<", "|", "grep", NULL};
@@ -165,17 +165,17 @@ void	run_lexer_tests(void)
 	const char *test37[] = {"echo", "$$$$$$$$$$", NULL};
 	const char *test38[] = {"cat", "<<", "|", NULL};
 	const char *test39[] = {"cat", "<<", "&&", NULL};
-	const char *test40[] = {"echo", "((hello))", NULL};
+	const char *test40[] = {"echo", "(", "(", "hello", ")", ")", NULL};
 	const char *test41[] = {"echo", ">", "|", "file", NULL};
 	const char *test42[] = {"echo", ">>", "|", "grep", NULL};
-	const char *test43[] = {"echo", "$'\\x41'", NULL};
+	const char *test43[] = {"echo", "$\\x41", NULL};
 	const char *test44[] = {"echo", "\\x41", NULL};
-	const char *test45[] = {"echo", "\"\"", "unquoted-", NULL};
+	const char *test45[] = {"echo", "", "unquoted-", NULL};
 	const char *test46[] = {"cmd", "&&", "&&", "&&", "||", "||", "||", "&&", "&", NULL};
-	const char *test47[] = {"echo", "'test \"unterminated '", ">>", "file", "|", "cat", "<<", "'EOF'", "&&", "echo", "fail", "||", "grep", "ok", NULL};
+	const char *test47[] = {"echo", "test \"unterminated $VAR", ">>", "file", "|", "cat", "<<", "EOF", "&&", "echo", "fail", "||", "grep", "ok", NULL};
 
 	// === Убийственные тесты ===
-	const char *test48[] = {"cat", "<<", "\"END\"", NULL}; // heredoc лимитер в двойных кавычках
+	const char *test48[] = {"cat", "<<", "END", NULL}; // heredoc лимитер в двойных кавычках
 	const char *test49[] = {"cat", "<<", "EOF", NULL};     // heredoc с пробелами после
 	const char *test50[] = {"echo", "<", ">", ">>", "<<", NULL}; // последовательность редиректов
 	const char *test51[] = {"echo", "/", NULL};            // слэш как символ
@@ -185,8 +185,8 @@ void	run_lexer_tests(void)
 	// const char *test55[] = {"echo", "$VAR1$VAR2$VAR3", NULL}; // конкатенация переменных
 	const char *test55[] = {"echo", "", NULL};
 	// const char *test56[] = {"echo", "$VAR", "text", NULL}; // echo$VAR без пробела
-	const char *test56[] = {"echo", "text", NULL};
-	const char *test57[] = {"echo", "\"string\"", NULL}; // echo"string" без пробела
+	const char *test56[] = {"echo", "", NULL};
+	const char *test57[] = {"echostring", NULL}; // echo"string" без пробела
 
 	// Heredoc с переменными и кавычками
 	const char *test58[] = {"cat", "<<", "EOF", "|", "echo", "$VAR", "<<", "'EOF2'", NULL};

@@ -6,12 +6,12 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 17:40:21 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/05 16:01:40 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/12 17:38:24 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC					=	cc
-CFLAGS				=	-Wall -Wextra -Werror -I../incls
+CFLAGS				=	-Wall -Wextra -Werror -g -I../incls
 
 LIBFT_DIR			=	 ../libft
 
@@ -66,8 +66,8 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@$(MAKE) -C $(LEXER_DIR) fclean
 	@$(MAKE) -C $(PARSER_DIR) fclean
-	rm $(LEXER_TESTER_BIN)
-	rm $(PARSER_TESTER_BIN)
+	rm -rf $(LEXER_TESTER_BIN)
+	rm -rf $(PARSER_TESTER_BIN)
 
 re: fclean all
 
