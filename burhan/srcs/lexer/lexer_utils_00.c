@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 02:54:57 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/08 09:09:26 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:15:58 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	safe_append_char(char **str, char c)
 {
 	char	append[2];
 
-	if (!str || !*str)
+	if (!*str)
 		return (0);
 	append[0] = c;
 	append[1] = '\0';
@@ -37,7 +37,7 @@ int	safe_append_str(char **str, char *append)
 {
 	char	*res;
 
-	if (!str || !*str)
+	if (!*str)
 		return (0);
 	res = ft_strjoin(*str, append);
 	if (!res)

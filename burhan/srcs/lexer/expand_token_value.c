@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/05 12:40:14 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:25:18 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,32 @@ static int	expand_dollar_sign(char **result, const char *value,
 
 char *expand_token_value(const char *value, t_quote_type quoted, int last_exit_status)
 {
-    char    *result;
-    size_t  i;
-    
-    if (quoted == SINGLE)
-        return (ft_strdup(value));
-    
-    result = ft_strdup("");
-    if (!result)
-        return (NULL);
-    
-    i = 0;
-    while (value[i])
-    {
-        if (is_dollar_sign(value[i]) && value[i + 1])
-        {
-            if (!expand_dollar_sign(&result, value, &i, last_exit_status))
-                return (free(result), NULL);
-        }
-        else
-        {
-            if (!safe_append_char(&result, value[i]))
-                return (free(result), NULL);  // ← Освобождаем result
-            i++;
-        }
-    }
-    return (result);
+	char	*result;
+	size_t	i;
+
+	if (quoted == SINGLE)
+		return (ft_strdup(value));
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (value[i])
+	{
+		if (is_dollar_sign(value[i]) && value[i + 1])
+		{
+			if (!expand_dollar_sign(&result, value, &i, last_exit_status))
+				return (free(result), NULL);
+		}
+		else
+		{
+			if (!safe_append_char(&result, value[i]))
+				return (free(result), NULL);  // ← Освобождаем result
+			i++;
+		}
+	}
+	return (result);
 }
+
 // char	*expand_token_value(const char *value, t_quote_type quoted,
 // 							int last_exit_status)
 // {
