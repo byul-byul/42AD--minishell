@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/12 21:19:04 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/13 18:14:32 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,16 +189,16 @@ void	run_lexer_tests(void)
 	const char *test57[] = {"echostring", NULL}; // echo"string" без пробела
 
 	// Heredoc с переменными и кавычками
-	const char *test58[] = {"cat", "<<", "EOF", "|", "echo", "$VAR", "<<", "'EOF2'", NULL};
+	const char *test58[] = {"cat", "<<", "EOF", "|", "echo", "", "<<", "EOF2", NULL};
 	const char *test59[] = {"cat", "<<", "`cmd`", "|", "grep", "pattern", NULL};
-	const char *test60[] = {"cat", "<<", "EOF1", "<<", "EOF2", "<<", "'EOF3'", NULL};
+	const char *test60[] = {"cat", "<<", "EOF1", "<<", "EOF2", "<<", "EOF3", NULL};
 
 	// Пустые после логических операторов
 	const char *test61[] = {"&&", "||", NULL};
 
 	// $ перед метасимволами
 	// const char *test62[] = {"echo", "$|", "$<", "$>", "$&", "$;", NULL};
-	const char *test62[] = {"echo", "|", "<", ">", "&", ";", NULL};
+	const char *test62[] = {"echo", "$", "|", "$", "<", "$", ">", "$", "&", "$;", NULL};
 
 	// Пайпы в начале и в конце
 	const char *test63[] = {"|", "echo", "start", "|", "middle", "|", "end", "|", NULL};

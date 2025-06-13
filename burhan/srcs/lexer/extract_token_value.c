@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/12 17:56:57 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/13 18:18:50 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,92 @@ static int	extract_quoted(char **input, char quote, char **value,
 	return (0);
 }
 
+static int	append_token_content(char **input, char **value,
+	t_quote_type *local)
+{
+	char	prev;
+
+	prev = '\0';
+	while (**input && !ft_iswhitespace(**input) && !is_metachar(**input))
+	{
+		if (is_quoting(**input) && prev != '\\')
+		{
+			if (!extract_quoted(input, **input, value, local))
+				return (0);
+		}
+		else
+		{
+			if (!safe_append_char(value, **input))
+				return (0);
+			prev = **input;
+			(*input)++;
+		}
+	}
+	return (1);
+}
+
 static char	*extract_word_token(char **input, t_quote_type *quoted)
 {
-	char	*value;
-	char	prev_char;
+	char			*value;
+	t_quote_type	local;
 
 	if (!input || !*input)
 		return (NULL);
 	value = ft_strdup("");
 	if (!value)
 		return (NULL);
-	prev_char = '\0';
-	while (**input && !ft_iswhitespace(**input) && !is_metachar(**input))
+	local = NONE;
+	if (is_quoting(**input))
 	{
-		if (is_quoting(**input) && prev_char != '\\')
-		{
-			if (!extract_quoted(input, **input, &value, quoted))
-				return (free(value), NULL);
-			prev_char = '\0';
-		}
-		else
-		{
-			if (!safe_append_char(&value, **input))
-				return (free(value), NULL);
-			prev_char = **input;
-			(*input)++;
-		}
+		if (!extract_quoted(input, **input, &value, &local))
+			return (free(value), NULL);
+		if (!**input || ft_iswhitespace(**input) || is_metachar(**input))
+			*quoted = local;
 	}
+	if (!append_token_content(input, &value, &local))
+		return (free(value), NULL);
 	return (value);
 }
+
+// static char	*extract_word_token(char **input, t_quote_type *quoted)
+// {
+// 	char			*value;
+// 	char			quote;
+// 	char			prev_char;
+// 	t_quote_type	local_quoted;
+
+// 	if (!input || !*input)
+// 		return (NULL);
+// 	value = ft_strdup("");
+// 	if (!value)
+// 		return (NULL);
+// 	prev_char = '\0';
+// 	local_quoted = NONE;
+// 	if (is_quoting(**input))
+// 	{
+// 		quote = **input;
+// 		if (!extract_quoted(input, quote, &value, &local_quoted))
+// 			return (free(value), NULL);
+// 		if (!**input || ft_iswhitespace(**input) || is_metachar(**input))
+// 			*quoted = local_quoted;
+// 	}
+// 	while (**input && !ft_iswhitespace(**input) && !is_metachar(**input))
+// 	{
+// 		if (is_quoting(**input) && prev_char != '\\')
+// 		{
+// 			if (!extract_quoted(input, **input, &value, &local_quoted))
+// 				return (free(value), NULL);
+// 		}
+// 		else
+// 		{
+// 			if (!safe_append_char(&value, **input))
+// 				return (free(value), NULL);
+// 			prev_char = **input;
+// 			(*input)++;
+// 		}
+// 	}
+// 	return (value);
+// }
 
 static char	*extract_meta_token(char **input)
 {
@@ -97,3 +154,33 @@ void	extract_token_value(char **input, t_token *token)
 	token->quoted = quoted;
 	token->value = value;
 }
+
+// static char	*extract_word_token(char **input, t_quote_type *quoted)
+// {
+// 	char	*value;
+// 	char	prev_char;+9
+
+// 	if (!input || !*input)
+// 		return (NULL);
+// 	value = ft_strdup("");
+// 	if (!value)
+// 		return (NULL);
+// 	prev_char = '\0';
+// 	while (**input && !ft_iswhitespace(**input) && !is_metachar(**input))
+// 	{
+// 		if (is_quoting(**input) && prev_char != '\\')
+// 		{
+// 			if (!extract_quoted(input, **input, &value, quoted))
+// 				return (free(value), NULL);
+// 			prev_char = '\0';
+// 		}
+// 		else
+// 		{
+// 			if (!safe_append_char(&value, **input))
+// 				return (free(value), NULL);
+// 			prev_char = **input;
+// 			(*input)++;
+// 		}
+// 	}
+// 	return (value);
+// }

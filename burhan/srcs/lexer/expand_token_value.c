@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/12 16:38:34 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/13 18:07:45 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ static int	append_env_var(char **str, const char *value, size_t *i)
 	return (res);
 }
 
+// static int	expand_dollar_sign(char **result, const char *value,
+// 								size_t *i, int last_exit_status)
+// {
+// 	if (value[*i + 1] == '?')
+// 		return (*i += 2, append_exit_status(result, last_exit_status));
+// 	else if (ft_isalpha(value[*i + 1]) || value[*i + 1] == '_')
+// 		return (append_env_var(result, value, i));
+// 	return ((*i)++, 1);
+// }
+
 static int	expand_dollar_sign(char **result, const char *value,
 								size_t *i, int last_exit_status)
 {
@@ -61,10 +71,9 @@ static int	expand_dollar_sign(char **result, const char *value,
 		return (*i += 2, append_exit_status(result, last_exit_status));
 	else if (ft_isalpha(value[*i + 1]) || value[*i + 1] == '_')
 		return (append_env_var(result, value, i));
-	(*i)++;
 	if (!safe_append_char(result, '$'))
 		return (0);
-	return (1);
+	return ((*i)++, 1);
 }
 
 char	*expand_token_value(const char *value, t_quote_type quoted,
