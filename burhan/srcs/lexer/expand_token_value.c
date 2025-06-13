@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/13 18:07:45 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 02:48:52 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	append_exit_status(char **str, int last_exit_status)
 	exit_str = ft_itoa(last_exit_status);
 	if (!exit_str)
 		return (0);
-	res = safe_append_str(str, exit_str);
+	res = ft_safeappendstr(str, exit_str);
 	free(exit_str);
 	return (res);
 }
@@ -46,23 +46,13 @@ static int	append_env_var(char **str, const char *value, size_t *i)
 		return (0);
 	env_value = getenv(var_name);
 	if (env_value)
-		res = safe_append_str(str, env_value);
+		res = ft_safeappendstr(str, env_value);
 	else
-		res = safe_append_str(str, "");
+		res = ft_safeappendstr(str, "");
 	free(var_name);
 	*i = start + len;
 	return (res);
 }
-
-// static int	expand_dollar_sign(char **result, const char *value,
-// 								size_t *i, int last_exit_status)
-// {
-// 	if (value[*i + 1] == '?')
-// 		return (*i += 2, append_exit_status(result, last_exit_status));
-// 	else if (ft_isalpha(value[*i + 1]) || value[*i + 1] == '_')
-// 		return (append_env_var(result, value, i));
-// 	return ((*i)++, 1);
-// }
 
 static int	expand_dollar_sign(char **result, const char *value,
 								size_t *i, int last_exit_status)
@@ -71,7 +61,7 @@ static int	expand_dollar_sign(char **result, const char *value,
 		return (*i += 2, append_exit_status(result, last_exit_status));
 	else if (ft_isalpha(value[*i + 1]) || value[*i + 1] == '_')
 		return (append_env_var(result, value, i));
-	if (!safe_append_char(result, '$'))
+	if (!ft_safeappendchar(result, '$'))
 		return (0);
 	return ((*i)++, 1);
 }
@@ -90,14 +80,14 @@ char	*expand_token_value(const char *value, t_quote_type quoted,
 	i = 0;
 	while (value[i])
 	{
-		if (is_dollar_sign(value[i]) && value[i + 1])
+		if (ft_isdollarsign(value[i]) && value[i + 1])
 		{
 			if (!expand_dollar_sign(&result, value, &i, last_exit_status))
 				return (free(result), NULL);
 		}
 		else
 		{
-			if (!safe_append_char(&result, value[i]))
+			if (!ft_safeappendchar(&result, value[i]))
 				return (free(result), NULL);
 			i++;
 		}

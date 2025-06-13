@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
-#    Updated: 2025/05/31 17:41:35 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/14 02:43:14 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,7 @@ SRCS		= 	lexer.c \
 				fetch_token.c \
 				extract_token_value.c \
 				expand_token_value.c \
-				lexer_utils_00.c \
-				lexer_utils_01.c
+				lexer_utils.c
 
 OBJS		= 	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 

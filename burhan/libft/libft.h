@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:10:47 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/14 22:45:07 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 02:51:25 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		ft_islower(int c);
 int		ft_isprint(int c);
 int		ft_isspace(int c);
 int		ft_iswhitespace(int c);
+int		ft_iswhitespacestr(char *str);
 int		ft_isdigit(int c);
 int		ft_isxdigit(int c);
 int		ft_isalpha(int c);
@@ -100,6 +101,8 @@ int		ft_isalnums(t_cchr *str);
 int		ft_isduplicate(int c, t_cchr *pos, t_cchr *str);
 int		ft_isprime(int nb);
 int		ft_issquare(int nb);
+int		ft_isdollarsign(int c);
+int		ft_isquoting(int c);
 
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -159,6 +162,8 @@ char	*ft_keepcharset(char *str, t_cchr *charset);
 int		ft_charpos(char c, t_cchr *str);
 size_t	ft_substrlen(char *str, t_cchr *charset);
 int		ft_substrcount(char *str, t_cchr *charset);
+int		ft_safeappendchar(char **str, char c);
+int		ft_safeappendstr(char **str, char *append);
 
 int		ft_tolower(int c);
 int		ft_toupper(int c);

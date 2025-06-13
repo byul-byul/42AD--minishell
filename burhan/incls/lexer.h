@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:13:03 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/08 11:52:47 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 02:46:42 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,11 @@ typedef struct s_token
 t_token	*lexer(char *input, int exit_status);
 t_token	*fetch_token(char **input, int exit_status);
 void	extract_token_value(char **input, t_token *token);
-int		is_quoting(int c);
 int		is_metachar(int c);
 int		is_subshell_paren(int c);
 int		is_operator_char(int c);
-int		is_word_token_type(t_token_type type);
 int		is_heredoc_expand(t_token *prev, t_quote_type quote_type);
-int		is_dollar_sign(int c);
 void	clean_token_list(t_token *token_list);
-int		safe_append_char(char **str, char c);
-int		safe_append_str(char **str, char *append);
 char	*expand_token_value(const char *value, t_quote_type quoted,
 		int last_exit_status);
 

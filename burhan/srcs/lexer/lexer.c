@@ -6,21 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/12 22:14:45 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 02:34:37 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_wrapper.h"
-
-static int	ft_iswhitespacestr(char *str)
-{
-	if (!str)
-		return (0);
-	while (*str)
-		if (!ft_iswhitespace(*str++))
-			return (0);
-	return (1);
-}
 
 t_token	*lexer(char *input, int exit_status)
 {

@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 17:40:21 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/12 17:38:24 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/14 02:52:47 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,7 @@ LEXER_OBJS			=	$(LEXER_DIR)/objs/lexer.o \
 						$(LEXER_DIR)/objs/fetch_token.o \
 						$(LEXER_DIR)/objs/extract_token_value.o \
 						$(LEXER_DIR)/objs/expand_token_value.o \
-						$(LEXER_DIR)/objs/lexer_utils_00.o \
-						$(LEXER_DIR)/objs/lexer_utils_01.o
+						$(LEXER_DIR)/objs/lexer_utils.o
 
 PARSER_OBJS			=	$(PARSER_DIR)/objs/parser.o \
 						$(PARSER_DIR)/objs/parser_utils.o

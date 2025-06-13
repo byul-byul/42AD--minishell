@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/12 21:54:28 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 02:47:16 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	define_token_type(t_token *token, int exit_status)
 	char	*expanded;
 
 	token->type = get_token_type(token->value);
-	if (is_word_token_type(token->type))
+	if (token->type == WORD)
 	{
 		tmp = token->value;
 		expanded = expand_token_value(token->value, token->quoted, exit_status);
