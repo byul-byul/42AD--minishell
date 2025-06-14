@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:30:55 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/28 17:55:16 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 04:46:11 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,12 @@ void	free_command(t_command *cmd)
 
 	if (!cmd)
 		return;
-
-	// Освобождаем argv[]
 	if (cmd->argv)
 	{
 		for (i = 0; cmd->argv[i]; i++)
 			free(cmd->argv[i]);
 		free(cmd->argv);
 	}
-
-	// Освобождаем список редиректов
 	redir = cmd->redirections;
 	while (redir)
 	{
@@ -38,7 +34,6 @@ void	free_command(t_command *cmd)
 		free(redir);
 		redir = tmp;
 	}
-
 	free(cmd);
 }
 

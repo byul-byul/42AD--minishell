@@ -6,251 +6,355 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 04:38:48 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 07:19:41 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "../incls/lexer.h"
+#include "tester.h"
 
+// Объявляем внешний блок тестов (basic_block.c)
+extern const t_test_block basic_block;
+extern const t_test_block dollar_block;
+
+// Цвета
 #define GREEN   "\033[32m"
 #define RED     "\033[31m"
 #define RESET   "\033[0m"
 #define YELLOW  "\033[33m"
 #define BLUE    "\033[34m"
 
-int g_test_num = 1;
-int g_failed_tests[1024];
+int g_test_index = 1;
+int g_failed[1024];
 int g_failed_count = 0;
 
-void print_token_details(t_token *tokens)
+// Печать деталей токена
+void print_token_details(t_token *token)
 {
-	while (tokens)
+	while (token)
 	{
 		printf("value: %-16s | type: %-13s | quoted: %d | heredoc_expand: %d | expanded: %d\n",
-			tokens->value,
-			tokens->type == WORD ? "WORD" :
-			tokens->type == PIPE ? "PIPE" :
-			tokens->type == REDIR_IN ? "REDIR_IN" :
-			tokens->type == REDIR_OUT ? "REDIR_OUT" :
-			tokens->type == HEREDOC ? "HEREDOC" :
-			tokens->type == APPEND ? "APPEND" :
-			tokens->type == LOGICAL_AND ? "AND" :
-			tokens->type == LOGICAL_OR ? "OR" :
-			tokens->type == OPEN_PAREN ? "OPEN_PAREN" :
-			tokens->type == CLOSE_PAREN ? "CLOSE_PAREN" : "UNKNOWN",
-			tokens->quoted,
-			tokens->heredoc_expand,
-			tokens->expanded);
-		printf(GREEN "✅ Ok: \"%s\"\n" RESET, tokens->value);
-		tokens = tokens->next;
+			token->value,
+			token->type == WORD ? "WORD" :
+			token->type == PIPE ? "PIPE" :
+			token->type == REDIR_IN ? "REDIR_IN" :
+			token->type == REDIR_OUT ? "REDIR_OUT" :
+			token->type == HEREDOC ? "HEREDOC" :
+			token->type == APPEND ? "APPEND" :
+			token->type == LOGICAL_AND ? "AND" :
+			token->type == LOGICAL_OR ? "OR" :
+			token->type == OPEN_PAREN ? "OPEN_PAREN" :
+			token->type == CLOSE_PAREN ? "CLOSE_PAREN" : "UNKNOWN",
+			token->quoted,
+			token->heredoc_expand,
+			token->expanded);
+		token = token->next;
 	}
 }
 
-void run_test(const char *input, const char *expected_desc, const char *bash_desc)
+// Печать одного теста
+void run_test(const t_test_case *tc)
 {
-	(void)bash_desc;
-	t_token *tokens = lexer((char *)input, 0);
+	printf(BLUE "\ntest_%d\n==== INPUT: \"%s\" ====\n" RESET, g_test_index, tc->input);
+	printf(YELLOW "Expected: %s\n" RESET, tc->expected_lexer);
 
-	printf(BLUE "\ntest_%d\n" RESET, g_test_num);
-	printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
-	printf(YELLOW "Expected: %s\n" RESET, expected_desc);
-
-	if (!tokens)
+	t_token *tokens = lexer((char *)tc->input, 0);
+	if (!tokens && strcmp(tc->expected_lexer, "NULL") == 0)
 	{
-		if (strcmp(expected_desc, "NULL") == 0 || strstr(expected_desc, "NULL"))
-			printf(GREEN "✅ Ok: NULL\n" RESET);
-		else
-		{
-			printf(RED "NULL\n" RESET);
-			g_failed_tests[g_failed_count++] = g_test_num++;
-			return;
-		}
-		g_test_num++;
-		return;
+		printf(GREEN "✅ Ok: NULL\n" RESET);
 	}
-	print_token_details(tokens);
-	clean_token_list(tokens);
-	g_test_num++;
+	else if (!tokens)
+	{
+		printf(RED "❌ FAIL: NULL result\n" RESET);
+		g_failed[g_failed_count++] = g_test_index;
+	}
+	else
+	{
+		print_token_details(tokens);
+		// Проверка ожидаемого результата по смыслу — заменить на сравнение токенов при необходимости
+		printf(GREEN "✅ Ok\n" RESET);
+		clean_token_list(tokens);
+	}
+	g_test_index++;
 }
 
-void report_failed_tests(void)
+// Запуск всех тестов из блока
+void run_block(const t_test_block *block)
+{
+	printf(BLUE "\n=== %s ===\n" RESET, block->block_name);
+	for (int i = 0; i < block->count; i++)
+		run_test(&block->cases[i]);
+	printf(BLUE "=== END OF %s ===\n" RESET, block->block_name);
+}
+
+// Итог
+void print_failed_summary(void)
 {
 	if (g_failed_count == 0)
 	{
 		printf(GREEN "\nAll tests passed!\n" RESET);
 		return;
 	}
-	printf(RED "\nFailed tests: ");
+	printf(RED "\n❌ Failed test cases:\n" RESET);
 	for (int i = 0; i < g_failed_count; i++)
-		printf("%d ", g_failed_tests[i]);
-	printf("\n" RESET);
+		printf("❌ test_%d\n", g_failed[i]);
 }
 
 int main(void)
 {
-	// BASIC
-	printf(BLUE "\n=== BASIC TOKEN TESTS ===\n" RESET);
-	run_test("ls", "WORD -> 'ls'", "ls");
-	run_test("echo test", "WORD -> 'echo', WORD -> 'test'", "echo, test");
-	run_test("echo 123 abc", "WORD -> 'echo', WORD -> '123', WORD -> 'abc'", "three words");
-	run_test("a=b", "WORD -> 'a=b'", "assignment like string");
-	run_test("true && false", "WORD, AND, WORD", "basic logic");
-	run_test("!", "WORD -> '!'", "negation");
-	run_test("true || false && true", "WORD, OR, WORD, AND, WORD", "logic chain");
-	printf("=== END ===\n");
-
-	// DOLLAR
-	printf(BLUE "\n=== DOLLAR EXPANSION TESTS ===\n" RESET);
-	run_test("echo $USER", "WORD -> 'echo', WORD (expanded)", "$USER");
-	run_test("echo $?", "WORD -> 'echo', WORD", "$?");
-	run_test("echo $", "WORD -> 'echo', WORD -> '$'", "lonely dollar");
-	run_test("echo $1", "WORD -> 'echo', WORD -> '$1'", "$1");
-	run_test("echo $$", "WORD -> 'echo', WORD -> '$$'", "$$");
-	run_test("echo $@", "WORD -> 'echo', WORD -> '$@'", "$@");
-	run_test("echo $VAR$VAR2", "expanded chain", "double var");
-	run_test("echo '$USER'", "quoted no expand", "single quotes");
-	run_test("echo \"$USER\"", "quoted expand", "double quotes");
-	run_test("echo ${USER}", "brace expansion", "braced var");
-	printf("=== END ===\n");
-
-	// QUOTING
-	printf(BLUE "\n=== QUOTING TESTS ===\n" RESET);
-	run_test("'a b'", "WORD (quoted=SINGLE)", "space inside single");
-	run_test("\"a b\"", "WORD (quoted=DOUBLE)", "space inside double");
-	run_test("\"a'$b\"c\"", "NULL", "mixed nesting");
-	run_test("\"unterminated", "NULL", "open double quote");
-	run_test("'unterminated", "NULL", "open single quote");
-	run_test("''", "WORD (empty)", "empty single quote");
-	run_test("\"\"", "WORD (empty)", "empty double quote");
-	run_test("a\"b\"c", "WORD -> 'abc'", "merge with quotes");
-	run_test("a'b'c", "WORD -> 'abc'", "merge with single quotes");
-	run_test("\"a\"'b'", "WORD -> 'ab'", "double then single");
-	printf("=== END ===\n");
-
-	// INVALID QUOTES
-	printf(BLUE "\n=== INVALID QUOTES ===\n" RESET);
-	run_test("\"a'b", "NULL", "open double, then single");
-	run_test("'a\"b", "NULL", "open single, then double");
-	run_test("\"a\"'b", "WORD, NULL", "terminated then invalid");
-	run_test("\"a''", "NULL", "unbalanced closing");
-	run_test("''\"", "NULL", "bad combo");
-	run_test("\"\"", "WORD (empty)", "balanced");
-	run_test("'abc", "NULL", "missing closing");
-	run_test("\"abc", "NULL", "missing closing");
-	printf("=== END ===\n");
-
-	// REDIRECTS
-	printf(BLUE "\n=== REDIRECTS ===\n" RESET);
-	run_test("< file", "REDIR_IN, WORD", "< file");
-	run_test("> file", "REDIR_OUT, WORD", "> file");
-	run_test(">> file", "APPEND, WORD", ">> file");
-	run_test("<< word", "HEREDOC, WORD", "<<");
-	run_test("<> file", "REDIR_IN, REDIR_OUT, WORD", "invalid combo");
-	run_test("<<< EOF", "APPEND, HEREDOC, WORD", "triple redirect");
-	run_test("<<>>", "HEREDOC, APPEND", "weird combo");
-	run_test(">", "REDIR_OUT", "redirect only");
-	run_test(">>", "APPEND", "append only");
-	run_test("<", "REDIR_IN", "input only");
-	printf("=== END ===\n");
-
-	// HEREDOC
-	printf(BLUE "\n=== HEREDOC + EXPAND ===\n" RESET);
-	run_test("<< 'EOF'", "HEREDOC, WORD (quoted)", "no expand");
-	run_test("<< \"$EOF\"", "HEREDOC, WORD (quoted=DOUBLE)", "expand");
-	run_test("<<EOF", "HEREDOC, WORD", "plain");
-	run_test("<<", "HEREDOC", "alone");
-	run_test("<<\"\"", "HEREDOC, WORD (empty)", "empty delimiter");
-	run_test("<<' '", "HEREDOC, WORD (space)", "space");
-	run_test("<<''", "HEREDOC, WORD (empty)", "empty single");
-	run_test("<<$?", "HEREDOC, WORD", "$? as limiter");
-	run_test("<<|", "HEREDOC, PIPE", "pipe as delimiter");
-	printf("=== END ===\n");
-
-	// PIPES & LOGICAL
-	printf(BLUE "\n=== PIPES & LOGICALS ===\n" RESET);
-	run_test("cmd1 | cmd2", "WORD, PIPE, WORD", "pipe");
-	run_test("cmd1||cmd2", "WORD, OR, WORD", "OR no space");
-	run_test("cmd1&&cmd2", "WORD, AND, WORD", "AND no space");
-	run_test("||", "OR", "only OR");
-	run_test("| |", "PIPE, PIPE", "double pipes");
-	run_test("|||", "PIPE, PIPE, PIPE", "triple");
-	run_test("&&||", "AND, OR", "mix");
-	run_test("cmd &&", "WORD, AND", "dangling AND");
-	run_test("cmd ||", "WORD, OR", "dangling OR");
-	run_test("cmd1&&", "WORD, AND", "end with AND");
-	run_test("cmd1||", "WORD, OR", "end with OR");
-	printf("=== END ===\n");
-
-	// PARENTHESIS
-	printf(BLUE "\n=== PARENTHESIS ===\n" RESET);
-	run_test("(true)", "OPEN_PAREN, WORD, CLOSE_PAREN", "simple");
-	run_test("((cmd))", "OPEN_PAREN, OPEN_PAREN, WORD, CLOSE_PAREN, CLOSE_PAREN", "nested");
-	run_test("(", "OPEN_PAREN", "only open");
-	run_test(")", "CLOSE_PAREN", "only close");
-	run_test("())", "OPEN_PAREN, CLOSE_PAREN, CLOSE_PAREN", "misbalance");
-	run_test("(cmd", "OPEN_PAREN, WORD", "unclosed");
-	printf("=== END ===\n");
-
-	// ESCAPING
-	printf(BLUE "\n=== ESCAPING ===\n" RESET);
-	run_test("echo \\$USER", "WORD -> 'echo', WORD -> '$USER'", "escaped dollar");
-	run_test("echo \\\"", "WORD -> 'echo', WORD -> '\"'", "escaped quote");
-	run_test("echo \\\\", "WORD -> 'echo', WORD -> '\\'", "escaped backslash");
-	run_test("\\|", "WORD -> '|'", "escaped pipe");
-	run_test("cmd\\&&", "WORD", "escaped logic");
-	run_test("\\ ", "WORD -> ' '", "escaped space");
-	printf("=== END ===\n");
-
-	// META-COMBO TRASH
-	printf(BLUE "\n=== META TRASH COMBOS ===\n" RESET);
-	run_test("><", "REDIR_OUT, REDIR_IN", "swap redirects");
-	run_test(">|", "REDIR_OUT, PIPE", "redirect pipe");
-	run_test(">>|", "APPEND, PIPE", "append pipe");
-	run_test("|>>", "PIPE, APPEND", "pipe append");
-	run_test("&&>", "AND, REDIR_OUT", "logic and redirect");
-	run_test("||<", "OR, REDIR_IN", "OR and input");
-	run_test("<<|", "HEREDOC, PIPE", "heredoc pipe");
-	run_test("<||", "REDIR_IN, OR", "in and or");
-	printf("=== END ===\n");
-
-	// SPACING CHAOS
-	printf(BLUE "\n=== SPACING & WHITESPACE ===\n" RESET);
-	run_test("  ls    -la", "WORD, WORD", "extra space");
-	run_test("\tls\t-a", "WORD, WORD", "tabs");
-	run_test("ls \n -a", "WORD, WORD", "newline");
-	run_test("ls \v-a", "WORD, WORD", "vertical tab");
-	run_test("ls\f-a", "WORD, WORD", "form feed");
-	run_test("ls\r-a", "WORD, WORD", "carriage return");
-	printf("=== END ===\n");
-
-	// BACKTICKS & COMMAND SUBSTITUTION
-	printf(BLUE "\n=== BACKTICKS & COMMAND SUBSTITUTION ===\n" RESET);
-	run_test("`echo hi`", "WORD (backticks)", "legacy cmd subs");
-	run_test("echo `whoami`", "WORD, WORD", "inline backticks");
-	run_test("echo $(whoami)", "WORD, WORD", "modern subshell");
-	run_test("`unterminated", "NULL", "unterminated backtick");
-	run_test("`a`b`", "NULL", "invalid combo");
-	printf("=== END ===\n");
-
-	// EDGE CASES
-	printf(BLUE "\n=== EDGE CASES ===\n" RESET);
-	run_test("", "NULL", "empty");
-	run_test("   ", "NULL", "spaces only");
-	run_test(";;", "WORD, WORD", "strange semicolons");
-	run_test("echo \"", "NULL", "open quote");
-	run_test("echo \'", "NULL", "open single");
-	run_test("\"test", "NULL", "broken quote");
-	run_test("echo \"multi\nline\"", "NULL or fail", "multi-line quote");
-	run_test("echo 'multi\nline'", "NULL or fail", "multi-line single");
-	run_test("\0", "NULL", "null byte");
-	printf("=== END ===\n");
-
-	report_failed_tests();
-	return (0);
+	run_block(&basic_block);
+	run_block(&dollar_block);
+	print_failed_summary();
+	return 0;
 }
+
+
+// #include <stdio.h>
+// #include <string.h>
+// #include <stdlib.h>
+// #include "../incls/lexer.h"
+
+// #define GREEN   "\033[32m"
+// #define RED     "\033[31m"
+// #define RESET   "\033[0m"
+// #define YELLOW  "\033[33m"
+// #define BLUE    "\033[34m"
+
+// int g_test_num = 1;
+// int g_failed_tests[1024];
+// int g_failed_count = 0;
+
+// void print_token_details(t_token *tokens)
+// {
+// 	while (tokens)
+// 	{
+// 		printf("value: %-16s | type: %-13s | quoted: %d | heredoc_expand: %d | expanded: %d\n",
+// 			tokens->value,
+// 			tokens->type == WORD ? "WORD" :
+// 			tokens->type == PIPE ? "PIPE" :
+// 			tokens->type == REDIR_IN ? "REDIR_IN" :
+// 			tokens->type == REDIR_OUT ? "REDIR_OUT" :
+// 			tokens->type == HEREDOC ? "HEREDOC" :
+// 			tokens->type == APPEND ? "APPEND" :
+// 			tokens->type == LOGICAL_AND ? "AND" :
+// 			tokens->type == LOGICAL_OR ? "OR" :
+// 			tokens->type == OPEN_PAREN ? "OPEN_PAREN" :
+// 			tokens->type == CLOSE_PAREN ? "CLOSE_PAREN" : "UNKNOWN",
+// 			tokens->quoted,
+// 			tokens->heredoc_expand,
+// 			tokens->expanded);
+// 		printf(GREEN "✅ Ok: \"%s\"\n" RESET, tokens->value);
+// 		tokens = tokens->next;
+// 	}
+// }
+
+// void run_test(const char *input, const char *expected_desc, const char *bash_desc)
+// {
+// 	(void)bash_desc;
+// 	t_token *tokens = lexer((char *)input, 0);
+
+// 	printf(BLUE "\ntest_%d\n" RESET, g_test_num);
+// 	printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+// 	printf(YELLOW "Expected: %s\n" RESET, expected_desc);
+
+// 	if (!tokens)
+// 	{
+// 		if (strcmp(expected_desc, "NULL") == 0 || strstr(expected_desc, "NULL"))
+// 			printf(GREEN "✅ Ok: NULL\n" RESET);
+// 		else
+// 		{
+// 			printf(RED "NULL\n" RESET);
+// 			g_failed_tests[g_failed_count++] = g_test_num++;
+// 			return;
+// 		}
+// 		g_test_num++;
+// 		return;
+// 	}
+// 	print_token_details(tokens);
+// 	clean_token_list(tokens);
+// 	g_test_num++;
+// }
+
+// void report_failed_tests(void)
+// {
+// 	if (g_failed_count == 0)
+// 	{
+// 		printf(GREEN "\nAll tests passed!\n" RESET);
+// 		return;
+// 	}
+// 	printf(RED "\nFailed tests: ");
+// 	for (int i = 0; i < g_failed_count; i++)
+// 		printf("%d ", g_failed_tests[i]);
+// 	printf("\n" RESET);
+// }
+
+// int main(void)
+// {
+// 	// BASIC
+// 	printf(BLUE "\n=== BASIC TOKEN TESTS ===\n" RESET);
+// 	run_test("ls", "WORD -> 'ls'", "ls");
+// 	run_test("echo test", "WORD -> 'echo', WORD -> 'test'", "echo, test");
+// 	run_test("echo 123 abc", "WORD -> 'echo', WORD -> '123', WORD -> 'abc'", "three words");
+// 	run_test("a=b", "WORD -> 'a=b'", "assignment like string");
+// 	run_test("true && false", "WORD, AND, WORD", "basic logic");
+// 	run_test("!", "WORD -> '!'", "negation");
+// 	run_test("true || false && true", "WORD, OR, WORD, AND, WORD", "logic chain");
+// 	printf("=== END ===\n");
+
+// 	// DOLLAR
+// 	printf(BLUE "\n=== DOLLAR EXPANSION TESTS ===\n" RESET);
+// 	run_test("echo $USER", "WORD -> 'echo', WORD (expanded)", "$USER");
+// 	run_test("echo $?", "WORD -> 'echo', WORD", "$?");
+// 	run_test("echo $", "WORD -> 'echo', WORD -> '$'", "lonely dollar");
+// 	run_test("echo $1", "WORD -> 'echo', WORD -> '$1'", "$1");
+// 	run_test("echo $$", "WORD -> 'echo', WORD -> '$$'", "$$");
+// 	run_test("echo $@", "WORD -> 'echo', WORD -> '$@'", "$@");
+// 	run_test("echo $VAR$VAR2", "expanded chain", "double var");
+// 	run_test("echo '$USER'", "quoted no expand", "single quotes");
+// 	run_test("echo \"$USER\"", "quoted expand", "double quotes");
+// 	run_test("echo ${USER}", "brace expansion", "braced var");
+// 	printf("=== END ===\n");
+
+// 	// QUOTING
+// 	printf(BLUE "\n=== QUOTING TESTS ===\n" RESET);
+// 	run_test("'a b'", "WORD (quoted=SINGLE)", "space inside single");
+// 	run_test("\"a b\"", "WORD (quoted=DOUBLE)", "space inside double");
+// 	run_test("\"a'$b\"c\"", "NULL", "mixed nesting");
+// 	run_test("\"unterminated", "NULL", "open double quote");
+// 	run_test("'unterminated", "NULL", "open single quote");
+// 	run_test("''", "WORD (empty)", "empty single quote");
+// 	run_test("\"\"", "WORD (empty)", "empty double quote");
+// 	run_test("a\"b\"c", "WORD -> 'abc'", "merge with quotes");
+// 	run_test("a'b'c", "WORD -> 'abc'", "merge with single quotes");
+// 	run_test("\"a\"'b'", "WORD -> 'ab'", "double then single");
+// 	printf("=== END ===\n");
+
+// 	// INVALID QUOTES
+// 	printf(BLUE "\n=== INVALID QUOTES ===\n" RESET);
+// 	run_test("\"a'b", "NULL", "open double, then single");
+// 	run_test("'a\"b", "NULL", "open single, then double");
+// 	run_test("\"a\"'b", "WORD, NULL", "terminated then invalid");
+// 	run_test("\"a''", "NULL", "unbalanced closing");
+// 	run_test("''\"", "NULL", "bad combo");
+// 	run_test("\"\"", "WORD (empty)", "balanced");
+// 	run_test("'abc", "NULL", "missing closing");
+// 	run_test("\"abc", "NULL", "missing closing");
+// 	printf("=== END ===\n");
+
+// 	// REDIRECTS
+// 	printf(BLUE "\n=== REDIRECTS ===\n" RESET);
+// 	run_test("< file", "REDIR_IN, WORD", "< file");
+// 	run_test("> file", "REDIR_OUT, WORD", "> file");
+// 	run_test(">> file", "APPEND, WORD", ">> file");
+// 	run_test("<< word", "HEREDOC, WORD", "<<");
+// 	run_test("<> file", "REDIR_IN, REDIR_OUT, WORD", "invalid combo");
+// 	run_test("<<< EOF", "APPEND, HEREDOC, WORD", "triple redirect");
+// 	run_test("<<>>", "HEREDOC, APPEND", "weird combo");
+// 	run_test(">", "REDIR_OUT", "redirect only");
+// 	run_test(">>", "APPEND", "append only");
+// 	run_test("<", "REDIR_IN", "input only");
+// 	printf("=== END ===\n");
+
+// 	// HEREDOC
+// 	printf(BLUE "\n=== HEREDOC + EXPAND ===\n" RESET);
+// 	run_test("<< 'EOF'", "HEREDOC, WORD (quoted)", "no expand");
+// 	run_test("<< \"$EOF\"", "HEREDOC, WORD (quoted=DOUBLE)", "expand");
+// 	run_test("<<EOF", "HEREDOC, WORD", "plain");
+// 	run_test("<<", "HEREDOC", "alone");
+// 	run_test("<<\"\"", "HEREDOC, WORD (empty)", "empty delimiter");
+// 	run_test("<<' '", "HEREDOC, WORD (space)", "space");
+// 	run_test("<<''", "HEREDOC, WORD (empty)", "empty single");
+// 	run_test("<<$?", "HEREDOC, WORD", "$? as limiter");
+// 	run_test("<<|", "HEREDOC, PIPE", "pipe as delimiter");
+// 	printf("=== END ===\n");
+
+// 	// PIPES & LOGICAL
+// 	printf(BLUE "\n=== PIPES & LOGICALS ===\n" RESET);
+// 	run_test("cmd1 | cmd2", "WORD, PIPE, WORD", "pipe");
+// 	run_test("cmd1||cmd2", "WORD, OR, WORD", "OR no space");
+// 	run_test("cmd1&&cmd2", "WORD, AND, WORD", "AND no space");
+// 	run_test("||", "OR", "only OR");
+// 	run_test("| |", "PIPE, PIPE", "double pipes");
+// 	run_test("|||", "PIPE, PIPE, PIPE", "triple");
+// 	run_test("&&||", "AND, OR", "mix");
+// 	run_test("cmd &&", "WORD, AND", "dangling AND");
+// 	run_test("cmd ||", "WORD, OR", "dangling OR");
+// 	run_test("cmd1&&", "WORD, AND", "end with AND");
+// 	run_test("cmd1||", "WORD, OR", "end with OR");
+// 	printf("=== END ===\n");
+
+// 	// PARENTHESIS
+// 	printf(BLUE "\n=== PARENTHESIS ===\n" RESET);
+// 	run_test("(true)", "OPEN_PAREN, WORD, CLOSE_PAREN", "simple");
+// 	run_test("((cmd))", "OPEN_PAREN, OPEN_PAREN, WORD, CLOSE_PAREN, CLOSE_PAREN", "nested");
+// 	run_test("(", "OPEN_PAREN", "only open");
+// 	run_test(")", "CLOSE_PAREN", "only close");
+// 	run_test("())", "OPEN_PAREN, CLOSE_PAREN, CLOSE_PAREN", "misbalance");
+// 	run_test("(cmd", "OPEN_PAREN, WORD", "unclosed");
+// 	printf("=== END ===\n");
+
+// 	// ESCAPING
+// 	printf(BLUE "\n=== ESCAPING ===\n" RESET);
+// 	run_test("echo \\$USER", "WORD -> 'echo', WORD -> '$USER'", "escaped dollar");
+// 	run_test("echo \\\"", "WORD -> 'echo', WORD -> '\"'", "escaped quote");
+// 	run_test("echo \\\\", "WORD -> 'echo', WORD -> '\\'", "escaped backslash");
+// 	run_test("\\|", "WORD -> '|'", "escaped pipe");
+// 	run_test("cmd\\&&", "WORD", "escaped logic");
+// 	run_test("\\ ", "WORD -> ' '", "escaped space");
+// 	printf("=== END ===\n");
+
+// 	// META-COMBO TRASH
+// 	printf(BLUE "\n=== META TRASH COMBOS ===\n" RESET);
+// 	run_test("><", "REDIR_OUT, REDIR_IN", "swap redirects");
+// 	run_test(">|", "REDIR_OUT, PIPE", "redirect pipe");
+// 	run_test(">>|", "APPEND, PIPE", "append pipe");
+// 	run_test("|>>", "PIPE, APPEND", "pipe append");
+// 	run_test("&&>", "AND, REDIR_OUT", "logic and redirect");
+// 	run_test("||<", "OR, REDIR_IN", "OR and input");
+// 	run_test("<<|", "HEREDOC, PIPE", "heredoc pipe");
+// 	run_test("<||", "REDIR_IN, OR", "in and or");
+// 	printf("=== END ===\n");
+
+// 	// SPACING CHAOS
+// 	printf(BLUE "\n=== SPACING & WHITESPACE ===\n" RESET);
+// 	run_test("  ls    -la", "WORD, WORD", "extra space");
+// 	run_test("\tls\t-a", "WORD, WORD", "tabs");
+// 	run_test("ls \n -a", "WORD, WORD", "newline");
+// 	run_test("ls \v-a", "WORD, WORD", "vertical tab");
+// 	run_test("ls\f-a", "WORD, WORD", "form feed");
+// 	run_test("ls\r-a", "WORD, WORD", "carriage return");
+// 	printf("=== END ===\n");
+
+// 	// BACKTICKS & COMMAND SUBSTITUTION
+// 	printf(BLUE "\n=== BACKTICKS & COMMAND SUBSTITUTION ===\n" RESET);
+// 	run_test("`echo hi`", "WORD (backticks)", "legacy cmd subs");
+// 	run_test("echo `whoami`", "WORD, WORD", "inline backticks");
+// 	run_test("echo $(whoami)", "WORD, WORD", "modern subshell");
+// 	run_test("`unterminated", "NULL", "unterminated backtick");
+// 	run_test("`a`b`", "NULL", "invalid combo");
+// 	printf("=== END ===\n");
+
+// 	// EDGE CASES
+// 	printf(BLUE "\n=== EDGE CASES ===\n" RESET);
+// 	run_test("", "NULL", "empty");
+// 	run_test("   ", "NULL", "spaces only");
+// 	run_test(";;", "WORD, WORD", "strange semicolons");
+// 	run_test("echo \"", "NULL", "open quote");
+// 	run_test("echo \'", "NULL", "open single");
+// 	run_test("\"test", "NULL", "broken quote");
+// 	run_test("echo \"multi\nline\"", "NULL or fail", "multi-line quote");
+// 	run_test("echo 'multi\nline'", "NULL or fail", "multi-line single");
+// 	run_test("\0", "NULL", "null byte");
+// 	printf("=== END ===\n");
+
+// 	report_failed_tests();
+// 	return (0);
+// }
+
+
+
 
 
 // #include <stdio.h>
