@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:54:18 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 16:55:22 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 20:57:59 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,16 @@ const t_test_case invalid_quotes_tests[] =
 	},
 	{
 		.input = "'",
+		.expected_lexer = "NULL",
+		.expected_parser = "NULL"
+	},
+	{
+		.input = "echo 'unterminated",
+		.expected_lexer = "NULL",
+		.expected_parser = "NULL"
+	},
+	{
+		.input = "echo \"unterminated",
 		.expected_lexer = "NULL",
 		.expected_parser = "NULL"
 	},

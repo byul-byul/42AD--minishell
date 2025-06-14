@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 16:34:46 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 21:12:21 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,14 @@ void	run_test(const char *input, const char *expected_desc, const char *block_la
 
 	if (strcmp(actual, expected_desc) == 0)
 	{
-		print_tokens_verbose(tokens);
 		printf(GREEN "Actual  : %s\n" RESET, actual);
+		print_tokens_verbose(tokens);
 		printf(GREEN "✅ Ok\n" RESET);
 	}
 	else
 	{
-		print_tokens_verbose(tokens);
 		printf(RED "Actual  : %s\n" RESET, actual);
+		print_tokens_verbose(tokens);
 		printf(RED "❌ FAIL\n" RESET);
 		g_failed_tests[g_failed_count++] = g_test_num;
 	}
@@ -136,13 +136,15 @@ extern const t_test_block basic_block;
 extern const t_test_block dollar_block;
 extern const t_test_block quoting_block;
 extern const t_test_block invalid_quotting_block;
+extern const t_test_block redirection_block;
 
 int	main(void)
 {
 	// run_block(&basic_block);
 	// run_block(&dollar_block);
 	// run_block(&quoting_block);
-	run_block(&invalid_quotting_block);
+	// run_block(&invalid_quotting_block);
+	run_block(&redirection_block);
 	report_failed_tests();
 	return (0);
 }

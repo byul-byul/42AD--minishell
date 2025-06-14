@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:26:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 16:32:13 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 21:05:46 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,98 @@
 
 const t_test_case quoting_tests[] =
 {
-	{ "echo 'hello world'", "WORD -> 'echo', WORD -> 'hello world'", "[CMD] echo 'hello world'" },
-	{ "echo \"hello world\"", "WORD -> 'echo', WORD -> 'hello world'", "[CMD] echo \"hello world\"" },
-	{ "echo 'a\"b'", "WORD -> 'echo', WORD -> 'a\"b'", "[CMD] echo 'a\"b'" },
-	{ "echo \"a'b\"", "WORD -> 'echo', WORD -> 'a'b'", "[CMD] echo \"a'b\"" },
-	{ "echo 'a b' c", "WORD -> 'echo', WORD -> 'a b', WORD -> 'c'", "[CMD] echo 'a b' c" },
-	{ "echo \"a b\" c", "WORD -> 'echo', WORD -> 'a b', WORD -> 'c'", "[CMD] echo \"a b\" c" },
-	{ "echo 'a\"b'\"c\"", "WORD -> 'echo', WORD -> 'a\"bc'", "[CMD] echo 'a\"b'\"c\"" },
-	{ "echo 'unterminated", "NULL", "NULL" },
-	{ "echo \"unterminated", "NULL", "NULL" },
-	{ "echo ''", "WORD -> 'echo', WORD -> ''", "[CMD] echo ''" },
-	{ "echo \"\"", "WORD -> 'echo', WORD -> ''", "[CMD] echo \"\"" },
-	{ "echo 'a $b'", "WORD -> 'echo', WORD -> 'a $b'", "[CMD] echo 'a $b'" },
-	{ "echo \"a $b\"", "WORD -> 'echo', WORD -> 'a $b'", "[CMD] echo \"a $b\"" },
-	{ "echo \"text with \\\"escaped quotes\\\" inside\"", "WORD -> 'echo', WORD -> 'text with \"escaped quotes\" inside'", "[CMD] echo ..." },
-	{ "'\"$USER\"'", "WORD -> '\"$USER\"'", "[CMD] '\"$USER\"'" },
-	{ "\"'\"'$USER'", "WORD -> \"''$USER\"", "[CMD] \"'\"'$USER'" },
-	{ "''", "WORD -> ''", "[CMD] ''" },
-	{ "\"\"", "WORD -> ''", "[CMD] \"\"" },
-	{ "' '", "WORD -> ' '", "[CMD] ' '" },
-	{ "\" \"", "WORD -> ' '", "[CMD] \" \"" }
+	// QUOTING CASES
+	{
+		.input = "echo 'hello world'",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'hello world'",
+		.expected_parser = "[CMD] echo 'hello world'"
+	},
+	{
+		.input = "echo \"hello world\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'hello world'",
+		.expected_parser = "[CMD] echo \"hello world\""
+	},
+	{
+		.input = "echo 'a\"b'",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a\"b'",
+		.expected_parser = "[CMD] echo 'a\"b'"
+	},
+	{
+		.input = "echo \"a'b\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a'b'",
+		.expected_parser = "[CMD] echo \"a'b\""
+	},
+	{
+		.input = "echo 'a b' c",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a b', WORD -> 'c'",
+		.expected_parser = "[CMD] echo 'a b' c"
+	},
+	{
+		.input = "echo \"a b\" c",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a b', WORD -> 'c'",
+		.expected_parser = "[CMD] echo \"a b\" c"
+	},
+	{
+		.input = "echo 'a\"b'\"c\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a\"bc'",
+		.expected_parser = "[CMD] echo 'a\"b'\"c\""
+	},
+	{
+		.input = "echo ''",
+		.expected_lexer = "WORD -> 'echo', WORD -> ''",
+		.expected_parser = "[CMD] echo ''"
+	},
+	{
+		.input = "echo \"\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> ''",
+		.expected_parser = "[CMD] echo \"\""
+	},
+	{
+		.input = "echo 'a $b'",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a $b'",
+		.expected_parser = "[CMD] echo 'a $b'"
+	},
+	{
+		.input = "echo \"a $b\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a $b'",
+		.expected_parser = "[CMD] echo \"a $b\""
+	},
+	{
+		.input = "echo \"text with \\\"escaped quotes\\\" inside\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'text with \"escaped quotes\" inside'",
+		.expected_parser = "[CMD] echo \"text with \\\"escaped quotes\\\" inside\""
+	},
+	{
+		.input = "'\"$USER\"'",
+		.expected_lexer = "WORD -> '\"$USER\"'",
+		.expected_parser = "[CMD] '\"$USER\"'"
+	},
+	{
+		.input = "\"'\"'$USER'",
+		.expected_lexer = "WORD -> \"''$USER\"",
+		.expected_parser = "[CMD] \"'\"'$USER'"
+	},
+	{
+		.input = "''",
+		.expected_lexer = "WORD -> ''",
+		.expected_parser = "[CMD] ''"
+	},
+	{
+		.input = "\"\"",
+		.expected_lexer = "WORD -> ''",
+		.expected_parser = "[CMD] \"\""
+	},
+	{
+		.input = "' '",
+		.expected_lexer = "WORD -> ' '",
+		.expected_parser = "[CMD] ' '"
+	},
+	{
+		.input = "\" \"",
+		.expected_lexer = "WORD -> ' '",
+		.expected_parser = "[CMD] \" \""
+	}
+
 };
 
 const t_test_block quoting_block = {

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 07:17:31 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 16:32:59 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 21:03:16 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,47 +17,152 @@
 
 const t_test_case dollar_tests[] =
 {
-	// Простые случаи
-	{ "echo $USER", "WORD -> 'echo', WORD -> '$USER'", "[CMD] echo $USER" },
-	{ "echo $?", "WORD -> 'echo', WORD -> '$?'", "[CMD] echo $?" },
-	{ "echo $1", "WORD -> 'echo', WORD -> '$1'", "[CMD] echo $1" },
-	{ "echo $$", "WORD -> 'echo', WORD -> '$$'", "[CMD] echo $$" },
-	{ "echo $@", "WORD -> 'echo', WORD -> '$@'", "[CMD] echo $@" },
-	{ "echo $*", "WORD -> 'echo', WORD -> '$*'", "[CMD] echo $*" },
+	// SIMPLE CASES
+	{
+		.input = "echo $USER",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$USER'",
+		.expected_parser = "[CMD] echo $USER"
+	},
+	{
+		.input = "echo $?",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$?'",
+		.expected_parser = "[CMD] echo $?"
+	},
+	{
+		.input = "echo $1",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$1'",
+		.expected_parser = "[CMD] echo $1"
+	},
+	{
+		.input = "echo $$",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$$'",
+		.expected_parser = "[CMD] echo $$"
+	},
+	{
+		.input = "echo $@",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$@'",
+		.expected_parser = "[CMD] echo $@"
+	},
+	{
+		.input = "echo $*",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$*'",
+		.expected_parser = "[CMD] echo $*"
+	},
 
-	// Пустой доллар
-	{ "echo $", "WORD -> 'echo', WORD -> '$'", "[CMD] echo $" },
-	{ "echo $ ", "WORD -> 'echo', WORD -> '$'", "[CMD] echo $" },
+	// EMPTY DOLLAR
+	{
+		.input = "echo $",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$'",
+		.expected_parser = "[CMD] echo $"
+	},
+	{
+		.input = "echo $ ",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$'",
+		.expected_parser = "[CMD] echo $"
+	},
 
-	// Несколько подряд
-	{ "echo $VAR$VAR2", "WORD -> 'echo', WORD -> '$VAR$VAR2'", "[CMD] echo $VAR$VAR2" },
-	{ "echo $VAR_$VAR2", "WORD -> 'echo', WORD -> '$VAR_$VAR2'", "[CMD] echo $VAR_$VAR2" },
+	// MULTIPLE VARIABLES TOGETHER
+	{
+		.input = "echo $VAR$VAR2",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$VAR$VAR2'",
+		.expected_parser = "[CMD] echo $VAR$VAR2"
+	},
+	{
+		.input = "echo $VAR_$VAR2",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$VAR_$VAR2'",
+		.expected_parser = "[CMD] echo $VAR_$VAR2"
+	},
 
-	// С фигурными скобками
-	{ "echo ${USER}", "WORD -> 'echo', WORD -> '${USER}'", "[CMD] echo ${USER}" },
-	{ "echo ${}", "WORD -> 'echo', WORD -> '${}'", "[CMD] echo ${}" },
-	{ "echo ${USER$ID}", "WORD -> 'echo', WORD -> '${USER$ID}'", "[CMD] echo ${USER$ID}" },
+	// WITH CURLY BRACES
+	{
+		.input = "echo ${USER}",
+		.expected_lexer = "WORD -> 'echo', WORD -> '${USER}'",
+		.expected_parser = "[CMD] echo ${USER}"
+	},
+	{
+		.input = "echo ${}",
+		.expected_lexer = "WORD -> 'echo', WORD -> '${}'",
+		.expected_parser = "[CMD] echo ${}"
+	},
+	{
+		.input = "echo ${USER$ID}",
+		.expected_lexer = "WORD -> 'echo', WORD -> '${USER$ID}'",
+		.expected_parser = "[CMD] echo ${USER$ID}"
+	},
 
-	// В кавычках
-	{ "echo '$USER'", "WORD -> 'echo', WORD (quoted=SINGLE) -> '$USER'", "[CMD] echo '$USER'" },
-	{ "echo \"$USER\"", "WORD -> 'echo', WORD (quoted=DOUBLE, expanded) -> '$USER'", "[CMD] echo \"$USER\"" },
-	{ "echo \"$USER$HOME\"", "WORD -> 'echo', WORD (quoted=DOUBLE, expanded) -> '$USER$HOME'", "[CMD] echo \"$USER$HOME\"" },
-	{ "echo '$USER$HOME'", "WORD -> 'echo', WORD (quoted=SINGLE) -> '$USER$HOME'", "[CMD] echo '$USER$HOME'" },
+	// INSIDE QUOTES
+	{
+		.input = "echo '$USER'",
+		.expected_lexer = "WORD -> 'echo', WORD (quoted=SINGLE) -> '$USER'",
+		.expected_parser = "[CMD] echo '$USER'"
+	},
+	{
+		.input = "echo \"$USER\"",
+		.expected_lexer = "WORD -> 'echo', WORD (quoted=DOUBLE, expanded) -> '$USER'",
+		.expected_parser = "[CMD] echo \"$USER\""
+	},
+	{
+		.input = "echo \"$USER$HOME\"",
+		.expected_lexer = "WORD -> 'echo', WORD (quoted=DOUBLE, expanded) -> '$USER$HOME'",
+		.expected_parser = "[CMD] echo \"$USER$HOME\""
+	},
+	{
+		.input = "echo '$USER$HOME'",
+		.expected_lexer = "WORD -> 'echo', WORD (quoted=SINGLE) -> '$USER$HOME'",
+		.expected_parser = "[CMD] echo '$USER$HOME'"
+	},
 
-	// Экранирование
-	{ "echo \\$USER", "WORD -> 'echo', WORD -> '$USER'", "[CMD] echo $USER" },
-	{ "echo \\$?", "WORD -> 'echo', WORD -> '$?'", "[CMD] echo $?" },
+	// ESCAPED DOLLARS
+	{
+		.input = "echo \\$USER",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$USER'",
+		.expected_parser = "[CMD] echo $USER"
+	},
+	{
+		.input = "echo \\$?",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$?'",
+		.expected_parser = "[CMD] echo $?"
+	},
 
-	// Комбинированные кейсы
-	{ "echo \"Path: $PATH\"", "WORD -> 'echo', WORD (quoted=DOUBLE, expanded) -> 'Path: $PATH'", "[CMD] echo \"Path: $PATH\"" },
-	{ "echo 'Path: $PATH'", "WORD -> 'echo', WORD (quoted=SINGLE) -> 'Path: $PATH'", "[CMD] echo 'Path: $PATH'" },
-	{ "echo ${UNFINISHED", "WORD -> 'echo', WORD -> '${UNFINISHED'", "[CMD] echo ${UNFINISHED" },
-	{ "echo $123abc", "WORD -> 'echo', WORD -> '$123abc'", "[CMD] echo $123abc" },
+	// MIXED / COMPLEX CASES
+	{
+		.input = "echo \"Path: $PATH\"",
+		.expected_lexer = "WORD -> 'echo', WORD (quoted=DOUBLE, expanded) -> 'Path: $PATH'",
+		.expected_parser = "[CMD] echo \"Path: $PATH\""
+	},
+	{
+		.input = "echo 'Path: $PATH'",
+		.expected_lexer = "WORD -> 'echo', WORD (quoted=SINGLE) -> 'Path: $PATH'",
+		.expected_parser = "[CMD] echo 'Path: $PATH'"
+	},
+	{
+		.input = "echo ${UNFINISHED",
+		.expected_lexer = "WORD -> 'echo', WORD -> '${UNFINISHED'",
+		.expected_parser = "[CMD] echo ${UNFINISHED"
+	},
+	{
+		.input = "echo $123abc",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$123abc'",
+		.expected_parser = "[CMD] echo $123abc"
+	},
 
-	// Изолированные доллары
-	{ "$", "WORD -> '$'", "[CMD] $" },
-	{ "$$", "WORD -> '$$'", "[CMD] $$" },
-	{ "$?", "WORD -> '$?'", "[CMD] $?" },
+	// ISOLATED DOLLARS
+	{
+		.input = "$",
+		.expected_lexer = "WORD -> '$'",
+		.expected_parser = "[CMD] $"
+	},
+	{
+		.input = "$$",
+		.expected_lexer = "WORD -> '$$'",
+		.expected_parser = "[CMD] $$"
+	},
+	{
+		.input = "$?",
+		.expected_lexer = "WORD -> '$?'",
+		.expected_parser = "[CMD] $?"
+	}
+
 };
 
 const t_test_block dollar_block = {
