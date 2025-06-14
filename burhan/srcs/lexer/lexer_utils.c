@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 02:54:57 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 02:46:50 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 02:56:13 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ int	is_heredoc_expand(t_token *prev, t_quote_type quote_type)
 {
 	return (prev && prev->type == HEREDOC && quote_type != SINGLE);
 }
-
-// int	is_word_token_type(t_token_type type)
-// {
-// 	return (WORD == type);
-// }
 
 void	clean_token_list(t_token *token_list)
 {
@@ -49,4 +44,3 @@ int	is_metachar(int c)
 {
 	return (is_subshell_paren(c) || is_operator_char(c));
 }
-

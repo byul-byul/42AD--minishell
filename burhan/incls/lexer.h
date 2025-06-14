@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:13:03 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 02:46:42 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 04:44:20 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum e_token_type
 	LOGICAL_AND,
 	LOGICAL_OR,
 	OPEN_PAREN,
-	CLOSE_PAREN  
+	CLOSE_PAREN
 }			t_token_type;
 
 typedef enum e_quote_type
@@ -60,6 +60,6 @@ int		is_operator_char(int c);
 int		is_heredoc_expand(t_token *prev, t_quote_type quote_type);
 void	clean_token_list(t_token *token_list);
 char	*expand_token_value(const char *value, t_quote_type quoted,
-		int last_exit_status);
+			int last_exit_status);
 
 #endif
