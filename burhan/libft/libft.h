@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:10:47 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 02:51:25 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 12:22:21 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		ft_isprint(int c);
 int		ft_isspace(int c);
 int		ft_iswhitespace(int c);
 int		ft_iswhitespacestr(char *str);
+int		ft_isspacestr(char *str);
 int		ft_isdigit(int c);
 int		ft_isxdigit(int c);
 int		ft_isalpha(int c);

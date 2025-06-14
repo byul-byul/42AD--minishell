@@ -6,91 +6,121 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 07:19:41 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 16:29:22 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "../incls/lexer.h"
 #include "tester.h"
 
-// Объявляем внешний блок тестов (basic_block.c)
-extern const t_test_block basic_block;
-extern const t_test_block dollar_block;
-
-// Цвета
 #define GREEN   "\033[32m"
 #define RED     "\033[31m"
 #define RESET   "\033[0m"
 #define YELLOW  "\033[33m"
 #define BLUE    "\033[34m"
+#define CYAN    "\033[36m"
 
-int g_test_index = 1;
-int g_failed[1024];
+int g_test_num = 1;
+int g_failed_tests[1024];
 int g_failed_count = 0;
 
-// Печать деталей токена
-void print_token_details(t_token *token)
+static const char *get_type_name(t_token_type type)
 {
-	while (token)
+	return (
+		type == WORD ? "WORD" :
+		type == PIPE ? "PIPE" :
+		type == REDIR_IN ? "REDIR_IN" :
+		type == REDIR_OUT ? "REDIR_OUT" :
+		type == HEREDOC ? "HEREDOC" :
+		type == APPEND ? "APPEND" :
+		type == LOGICAL_AND ? "AND" :
+		type == LOGICAL_OR ? "OR" :
+		type == OPEN_PAREN ? "OPEN_PAREN" :
+		type == CLOSE_PAREN ? "CLOSE_PAREN" : "UNKNOWN"
+	);
+}
+
+void	print_tokens_verbose(t_token *tokens)
+{
+	while (tokens)
 	{
 		printf("value: %-16s | type: %-13s | quoted: %d | heredoc_expand: %d | expanded: %d\n",
-			token->value,
-			token->type == WORD ? "WORD" :
-			token->type == PIPE ? "PIPE" :
-			token->type == REDIR_IN ? "REDIR_IN" :
-			token->type == REDIR_OUT ? "REDIR_OUT" :
-			token->type == HEREDOC ? "HEREDOC" :
-			token->type == APPEND ? "APPEND" :
-			token->type == LOGICAL_AND ? "AND" :
-			token->type == LOGICAL_OR ? "OR" :
-			token->type == OPEN_PAREN ? "OPEN_PAREN" :
-			token->type == CLOSE_PAREN ? "CLOSE_PAREN" : "UNKNOWN",
-			token->quoted,
-			token->heredoc_expand,
-			token->expanded);
-		token = token->next;
+			tokens->value,
+			get_type_name(tokens->type),
+			tokens->quoted,
+			tokens->heredoc_expand,
+			tokens->expanded);
+		tokens = tokens->next;
 	}
 }
 
-// Печать одного теста
-void run_test(const t_test_case *tc)
+void	run_test(const char *input, const char *expected_desc)
 {
-	printf(BLUE "\ntest_%d\n==== INPUT: \"%s\" ====\n" RESET, g_test_index, tc->input);
-	printf(YELLOW "Expected: %s\n" RESET, tc->expected_lexer);
+	t_token	*tokens = lexer((char *)input, 0);
+	char	actual[2048] = "";
+	char	tmp_buf[512];
 
-	t_token *tokens = lexer((char *)tc->input, 0);
-	if (!tokens && strcmp(tc->expected_lexer, "NULL") == 0)
+	printf(BLUE "\ntest_%d\n" RESET, g_test_num);
+	printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+	printf(YELLOW "Expected: %s\n" RESET, expected_desc);
+
+	if (!tokens)
 	{
-		printf(GREEN "✅ Ok: NULL\n" RESET);
+		if (strcmp("NULL", expected_desc) == 0)
+		{
+			printf(GREEN "Actual  : NULL\n");
+			printf("✅ Ok\n" RESET);
+		}
+		else
+		{
+			printf(RED "Actual  : NULL\n");
+			printf("❌ FAIL\n" RESET);
+			g_failed_tests[g_failed_count++] = g_test_num;
+		}
+		g_test_num++;
+		return;
 	}
-	else if (!tokens)
+
+	t_token *tmp = tokens;
+	while (tmp)
 	{
-		printf(RED "❌ FAIL: NULL result\n" RESET);
-		g_failed[g_failed_count++] = g_test_index;
+		sprintf(tmp_buf, "%s -> '%s'", get_type_name(tmp->type), tmp->value);
+		strcat(actual, tmp_buf);
+		if (tmp->next)
+			strcat(actual, ", ");
+		tmp = tmp->next;
+	}
+
+	if (strcmp(actual, expected_desc) == 0)
+	{
+		print_tokens_verbose(tokens);
+		printf(GREEN "Actual  : %s\n" RESET, actual);
+		printf(GREEN "✅ Ok\n" RESET);
 	}
 	else
 	{
-		print_token_details(tokens);
-		// Проверка ожидаемого результата по смыслу — заменить на сравнение токенов при необходимости
-		printf(GREEN "✅ Ok\n" RESET);
-		clean_token_list(tokens);
+		print_tokens_verbose(tokens);
+		printf(RED "Actual  : %s\n" RESET, actual);
+		printf(RED "❌ FAIL\n" RESET);
+		g_failed_tests[g_failed_count++] = g_test_num;
 	}
-	g_test_index++;
+
+	clean_token_list(tokens);
+	g_test_num++;
 }
 
-// Запуск всех тестов из блока
-void run_block(const t_test_block *block)
+void	run_block(const t_test_block *block)
 {
-	printf(BLUE "\n=== %s ===\n" RESET, block->block_name);
+	printf(CYAN "\n=== %s ===\n" RESET, block->block_name);
 	for (int i = 0; i < block->count; i++)
-		run_test(&block->cases[i]);
-	printf(BLUE "=== END OF %s ===\n" RESET, block->block_name);
+		run_test(block->cases[i].input, block->cases[i].expected_lexer);
+	printf(CYAN "=== END OF %s ===\n" RESET, block->block_name);
 }
 
-// Итог
-void print_failed_summary(void)
+void	report_failed_tests(void)
 {
 	if (g_failed_count == 0)
 	{
@@ -99,17 +129,21 @@ void print_failed_summary(void)
 	}
 	printf(RED "\n❌ Failed test cases:\n" RESET);
 	for (int i = 0; i < g_failed_count; i++)
-		printf("❌ test_%d\n", g_failed[i]);
+		printf(RED "❌ test_%d\n" RESET, g_failed_tests[i]);
 }
 
-int main(void)
+extern const t_test_block basic_block;
+extern const t_test_block dollar_block;
+extern const t_test_block quoting_block;
+
+int	main(void)
 {
 	run_block(&basic_block);
-	run_block(&dollar_block);
-	print_failed_summary();
-	return 0;
+	// run_block(&dollar_block);
+	run_block(&quoting_block);
+	report_failed_tests();
+	return (0);
 }
-
 
 // #include <stdio.h>
 // #include <string.h>

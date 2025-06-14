@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 07:12:47 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 15:00:14 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ const t_test_case basic_tests[] =
 
 	// MULTIPLE SPACES / FORMATTING
 	{ "   ls     -la   ", "WORD -> 'ls', WORD -> '-la'", "[CMD] ls -la" },
+	{ "     echo     42     ", "WORD -> 'echo', WORD -> '42'", "[CMD] echo 42" },
 	{ "\techo\t42", "WORD -> 'echo', WORD -> '42'", "[CMD] echo 42" },
 	{ "   pwd", "WORD -> 'pwd'", "[CMD] pwd" },
 	{ "whoami   ", "WORD -> 'whoami'", "[CMD] whoami" },
@@ -43,11 +44,11 @@ const t_test_case basic_tests[] =
 	{ ".", "WORD -> '.'", "[CMD] ." },
 	{ "..", "WORD -> '..'", "[CMD] .." },
 	{ ":", "WORD -> ':'", "[CMD] :" },
-	{ "ls;", "WORD -> 'ls', WORD -> ';'", "[CMD] ls ;" },
+	{ "ls;", "WORD -> 'ls;'", "[CMD] ls;" },
 
 	// EMPTY & NULL
-	{ "", "NULL", "[EMPTY]" },
-	{ "   ", "NULL", "[EMPTY]" }
+	{ "", "", "[EMPTY]" },
+	{ "   ", "", "[EMPTY]" }
 };
 
 const t_test_block basic_block = {

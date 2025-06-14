@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:44:08 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 02:34:53 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 12:22:02 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,16 @@ int	ft_iswhitespacestr(char *str)
 		return (0);
 	while (*str)
 		if (!ft_iswhitespace(*str++))
+			return (0);
+	return (1);
+}
+
+int	ft_isspacestr(char *str)
+{
+	if (!str)
+		return (0);
+	while (*str)
+		if (!ft_isspace(*str++))
 			return (0);
 	return (1);
 }

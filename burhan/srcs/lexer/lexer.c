@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 02:34:37 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 12:23:47 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*lexer(char *input, int exit_status)
 	t_token	*last_token;
 	t_token	*token_list;
 
-	if (!input || ft_iswhitespacestr(input))
+	if (!input || ft_isspacestr(input))
 		return (NULL);
 	new_token = fetch_token(&input, exit_status);
 	if (!new_token)

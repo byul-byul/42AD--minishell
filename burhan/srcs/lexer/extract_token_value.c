@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 02:52:19 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 12:20:02 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	append_token_content(char **input, char **value,
 	char	prev;
 
 	prev = '\0';
-	while (**input && !ft_iswhitespace(**input) && !is_metachar(**input))
+	while (**input && !ft_isspace(**input) && !is_metachar(**input))
 	{
 		if (ft_isquoting(**input) && prev != '\\')
 		{
@@ -76,7 +76,7 @@ static char	*extract_word_token(char **input, t_quote_type *quoted)
 	{
 		if (!extract_quoted(input, **input, &value, &local))
 			return (free(value), NULL);
-		if (!**input || ft_iswhitespace(**input) || is_metachar(**input))
+		if (!**input || ft_isspace(**input) || is_metachar(**input))
 			*quoted = local;
 	}
 	if (!append_token_content(input, &value, &local))

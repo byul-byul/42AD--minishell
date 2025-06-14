@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 02:47:16 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 12:23:33 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ t_token	*fetch_token(char **input, int exit_status)
 	if (!token)
 		return (NULL);
 	init_token(token);
-	while (ft_iswhitespace(**input))
+	while (ft_isspace(**input))
 		(*input)++;
 	extract_token_value(input, token);
 	if (!token->value)
 		return (free(token), NULL);
 	define_token_type(token, exit_status);
-	while (ft_iswhitespace(**input))
+	while (ft_isspace(**input))
 		(*input)++;
 	return (token);
 }
