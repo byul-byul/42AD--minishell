@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 07:17:31 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 15:12:08 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 16:32:59 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ const t_test_case dollar_tests[] =
 
 const t_test_block dollar_block = {
 	.block_name = "DOLLAR EXPANSION TESTS",
+	.block_label = "dollar sign $",
 	.cases = dollar_tests,
 	.count = sizeof(dollar_tests) / sizeof(dollar_tests[0])
 };

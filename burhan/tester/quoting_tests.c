@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:26:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 16:26:24 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 16:32:13 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ const t_test_case quoting_tests[] =
 
 const t_test_block quoting_block = {
 	.block_name = "QUOTING TESTS",
+	.block_label = "quoting",
 	.cases = quoting_tests,
 	.count = sizeof(quoting_tests) / sizeof(quoting_tests[0])
 };

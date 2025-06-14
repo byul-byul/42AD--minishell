@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 16:29:22 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 16:34:46 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ void	print_tokens_verbose(t_token *tokens)
 	}
 }
 
-void	run_test(const char *input, const char *expected_desc)
+void	run_test(const char *input, const char *expected_desc, const char *block_label)
 {
 	t_token	*tokens = lexer((char *)input, 0);
 	char	actual[2048] = "";
 	char	tmp_buf[512];
 
-	printf(BLUE "\ntest_%d\n" RESET, g_test_num);
+	printf(BLUE "\ntest_%d (%s)\n" RESET, g_test_num, block_label);
 	printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
 	printf(YELLOW "Expected: %s\n" RESET, expected_desc);
 
@@ -116,7 +116,7 @@ void	run_block(const t_test_block *block)
 {
 	printf(CYAN "\n=== %s ===\n" RESET, block->block_name);
 	for (int i = 0; i < block->count; i++)
-		run_test(block->cases[i].input, block->cases[i].expected_lexer);
+		run_test(block->cases[i].input, block->cases[i].expected_lexer, block->block_label);
 	printf(CYAN "=== END OF %s ===\n" RESET, block->block_name);
 }
 
@@ -135,12 +135,14 @@ void	report_failed_tests(void)
 extern const t_test_block basic_block;
 extern const t_test_block dollar_block;
 extern const t_test_block quoting_block;
+extern const t_test_block invalid_quotting_block;
 
 int	main(void)
 {
-	run_block(&basic_block);
+	// run_block(&basic_block);
 	// run_block(&dollar_block);
-	run_block(&quoting_block);
+	// run_block(&quoting_block);
+	run_block(&invalid_quotting_block);
 	report_failed_tests();
 	return (0);
 }

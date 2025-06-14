@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 17:40:21 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/14 16:28:27 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/14 17:09:03 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ NAME        = lexer_tester
 SRC         = lexer_tester.c \
               basic_tests.c \
 			  dollar_tests.c \
-			  quoting_tests.c
+			  quoting_tests.c \
+			  invalid_quoting_tests.c
 
 LEXER_SRC   = $(LEXER_DIR)/lexer.c \
               $(LEXER_DIR)/fetch_token.c \

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 15:00:14 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/14 16:33:11 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ const t_test_case basic_tests[] =
 
 const t_test_block basic_block = {
 	.block_name = "BASIC TOKEN TESTS",
+	.block_label = "basic",
 	.cases = basic_tests,
 	.count = sizeof(basic_tests) / sizeof(basic_tests[0])
 };
