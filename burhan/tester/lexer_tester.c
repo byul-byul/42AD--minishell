@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 14:18:43 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 15:35:30 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	run_test(const char *input, const char *expected_desc, const char *block_la
 	char	actual[2048] = "";
 	char	tmp_buf[512];
 
-	printf(BLUE "\nLexer test_%d (%s)\n" RESET, g_test_num, block_label);
-	printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+	printf(BLUE "\nLexer test_%d (%s)" RESET, g_test_num, block_label);
+	printf(BLUE "\n==== INPUT: \"%s\" ====\n" RESET, input);
 	printf(YELLOW "Expected: %s\n" RESET, expected_desc);
 
 	if (!tokens)
