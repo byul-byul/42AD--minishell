@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 12:37:04 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 15:52:21 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,23 @@ void	run_test(const char *input, const char *expected_expander, const char *bloc
 	char	actual[2048] = "";
 	char	tmp_buf[512];
 
-	printf(BLUE "\nExpander test_%d (%s)\n" RESET, g_test_num, block_label);
-	printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
-	printf(YELLOW "Expected: %s\n" RESET, expected_expander);
+	printf(BLUE "Expander test_%d (%s) " RESET, g_test_num, block_label);
+	// printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+	// printf(YELLOW "Expected: %s\n" RESET, expected_expander);
 
 	if (!tokens)
 	{
 		if (strcmp(expected_expander, "") == 0 || strcmp(expected_expander, "NULL") == 0)
 		{
-			printf(GREEN "Actual  : NULL\n✅ Ok\n" RESET);
+			// printf(GREEN "Actual  : NULL\n" RESET);
+			printf(GREEN "✅ Ok\n" RESET);
 		}
 		else
 		{
-			printf(RED "Actual  : NULL\n❌ FAIL\n" RESET);
+			printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+			printf(YELLOW "Expected: %s\n" RESET, expected_expander);
+			printf(RED "Actual  : NULL\n" RESET);
+			printf(RED "❌ FAIL\n\n" RESET);
 			g_failed_tests[g_failed_count++] = g_test_num;
 		}
 		g_test_num++;
@@ -96,15 +100,17 @@ void	run_test(const char *input, const char *expected_expander, const char *bloc
 
 	if (strcmp(actual, expected_expander) == 0)
 	{
-		printf(GREEN "Actual  : %s\n" RESET, actual);
-		print_tokens_verbose(tokens);
+		// printf(GREEN "Actual  : %s\n" RESET, actual);
+		// print_tokens_verbose(tokens);
 		printf(GREEN "✅ Ok\n" RESET);
 	}
 	else
 	{
+		printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+		printf(YELLOW "Expected: %s\n" RESET, expected_expander);
 		printf(RED "Actual  : %s\n" RESET, actual);
 		print_tokens_verbose(tokens);
-		printf(RED "❌ FAIL\n" RESET);
+		printf(RED "❌ FAIL\n\n" RESET);
 		g_failed_tests[g_failed_count++] = g_test_num;
 	}
 
@@ -136,12 +142,16 @@ void	report_failed_tests(void)
 extern const t_test_block basic_block;
 extern const t_test_block dollar_block;
 extern const t_test_block quoting_block;
+extern const t_test_block invalid_quotting_block;
+extern const t_test_block redirection_block;
 
 int	main(void)
 {
 	run_block(&basic_block);
 	// run_block(&dollar_block);
 	// run_block(&quoting_block);
+	// run_block(&invalid_quotting_block);
+	// run_block(&redirection_block);
 	report_failed_tests();
 	return (0);
 }
