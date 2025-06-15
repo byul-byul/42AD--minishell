@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_wrapper.h                                    :+:      :+:    :+:   */
+/*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 13:28:40 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 10:21:05 by bhajili          ###   ########.fr       */
+/*   Created: 2025/06/15 10:21:38 by bhajili           #+#    #+#             */
+/*   Updated: 2025/06/15 10:34:23 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_WRAPPER_H
-# define LEXER_WRAPPER_H
+#ifndef EXPANDER_H
+# define EXPANDER_H
 
-# include "../../incls/lexer.h"
+# include "lexer.h"
 
+void	expander(t_token *token_list, int exit_status);
+char	*expand_token_value(const char *value, t_quote_type quoted,
+						int last_exit_status);
 #endif

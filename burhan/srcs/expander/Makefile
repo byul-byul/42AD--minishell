@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/15 10:32:29 by bhajili          ###   ########.fr        #
+#    Created: 2025/06/15 10:49:40 by bhajili           #+#    #+#              #
+#    Updated: 2025/06/15 10:49:57 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,7 @@ SRC_DIR		=	.
 OBJ_DIR		=	./objs
 
 # Sources & Objects
-SRCS		= 	lexer.c \
-				fetch_token.c \
-				extract_token_value.c \
-				lexer_utils.c
+SRCS		= 	expander.c
 
 OBJS		= 	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 

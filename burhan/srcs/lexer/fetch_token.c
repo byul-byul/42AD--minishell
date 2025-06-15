@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 12:23:33 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 12:31:02 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,6 @@ static t_token_type	get_token_type(char *str)
 	return (WORD);
 }
 
-static void	define_token_type(t_token *token, int exit_status)
-{
-	char	*tmp;
-	char	*expanded;
-
-	token->type = get_token_type(token->value);
-	if (token->type == WORD)
-	{
-		tmp = token->value;
-		expanded = expand_token_value(token->value, token->quoted, exit_status);
-		token->expanded = (expanded && ft_strcmp(tmp, expanded) != 0);
-		token->value = expanded;
-		free(tmp);
-		token->type = get_token_type(token->value);
-	}
-}
-
 static void	init_token(t_token *token)
 {
 	token->error = 0;
@@ -66,7 +49,7 @@ static void	init_token(t_token *token)
 	token->next = NULL;
 }
 
-t_token	*fetch_token(char **input, int exit_status)
+t_token	*fetch_token(char **input)
 {
 	t_token	*token;
 
@@ -81,7 +64,7 @@ t_token	*fetch_token(char **input, int exit_status)
 	extract_token_value(input, token);
 	if (!token->value)
 		return (free(token), NULL);
-	define_token_type(token, exit_status);
+	token->type = get_token_type(token->value);
 	while (ft_isspace(**input))
 		(*input)++;
 	return (token);

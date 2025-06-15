@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 21:12:21 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 12:36:43 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	print_tokens_verbose(t_token *tokens)
 
 void	run_test(const char *input, const char *expected_desc, const char *block_label)
 {
-	t_token	*tokens = lexer((char *)input, 0);
+	t_token	*tokens = lexer((char *)input);
 	char	actual[2048] = "";
 	char	tmp_buf[512];
 
-	printf(BLUE "\ntest_%d (%s)\n" RESET, g_test_num, block_label);
+	printf(BLUE "\nLexer test_%d (%s)\n" RESET, g_test_num, block_label);
 	printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
 	printf(YELLOW "Expected: %s\n" RESET, expected_desc);
 
@@ -140,11 +140,11 @@ extern const t_test_block redirection_block;
 
 int	main(void)
 {
-	// run_block(&basic_block);
+	run_block(&basic_block);
 	// run_block(&dollar_block);
 	// run_block(&quoting_block);
 	// run_block(&invalid_quotting_block);
-	run_block(&redirection_block);
+	// run_block(&redirection_block);
 	report_failed_tests();
 	return (0);
 }

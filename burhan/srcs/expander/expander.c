@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_token_value.c                               :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 07:30:43 by bhajili          ###   ########.fr       */
+/*   Created: 2025/06/15 10:20:23 by bhajili           #+#    #+#             */
+/*   Updated: 2025/06/15 12:31:06 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_wrapper.h"
+#include "expander_wrapper.h"
+
+static t_token_type	get_token_type(char *str)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
+	if (len == 1 && str[0] == '|')
+		return (PIPE);
+	if (len == 1 && str[0] == '<')
+		return (REDIR_IN);
+	if (len == 1 && str[0] == '>')
+		return (REDIR_OUT);
+	if (len == 1 && str[0] == '(')
+		return (OPEN_PAREN);
+	if (len == 1 && str[0] == ')')
+		return (CLOSE_PAREN);
+	if (len == 2 && str[0] == '<' && str[1] == '<')
+		return (HEREDOC);
+	if (len == 2 && str[0] == '>' && str[1] == '>')
+		return (APPEND);
+	if (len == 2 && str[0] == '&' && str[1] == '&')
+		return (LOGICAL_AND);
+	if (len == 2 && str[0] == '|' && str[1] == '|')
+		return (LOGICAL_OR);
+	return (WORD);
+}
 
 static int	append_exit_status(char **str, int last_exit_status)
 {
@@ -93,4 +119,25 @@ char	*expand_token_value(const char *value, t_quote_type quoted,
 		}
 	}
 	return (result);
+}
+
+void	expander(t_token *token_list, int exit_status)
+{
+	char	*tmp;
+	char	*expanded;
+
+	while (token_list)
+	{
+		if (token_list->type == WORD)
+		{
+			tmp = token_list->value;
+			expanded = expand_token_value(token_list->value,
+					token_list->quoted, exit_status);
+			token_list->expanded = (expanded && ft_strcmp(tmp, expanded) != 0);
+			token_list->value = expanded;
+			free(tmp);
+			token_list->type = get_token_type(token_list->value);
+		}
+		token_list = token_list->next;
+	}
 }
