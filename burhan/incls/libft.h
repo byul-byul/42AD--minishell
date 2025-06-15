@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:10:47 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 12:22:37 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 14:03:50 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 # endif
 
 # define LEN			21
+
+# define TRUE			1
+# define FALSE			0
 
 # define MAX_INT		2147483647
 # define MIN_INT		-2147483648
@@ -103,7 +106,12 @@ int		ft_isduplicate(int c, t_cchr *pos, t_cchr *str);
 int		ft_isprime(int nb);
 int		ft_issquare(int nb);
 int		ft_isdollarsign(int c);
-int		ft_isquoting(int c);
+int		ft_issinglequote(int c);
+int		ft_isdoublequote(int c);
+int		ft_isopenparentheses(int c);
+int		ft_iscloseparentheses(int c);
+int		ft_isparentheses(int c);
+int		ft_isquote(int c);
 
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);

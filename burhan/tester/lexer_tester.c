@@ -6,22 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 12:36:43 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 14:18:43 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "../incls/lexer.h"
 #include "tester.h"
-
-#define GREEN   "\033[32m"
-#define RED     "\033[31m"
-#define RESET   "\033[0m"
-#define YELLOW  "\033[33m"
-#define BLUE    "\033[34m"
-#define CYAN    "\033[36m"
 
 int g_test_num = 1;
 int g_failed_tests[1024];

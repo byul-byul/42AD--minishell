@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/25 10:36:41 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/14 02:37:27 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/15 13:53:50 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS	=	$(D_SRC)ft_arr_00.c \
 			$(D_SRC)ft_is_02.c \
 			$(D_SRC)ft_is_03.c \
 			$(D_SRC)ft_is_04.c \
+			$(D_SRC)ft_is_05.c \
 			$(D_SRC)ft_mem_00.c \
 			$(D_SRC)ft_mem_01.c \
 			$(D_SRC)ft_num_00.c \

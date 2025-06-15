@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fetch_token.c                                      :+:      :+:    :+:   */
+/*   token_utils_00.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 12:31:02 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 13:56:45 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_wrapper.h"
+#include "token_wrapper.h"
 
-static t_token_type	get_token_type(char *str)
+void	clean_token_list(t_token *token_list)
+{
+	t_token	*tmp;
+
+	while (token_list)
+	{
+		tmp = token_list->next;
+		free(token_list->value);
+		free(token_list);
+		token_list = tmp;
+	}
+}
+
+t_token_type	get_token_type(char *str)
 {
 	size_t	len;
 
@@ -38,7 +51,7 @@ static t_token_type	get_token_type(char *str)
 	return (WORD);
 }
 
-static void	init_token(t_token *token)
+void	init_token(t_token *token)
 {
 	token->error = 0;
 	token->value = NULL;

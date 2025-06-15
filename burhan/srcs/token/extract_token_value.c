@@ -6,11 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 12:20:02 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 14:01:26 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_wrapper.h"
+#include "token_wrapper.h"
 
 static int	extract_quoted(char **input, char quote, char **value,
 						t_quote_type *quoted)
@@ -43,9 +43,9 @@ static int	append_token_content(char **input, char **value,
 	char	prev;
 
 	prev = '\0';
-	while (**input && !ft_isspace(**input) && !is_metachar(**input))
+	while (**input && !ft_isspace(**input) && !is_meta_token(**input))
 	{
-		if (ft_isquoting(**input) && prev != '\\')
+		if (ft_isquote(**input) && prev != '\\')
 		{
 			if (!extract_quoted(input, **input, value, local))
 				return (0);
@@ -72,11 +72,11 @@ static char	*extract_word_token(char **input, t_quote_type *quoted)
 	if (!value)
 		return (NULL);
 	local = NONE;
-	if (ft_isquoting(**input))
+	if (ft_isquote(**input))
 	{
 		if (!extract_quoted(input, **input, &value, &local))
 			return (free(value), NULL);
-		if (!**input || ft_isspace(**input) || is_metachar(**input))
+		if (!**input || ft_isspace(**input) || is_meta_token(**input))
 			*quoted = local;
 	}
 	if (!append_token_content(input, &value, &local))
@@ -93,7 +93,7 @@ static char	*extract_meta_token(char **input)
 	start = *input;
 	if (!input || !*input)
 		return (NULL);
-	if (is_operator_char(**input) && *(*input + 1) == **input)
+	if (is_token_operator(**input) && *(*input + 1) == **input)
 		len = 2;
 	*input += len;
 	return (ft_strndup(start, len));
@@ -107,7 +107,7 @@ void	extract_token_value(char **input, t_token *token)
 	quoted = NONE;
 	if (!input || !*input)
 		return ;
-	if (is_metachar(**input))
+	if (is_meta_token(**input))
 		value = extract_meta_token(input);
 	else
 		value = extract_word_token(input, &quoted);

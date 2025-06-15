@@ -5,46 +5,45 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/15 14:11:05 by bhajili          ###   ########.fr        #
+#    Created: 2025/06/15 13:41:06 by bhajili           #+#    #+#              #
+#    Updated: 2025/06/15 14:13:54 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Directories
 SRC_DIR     = .
 OBJ_DIR     = ./objs
-TOKEN_DIR   = ../token          # путь до директории с token_utils
-TOKEN_OBJ_DIR = $(TOKEN_DIR)/objs
+LIBFT_DIR   = ../../libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
 # Sources & Objects
-SRCS        = lexer.c
+SRCS        = token_utils_00.c \
+              token_utils_01.c \
+              extract_token_value.c
+
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-# Include shared flags (optional)
 include ../../Makefile.inc
 
-# Default rule
-all: token_objs $(OBJ_DIR) $(OBJS)
+# Rules
+all: $(LIBFT) $(OBJ_DIR) $(OBJS)
 
-# Compile lexer source files
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(TOKEN_DIR) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
-# Build token_utils
-token_objs:
-	$(MAKE) -C $(TOKEN_DIR)
-
-# Clean only lexer objs
 clean:
 	rm -rf $(OBJ_DIR)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
-# Clean lexer + token
 fclean: clean
-	$(MAKE) -C $(TOKEN_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re token_objs
+.PHONY: all clean fclean re

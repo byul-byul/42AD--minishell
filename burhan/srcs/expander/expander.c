@@ -6,37 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:20:23 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 12:31:06 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 14:04:30 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander_wrapper.h"
-
-static t_token_type	get_token_type(char *str)
-{
-	size_t	len;
-
-	len = ft_strlen(str);
-	if (len == 1 && str[0] == '|')
-		return (PIPE);
-	if (len == 1 && str[0] == '<')
-		return (REDIR_IN);
-	if (len == 1 && str[0] == '>')
-		return (REDIR_OUT);
-	if (len == 1 && str[0] == '(')
-		return (OPEN_PAREN);
-	if (len == 1 && str[0] == ')')
-		return (CLOSE_PAREN);
-	if (len == 2 && str[0] == '<' && str[1] == '<')
-		return (HEREDOC);
-	if (len == 2 && str[0] == '>' && str[1] == '>')
-		return (APPEND);
-	if (len == 2 && str[0] == '&' && str[1] == '&')
-		return (LOGICAL_AND);
-	if (len == 2 && str[0] == '|' && str[1] == '|')
-		return (LOGICAL_OR);
-	return (WORD);
-}
 
 static int	append_exit_status(char **str, int last_exit_status)
 {

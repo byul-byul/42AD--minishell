@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 17:40:21 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/15 12:38:13 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/15 14:23:31 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,12 @@
 OBJ_DIR         = ./objs
 LEXER_DIR       = ../srcs/lexer
 EXPANDER_DIR    = ../srcs/expander
+TOKEN_DIR       = ../srcs/token
 LIBFT_DIR       = ../libft
 
 LEXER_OBJ_DIR       = $(LEXER_DIR)/objs
 EXPANDER_OBJ_DIR    = $(EXPANDER_DIR)/objs
+TOKEN_OBJ_DIR       = $(TOKEN_DIR)/objs
 
 LIBFT           = $(LIBFT_DIR)/libft.a
 
@@ -46,6 +48,7 @@ EXPANDER_OBJS = $(EXPANDER_TEST_SRCS:%.c=$(OBJ_DIR)/%.o)
 
 LEXER_MODULE_OBJS    = $(wildcard $(LEXER_OBJ_DIR)/*.o)
 EXPANDER_MODULE_OBJS = $(wildcard $(EXPANDER_OBJ_DIR)/*.o)
+TOKEN_MODULE_OBJS    = $(wildcard $(TOKEN_OBJ_DIR)/*.o)
 
 # Compiler
 CC        = cc
@@ -71,12 +74,15 @@ lexer_objs:
 expander_objs:
 	$(MAKE) -C $(EXPANDER_DIR)
 
-# Link binaries
-$(LEXER_TESTER_NAME): $(LEXER_OBJS) lexer_objs $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(LEXER_OBJS) $(LEXER_MODULE_OBJS) $(LIBFT)
+token_objs:
+	$(MAKE) -C $(TOKEN_DIR)
 
-$(EXPANDER_TESTER_NAME): $(EXPANDER_OBJS) expander_objs lexer_objs $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(EXPANDER_OBJS) $(EXPANDER_MODULE_OBJS) $(LEXER_MODULE_OBJS) $(LIBFT)
+# Link binaries
+$(LEXER_TESTER_NAME): $(LEXER_OBJS) lexer_objs token_objs $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $(LEXER_OBJS) $(LEXER_MODULE_OBJS) $(TOKEN_MODULE_OBJS) $(LIBFT)
+
+$(EXPANDER_TESTER_NAME): $(EXPANDER_OBJS) expander_objs lexer_objs token_objs $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $(EXPANDER_OBJS) $(EXPANDER_MODULE_OBJS) $(LEXER_MODULE_OBJS) $(TOKEN_MODULE_OBJS) $(LIBFT)
 
 # Run
 lexer_test: $(LEXER_TESTER_NAME)
@@ -90,14 +96,16 @@ clean:
 	$(RM) -r $(OBJ_DIR)
 	$(MAKE) -C $(LEXER_DIR) clean
 	$(MAKE) -C $(EXPANDER_DIR) clean
+	$(MAKE) -C $(TOKEN_DIR) clean
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(LEXER_TESTER_NAME) $(EXPANDER_TESTER_NAME)
 	$(MAKE) -C $(LEXER_DIR) fclean
 	$(MAKE) -C $(EXPANDER_DIR) fclean
+	$(MAKE) -C $(TOKEN_DIR) fclean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re lexer_test expander_test lexer_objs expander_objs
+.PHONY: all clean fclean re lexer_test expander_test lexer_objs expander_objs token_objs
