@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:54:18 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 20:57:59 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:15:34 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ const t_test_case invalid_quotes_tests[] =
 	},
 	{
 		.input = "\"mixed 'quotes\"",
-		.expected_lexer = "NULL",
+		.expected_lexer = "WORD -> 'mixed 'quotes'",
 		.expected_parser = "NULL"
 	},
 	{
@@ -46,7 +46,7 @@ const t_test_case invalid_quotes_tests[] =
 	},
 	{
 		.input = "\"a'$b\"c",
-		.expected_lexer = "NULL",
+		.expected_lexer = "WORD -> 'a'$bc'",
 		.expected_parser = "NULL"
 	},
 	{

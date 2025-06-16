@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 17:40:21 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/15 15:33:49 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/16 15:28:29 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ PARSER_MODULE_OBJS   = $(wildcard $(PARSER_OBJ_DIR)/*.o)
 
 # Compiler
 CC        = cc
-CFLAGS    = -Wall -Wextra -Werror
+CFLAGS    = -Wall -Wextra -Werror -g
 RM        = rm -f
 
 # Default rule

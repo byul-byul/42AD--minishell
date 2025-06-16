@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:26:42 by bhajili           #+#    #+#             */
-/*   Updated: 2025/05/28 17:54:11 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 16:42:58 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "lexer.h"
+# include "expander.h"
 
 typedef enum e_node_type
 {

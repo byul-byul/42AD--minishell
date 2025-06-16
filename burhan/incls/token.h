@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 12:44:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 14:01:06 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:41:33 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,12 @@ typedef enum e_token_type
 	CLOSE_PAREN
 }			t_token_type;
 
-typedef enum e_quote_type
-{
-	NONE,
-	SINGLE,
-	DOUBLE
-}			t_quote_type;
-
 typedef struct s_token
 {
 	int				error;
 	char			*value;
 	t_token_type	type;
-	t_quote_type	quoted;
+	char			*quote_map;
 	int				heredoc_expand;
 	int				expanded;
 	struct s_token	*next;
@@ -51,7 +44,7 @@ t_token			*fetch_token(char **input);
 void			init_token(t_token *token);
 t_token_type	get_token_type(char *str);
 void			clean_token_list(t_token *token_list);
-int				is_heredoc_expand(t_token *prev, t_quote_type quote_type);
+int				is_heredoc_expand(t_token *prev, const char *quote_map);
 int				is_token_operator(int c);
 int				is_meta_token(int c);
 void			extract_token_value(char **input, t_token *token);

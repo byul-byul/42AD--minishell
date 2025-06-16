@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 13:56:45 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:37:31 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	clean_token_list(t_token *token_list)
 	{
 		tmp = token_list->next;
 		free(token_list->value);
+		if (token_list->type == WORD)
+			free(token_list->quote_map);
 		free(token_list);
 		token_list = tmp;
 	}
@@ -56,7 +58,7 @@ void	init_token(t_token *token)
 	token->error = 0;
 	token->value = NULL;
 	token->type = WORD;
-	token->quoted = NONE;
+	token->quote_map = NULL;
 	token->heredoc_expand = FALSE;
 	token->expanded = FALSE;
 	token->next = NULL;

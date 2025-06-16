@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:21:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 14:15:08 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:24:21 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 # include "lexer.h"
 
 void	expander(t_token *token_list, int exit_status);
-char	*expand_token_value(const char *value, t_quote_type quoted,
-			int last_exit_status);
+char	*expand_token_value(const char *value, const char *quote_map,
+						int last_exit_status);
 #endif

@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/25 10:36:41 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/15 13:53:50 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/15 22:13:57 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,10 @@ NAME	=	libft.a
 
 D_HDR	=	./
 D_SRC	=	./
+D_OBJ	=	objs/
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -I $(D_HDR)
 
 SRCS	=	$(D_SRC)ft_arr_00.c \
 			$(D_SRC)ft_is_00.c \
@@ -49,22 +50,23 @@ SRCS	=	$(D_SRC)ft_arr_00.c \
 			$(D_SRC)ft_printf_02.c \
 			$(D_SRC)ft_printf_03.c
 
-OBJS	=	${SRCS:.c=.o}
-			
-all: ${NAME}
+OBJS	=	$(SRCS:$(D_SRC)%.c=$(D_OBJ)%.o)
 
-%.o	:	%.c
-	$(CC) $(CFLAGS) -c $< -o $@	-I $(D_HDR)
+all: $(NAME)
 
-${NAME}: ${OBJS}
-	ar rcs ${NAME} ${OBJS}
+$(D_OBJ)%.o: $(D_SRC)%.c
+	@mkdir -p $(D_OBJ)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
 clean:
-	rm -f ${OBJS}
+	rm -rf $(D_OBJ)
 
 fclean: clean
-	rm -f ${NAME}
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY:	all clean fclean re
+.PHONY: all clean fclean re

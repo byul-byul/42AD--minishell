@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:20:23 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 14:04:30 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 16:14:24 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,21 @@ static int	expand_dollar_sign(char **result, const char *value,
 	return ((*i)++, 1);
 }
 
-char	*expand_token_value(const char *value, t_quote_type quoted,
+char	*expand_token_value(const char *value, const char *quote_map,
 						int last_exit_status)
 {
 	char	*result;
 	size_t	i;
 
-	if (quoted == SINGLE)
-		return (ft_strdup(value));
+	if (!value || !quote_map)
+		return (NULL);
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
 	i = 0;
 	while (value[i])
 	{
-		if (ft_isdollarsign(value[i]) && value[i + 1])
+		if (ft_isdollarsign(value[i]) && value[i + 1] && quote_map[i] != '1')
 		{
 			if (!expand_dollar_sign(&result, value, &i, last_exit_status))
 				return (free(result), NULL);
@@ -95,6 +95,34 @@ char	*expand_token_value(const char *value, t_quote_type quoted,
 	return (result);
 }
 
+void	quote_remover(t_token *token)
+{
+	char	*stripped;
+	size_t	i;
+
+	if (!token || !token->value || !token->quote_map)
+		return ;
+	stripped = ft_strdup("");
+	if (!stripped)
+		return ;
+	i = -1;
+	while (token->value[++i])
+	{
+		if (token->quote_map[i] != '1' && token->quote_map[i] != '2')
+		{
+			if (!ft_safeappendchar(&stripped, token->value[i]))
+			{
+				free(stripped);
+				return ;
+			}
+		}
+	}
+	free(token->value);
+	token->value = stripped;
+	// free(token->quote_map);
+	// token->quote_map = NULL;
+}
+
 void	expander(t_token *token_list, int exit_status)
 {
 	char	*tmp;
@@ -102,14 +130,18 @@ void	expander(t_token *token_list, int exit_status)
 
 	while (token_list)
 	{
-		if (token_list->type == WORD)
+		if (token_list->type == WORD && token_list->value && token_list->quote_map)
 		{
 			tmp = token_list->value;
 			expanded = expand_token_value(token_list->value,
-					token_list->quoted, exit_status);
-			token_list->expanded = (expanded && ft_strcmp(tmp, expanded) != 0);
+					token_list->quote_map, exit_status);
+			if (!expanded)
+				return ;
+			if (ft_strcmp(tmp, expanded))
+				token_list->expanded = 1;
 			token_list->value = expanded;
 			free(tmp);
+			quote_remover(token_list);
 			token_list->type = get_token_type(token_list->value);
 		}
 		token_list = token_list->next;

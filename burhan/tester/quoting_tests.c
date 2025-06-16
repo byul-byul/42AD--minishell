@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:26:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 21:05:46 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:34:38 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ const t_test_case quoting_tests[] =
 	},
 	{
 		.input = "\"'\"'$USER'",
-		.expected_lexer = "WORD -> \"''$USER\"",
+		.expected_lexer = "WORD -> ''$USER'",
 		.expected_parser = "[CMD] \"'\"'$USER'"
 	},
 	{

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 16:01:52 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 16:16:04 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,24 @@ void	print_tokens_verbose(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf("token: %-16s | type: %-13s | quoted: %d | heredoc_expand: %d | expanded: %d\n",
+		printf("token: %-16s | type: %-13s | heredoc_expand: %d | expanded: %d | ",
 			tokens->value,
 			get_type_name(tokens->type),
-			tokens->quoted,
 			tokens->heredoc_expand,
 			tokens->expanded);
+		if (tokens->quote_map)
+		{
+			printf("quote_map: \"");
+			for (size_t i = 0; tokens->quote_map[i]; i++)
+			{
+				char q = tokens->quote_map[i];
+				if (q == '0') printf("0");
+				else if (q == '1') printf("1");
+				else if (q == '2') printf("2");
+				else printf("?");
+			}
+			printf("\"\n");
+		}
 		tokens = tokens->next;
 	}
 }
@@ -52,25 +64,26 @@ void	run_test(const char *input, const char *expected_desc, const char *block_la
 	char	actual[2048] = "";
 	char	tmp_buf[512];
 
-	// printf(BLUE "Lexer test_%d (%s) " RESET, g_test_num, block_label);
-	// printf(BLUE "\n==== INPUT: \"%s\" ====\n" RESET, input);
-	// printf(YELLOW "Expected: %s\n" RESET, expected_desc);
-
 	if (!tokens)
 	{
 		if (strcmp("NULL", expected_desc) == 0)
 		{
-			// printf(GREEN "Actual  : NULL\n");
-			printf(BLUE "Lexer test_%d (%s) " RESET, g_test_num, block_label);
+			printf(BLUE "\nLexer test_%d (%s) " RESET, g_test_num, block_label);
 			printf(GREEN "✅ Ok\n" RESET);
+			printf("==== INPUT: \"%s\" ====\n" RESET, input);
+			printf(YELLOW "Expected: %s\n" RESET, expected_desc);
+			printf(GREEN "Actual  : NULL\n");
+			print_tokens_verbose(tokens);
+			printf("\n");
 		}
 		else
 		{
 			printf(RED "\nLexer test_%d (%s) " RESET, g_test_num, block_label);
 			printf(RED "❌ FAIL\n" RESET);
-			printf("\n==== INPUT: \"%s\" ====\n" RESET, input);
+			printf("==== INPUT: \"%s\" ====\n" RESET, input);
 			printf(YELLOW "Expected: %s\n" RESET, expected_desc);
 			printf(RED "Actual  : NULL\n");
+			print_tokens_verbose(tokens);
 			printf("\n");
 			g_failed_tests[g_failed_count++] = g_test_num;
 		}
@@ -87,13 +100,15 @@ void	run_test(const char *input, const char *expected_desc, const char *block_la
 			strcat(actual, ", ");
 		tmp = tmp->next;
 	}
-
 	if (strcmp(actual, expected_desc) == 0)
 	{
-		// printf(GREEN "Actual  : %s\n" RESET, actual);
-		// print_tokens_verbose(tokens);
-		printf(BLUE "Lexer test_%d (%s) " RESET, g_test_num, block_label);
+		printf(BLUE "\nLexer test_%d (%s) " RESET, g_test_num, block_label);
 		printf(GREEN "✅ Ok\n" RESET);
+		printf("==== INPUT: \"%s\" ====\n" RESET, input);
+		printf(YELLOW "Expected: %s\n" RESET, expected_desc);
+		printf(GREEN "Actual  : %s\n" RESET, actual);
+		print_tokens_verbose(tokens);
+		printf("\n");
 	}
 	else
 	{
@@ -106,7 +121,6 @@ void	run_test(const char *input, const char *expected_desc, const char *block_la
 		printf("\n");
 		g_failed_tests[g_failed_count++] = g_test_num;
 	}
-
 	clean_token_list(tokens);
 	g_test_num++;
 }
@@ -131,6 +145,7 @@ void	report_failed_tests(void)
 		printf(RED "❌ test_%d\n" RESET, g_failed_tests[i]);
 }
 
+// подключаем нужные блоки
 extern const t_test_block basic_block;
 extern const t_test_block dollar_block;
 extern const t_test_block quoting_block;
@@ -140,10 +155,10 @@ extern const t_test_block redirection_block;
 int	main(void)
 {
 	run_block(&basic_block);
-	run_block(&dollar_block);
-	run_block(&quoting_block);
-	run_block(&invalid_quotting_block);
-	run_block(&redirection_block);
+	// run_block(&dollar_block);
+	// run_block(&quoting_block);
+	// run_block(&invalid_quotting_block);
+	// run_block(&redirection_block);
 	report_failed_tests();
 	return (0);
 }

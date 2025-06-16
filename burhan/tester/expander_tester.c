@@ -6,22 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 15:52:21 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 16:38:21 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "../incls/expander.h"
 #include "tester.h"
-
-#define GREEN   "\033[32m"
-#define RED     "\033[31m"
-#define RESET   "\033[0m"
-#define YELLOW  "\033[33m"
-#define BLUE    "\033[34m"
-#define CYAN    "\033[36m"
 
 int g_test_num = 1;
 int g_failed_tests[1024];
@@ -47,12 +36,24 @@ void	print_tokens_verbose(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf("value: %-16s | type: %-13s | quoted: %d | heredoc_expand: %d | expanded: %d\n",
+		printf("token: %-16s | type: %-13s | heredoc_expand: %d | expanded: %d | ",
 			tokens->value,
 			get_type_name(tokens->type),
-			tokens->quoted,
 			tokens->heredoc_expand,
 			tokens->expanded);
+		if (tokens->quote_map)
+		{
+			printf("quote_map: \"");
+			for (size_t i = 0; tokens->quote_map[i]; i++)
+			{
+				char q = tokens->quote_map[i];
+				if (q == '0') printf("0");
+				else if (q == '1') printf("1");
+				else if (q == '2') printf("2");
+				else printf("?");
+			}
+			printf("\"\n");
+		}
 		tokens = tokens->next;
 	}
 }
@@ -63,23 +64,27 @@ void	run_test(const char *input, const char *expected_expander, const char *bloc
 	char	actual[2048] = "";
 	char	tmp_buf[512];
 
-	printf(BLUE "Expander test_%d (%s) " RESET, g_test_num, block_label);
-	// printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
-	// printf(YELLOW "Expected: %s\n" RESET, expected_expander);
-
 	if (!tokens)
 	{
 		if (strcmp(expected_expander, "") == 0 || strcmp(expected_expander, "NULL") == 0)
 		{
-			// printf(GREEN "Actual  : NULL\n" RESET);
+			printf(BLUE "\nExpander test_%d (%s) " RESET, g_test_num, block_label);
 			printf(GREEN "✅ Ok\n" RESET);
+			printf("==== INPUT: \"%s\" ====\n" RESET, input);
+			printf(YELLOW "Expected: %s\n" RESET, expected_expander);
+			printf(GREEN "Actual  : NULL\n" RESET);
+			print_tokens_verbose(tokens);
+			printf("\n");
 		}
 		else
 		{
-			printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+			printf(RED "\nExpander test_%d (%s) " RESET, g_test_num, block_label);
+			printf(RED "❌ FAIL\n" RESET);
+			printf("==== INPUT: \"%s\" ====\n" RESET, input);
 			printf(YELLOW "Expected: %s\n" RESET, expected_expander);
 			printf(RED "Actual  : NULL\n" RESET);
-			printf(RED "❌ FAIL\n\n" RESET);
+			print_tokens_verbose(tokens);
+			printf("\n");
 			g_failed_tests[g_failed_count++] = g_test_num;
 		}
 		g_test_num++;
@@ -100,17 +105,23 @@ void	run_test(const char *input, const char *expected_expander, const char *bloc
 
 	if (strcmp(actual, expected_expander) == 0)
 	{
-		// printf(GREEN "Actual  : %s\n" RESET, actual);
-		// print_tokens_verbose(tokens);
+		printf(BLUE "\nExpander test_%d (%s) " RESET, g_test_num, block_label);
 		printf(GREEN "✅ Ok\n" RESET);
+		printf("==== INPUT: \"%s\" ====\n" RESET, input);
+		printf(YELLOW "Expected: %s\n" RESET, expected_expander);
+		printf(GREEN "Actual  : %s\n" RESET, actual);
+		print_tokens_verbose(tokens);
+		printf("\n");
 	}
 	else
 	{
-		printf(BLUE "==== INPUT: \"%s\" ====\n" RESET, input);
+		printf(RED "\nExpander test_%d (%s) " RESET, g_test_num, block_label);
+		printf(RED "❌ FAIL\n" RESET);
+		printf("==== INPUT: \"%s\" ====\n" RESET, input);
 		printf(YELLOW "Expected: %s\n" RESET, expected_expander);
 		printf(RED "Actual  : %s\n" RESET, actual);
 		print_tokens_verbose(tokens);
-		printf(RED "❌ FAIL\n\n" RESET);
+		printf("\n");
 		g_failed_tests[g_failed_count++] = g_test_num;
 	}
 

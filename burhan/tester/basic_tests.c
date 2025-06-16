@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 11:34:08 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:12:20 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,4 +256,3 @@ const t_test_block basic_block = {
 	.cases = basic_tests,
 	.count = sizeof(basic_tests) / sizeof(basic_tests[0])
 };
-
