@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/16 16:16:04 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 21:49:57 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	report_failed_tests(void)
 {
 	if (g_failed_count == 0)
 	{
-		printf(GREEN "\nAll tests passed!\n" RESET);
+		printf(GREEN "\nALL TESTS PASSED!\n\n" RESET);
 		return;
 	}
 	printf(RED "\n❌ Failed test cases:\n" RESET);

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/16 15:12:20 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 22:35:09 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ const t_test_case basic_tests[] =
 		.input = "ls",
 		.expected_lexer = "WORD -> 'ls'",
 		.expected_expander = "WORD -> 'ls'",
-		.expected_parser = "[CMD] ls",
+		.expected_parser = "ls",
 		.expected_ast =
 			"CMD\n"
 			"└── ls"
@@ -28,7 +28,7 @@ const t_test_case basic_tests[] =
 		.input = "pwd",
 		.expected_lexer = "WORD -> 'pwd'",
 		.expected_expander = "WORD -> 'pwd'",
-		.expected_parser = "[CMD] pwd",
+		.expected_parser = "pwd",
 		.expected_ast =
 			"CMD\n"
 			"└── pwd"
@@ -37,7 +37,7 @@ const t_test_case basic_tests[] =
 		.input = "whoami",
 		.expected_lexer = "WORD -> 'whoami'",
 		.expected_expander = "WORD -> 'whoami'",
-		.expected_parser = "[CMD] whoami",
+		.expected_parser = "whoami",
 		.expected_ast =
 			"CMD\n"
 			"└── whoami"
@@ -46,7 +46,7 @@ const t_test_case basic_tests[] =
 		.input = "clear",
 		.expected_lexer = "WORD -> 'clear'",
 		.expected_expander = "WORD -> 'clear'",
-		.expected_parser = "[CMD] clear",
+		.expected_parser = "clear",
 		.expected_ast =
 			"CMD\n"
 			"└── clear"
@@ -57,7 +57,7 @@ const t_test_case basic_tests[] =
 		.input = "ls -la",
 		.expected_lexer = "WORD -> 'ls', WORD -> '-la'",
 		.expected_expander = "WORD -> 'ls', WORD -> '-la'",
-		.expected_parser = "[CMD] ls -la",
+		.expected_parser = "ls -la",
 		.expected_ast =
 			"CMD\n"
 			"├── ls\n"
@@ -67,7 +67,7 @@ const t_test_case basic_tests[] =
 		.input = "echo test",
 		.expected_lexer = "WORD -> 'echo', WORD -> 'test'",
 		.expected_expander = "WORD -> 'echo', WORD -> 'test'",
-		.expected_parser = "[CMD] echo test",
+		.expected_parser = "echo test",
 		.expected_ast =
 			"CMD\n"
 			"├── echo\n"
@@ -77,7 +77,7 @@ const t_test_case basic_tests[] =
 		.input = "mkdir new_folder",
 		.expected_lexer = "WORD -> 'mkdir', WORD -> 'new_folder'",
 		.expected_expander = "WORD -> 'mkdir', WORD -> 'new_folder'",
-		.expected_parser = "[CMD] mkdir new_folder",
+		.expected_parser = "mkdir new_folder",
 		.expected_ast =
 			"CMD\n"
 			"├── mkdir\n"
@@ -87,7 +87,7 @@ const t_test_case basic_tests[] =
 		.input = "rm -rf tmp",
 		.expected_lexer = "WORD -> 'rm', WORD -> '-rf', WORD -> 'tmp'",
 		.expected_expander = "WORD -> 'rm', WORD -> '-rf', WORD -> 'tmp'",
-		.expected_parser = "[CMD] rm -rf tmp",
+		.expected_parser = "rm -rf tmp",
 		.expected_ast =
 			"CMD\n"
 			"├── rm\n"
@@ -98,7 +98,7 @@ const t_test_case basic_tests[] =
 		.input = "touch a b c",
 		.expected_lexer = "WORD -> 'touch', WORD -> 'a', WORD -> 'b', WORD -> 'c'",
 		.expected_expander = "WORD -> 'touch', WORD -> 'a', WORD -> 'b', WORD -> 'c'",
-		.expected_parser = "[CMD] touch a b c",
+		.expected_parser = "touch a b c",
 		.expected_ast =
 			"CMD\n"
 			"├── touch\n"
@@ -112,7 +112,7 @@ const t_test_case basic_tests[] =
 		.input = "!",
 		.expected_lexer = "WORD -> '!'",
 		.expected_expander = "WORD -> '!'",
-		.expected_parser = "[CMD] !",
+		.expected_parser = "!",
 		.expected_ast =
 			"CMD\n"
 			"└── !"
@@ -121,7 +121,7 @@ const t_test_case basic_tests[] =
 		.input = "true",
 		.expected_lexer = "WORD -> 'true'",
 		.expected_expander = "WORD -> 'true'",
-		.expected_parser = "[CMD] true",
+		.expected_parser = "true",
 		.expected_ast =
 			"CMD\n"
 			"└── true"
@@ -130,7 +130,7 @@ const t_test_case basic_tests[] =
 		.input = "false",
 		.expected_lexer = "WORD -> 'false'",
 		.expected_expander = "WORD -> 'false'",
-		.expected_parser = "[CMD] false",
+		.expected_parser = "false",
 		.expected_ast =
 			"CMD\n"
 			"└── false"
@@ -141,7 +141,7 @@ const t_test_case basic_tests[] =
 		.input = "   ls     -la   ",
 		.expected_lexer = "WORD -> 'ls', WORD -> '-la'",
 		.expected_expander = "WORD -> 'ls', WORD -> '-la'",
-		.expected_parser = "[CMD] ls -la",
+		.expected_parser = "ls -la",
 		.expected_ast =
 			"CMD\n"
 			"├── ls\n"
@@ -151,7 +151,7 @@ const t_test_case basic_tests[] =
 		.input = "     echo     42     ",
 		.expected_lexer = "WORD -> 'echo', WORD -> '42'",
 		.expected_expander = "WORD -> 'echo', WORD -> '42'",
-		.expected_parser = "[CMD] echo 42",
+		.expected_parser = "echo 42",
 		.expected_ast =
 			"CMD\n"
 			"├── echo\n"
@@ -161,7 +161,7 @@ const t_test_case basic_tests[] =
 		.input = "\techo\t42",
 		.expected_lexer = "WORD -> 'echo', WORD -> '42'",
 		.expected_expander = "WORD -> 'echo', WORD -> '42'",
-		.expected_parser = "[CMD] echo 42",
+		.expected_parser = "echo 42",
 		.expected_ast =
 			"CMD\n"
 			"├── echo\n"
@@ -171,7 +171,7 @@ const t_test_case basic_tests[] =
 		.input = "   pwd",
 		.expected_lexer = "WORD -> 'pwd'",
 		.expected_expander = "WORD -> 'pwd'",
-		.expected_parser = "[CMD] pwd",
+		.expected_parser = "pwd",
 		.expected_ast =
 			"CMD\n"
 			"└── pwd"
@@ -180,7 +180,7 @@ const t_test_case basic_tests[] =
 		.input = "whoami   ",
 		.expected_lexer = "WORD -> 'whoami'",
 		.expected_expander = "WORD -> 'whoami'",
-		.expected_parser = "[CMD] whoami",
+		.expected_parser = "whoami",
 		.expected_ast =
 			"CMD\n"
 			"└── whoami"
@@ -191,7 +191,7 @@ const t_test_case basic_tests[] =
 		.input = ";",
 		.expected_lexer = "WORD -> ';'",
 		.expected_expander = "WORD -> ';'",
-		.expected_parser = "[CMD] ;",
+		.expected_parser = ";",
 		.expected_ast =
 			"CMD\n"
 			"└── ;"
@@ -200,7 +200,7 @@ const t_test_case basic_tests[] =
 		.input = ".",
 		.expected_lexer = "WORD -> '.'",
 		.expected_expander = "WORD -> '.'",
-		.expected_parser = "[CMD] .",
+		.expected_parser = ".",
 		.expected_ast =
 			"CMD\n"
 			"└── ."
@@ -209,7 +209,7 @@ const t_test_case basic_tests[] =
 		.input = "..",
 		.expected_lexer = "WORD -> '..'",
 		.expected_expander = "WORD -> '..'",
-		.expected_parser = "[CMD] ..",
+		.expected_parser = "..",
 		.expected_ast =
 			"CMD\n"
 			"└── .."
@@ -218,7 +218,7 @@ const t_test_case basic_tests[] =
 		.input = ":",
 		.expected_lexer = "WORD -> ':'",
 		.expected_expander = "WORD -> ':'",
-		.expected_parser = "[CMD] :",
+		.expected_parser = ":",
 		.expected_ast =
 			"CMD\n"
 			"└── :"
@@ -227,7 +227,7 @@ const t_test_case basic_tests[] =
 		.input = "ls;",
 		.expected_lexer = "WORD -> 'ls;'",
 		.expected_expander = "WORD -> 'ls;'",
-		.expected_parser = "[CMD] ls;",
+		.expected_parser = "ls;",
 		.expected_ast =
 			"CMD\n"
 			"└── ls;"
@@ -238,14 +238,14 @@ const t_test_case basic_tests[] =
 		.input = "",
 		.expected_lexer = "NULL",
 		.expected_expander = "",
-		.expected_parser = "[EMPTY]",
+		.expected_parser = "NULL",
 		.expected_ast = "[EMPTY]"
 	},
 	{
 		.input = "   ",
 		.expected_lexer = "NULL",
 		.expected_expander = "",
-		.expected_parser = "[EMPTY]",
+		.expected_parser = "NULL",
 		.expected_ast = "[EMPTY]"
 	}
 };

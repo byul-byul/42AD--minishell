@@ -1,35 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extract_token_value.c                              :+:      :+:    :+:   */
+/*   token_utils_02.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 22:21:24 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 20:58:16 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token_wrapper.h"
-
-// static int	ft_safeappendchar_map(char **map, char c)
-// {
-// 	char	*new;
-// 	int		len;
-
-// 	if (!map || !*map)
-// 		return (0);
-// 	len = ft_strlen(*map);         // ← ТОЛЬКО для корректных строк
-// 	new = malloc(len + 2);         // +1 символ + '\0'
-// 	if (!new)
-// 		return (0);
-// 	ft_memcpy(new, *map, len);
-// 	new[len] = c;
-// 	new[len + 1] = '\0';
-// 	free(*map);
-// 	*map = new;
-// 	return (1);
-// }
 
 static int	extract_quoted(char **input, char quote,
 				char **value, char **quote_map)

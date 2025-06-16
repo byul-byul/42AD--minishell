@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 21:37:31 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/16 21:04:22 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_token_type	get_token_type(char *str)
 void	init_token(t_token *token)
 {
 	token->error = 0;
-	token->value = NULL;
 	token->type = WORD;
+	token->value = NULL;
 	token->quote_map = NULL;
 	token->heredoc_expand = FALSE;
 	token->expanded = FALSE;
