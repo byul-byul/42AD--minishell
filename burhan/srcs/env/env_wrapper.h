@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_utils_00.c                                 :+:      :+:    :+:   */
+/*   env_wrapper.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/20 15:36:20 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/20 21:54:43 by bhajili          ###   ########.fr       */
+/*   Created: 2025/06/20 18:13:28 by bhajili           #+#    #+#             */
+/*   Updated: 2025/06/22 11:57:23 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals_wrapper.h"
+#ifndef ENV_WRAPPER_H
+# define ENV_WRAPPER_H
 
-volatile sig_atomic_t	g_sigint = 0;
+# include "../../incls/env.h"
 
-void	setup_child_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void	sigint_handler(int sig)
-{
-	(void)sig;
-	g_sigint = 1;
-	ft_putchar('\n');
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	setup_shell_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
+#endif

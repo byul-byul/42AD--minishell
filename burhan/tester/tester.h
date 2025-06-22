@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:01:19 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/16 16:42:31 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/22 20:36:42 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "../incls/lexer.h"
 #include "../incls/expander.h"
 #include "../incls/parser.h"
+#include "../incls/env.h"
 
 #define GREEN   "\033[32m"
 #define RED     "\033[31m"

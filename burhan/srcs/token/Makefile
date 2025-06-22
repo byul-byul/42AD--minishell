@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/15 13:41:06 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/16 20:58:29 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/18 19:43:48 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS        = token_utils_00.c \
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
+# Include shared flags (optional)
 include ../../Makefile.inc
 
 # Rules

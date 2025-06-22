@@ -6,19 +6,19 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/15 14:11:05 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/18 19:47:03 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Directories
-SRC_DIR     = .
-OBJ_DIR     = ./objs
-TOKEN_DIR   = ../token          # путь до директории с token_utils
-TOKEN_OBJ_DIR = $(TOKEN_DIR)/objs
+SRC_DIR        = .
+OBJ_DIR        = ./objs
+TOKEN_DIR      = ../token
+TOKEN_OBJ_DIR  = $(TOKEN_DIR)/objs
 
 # Sources & Objects
-SRCS        = lexer.c
-OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+SRCS    = lexer.c
+OBJS    = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Include shared flags (optional)
 include ../../Makefile.inc

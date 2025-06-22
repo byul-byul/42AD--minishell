@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/24 21:55:36 by bhajili           #+#    #+#              #
-#    Updated: 2025/05/28 17:51:11 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/20 15:42:30 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ OBJ_DIR		=	./objs
 
 # Sources & Objects
 SRCS		= 	parser.c \
-				parser_utils.c
+				parser_utils_00.c
 
 OBJS		= 	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 

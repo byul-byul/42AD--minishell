@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:23:02 by bhajili           #+#    #+#             */
-/*   Updated: 2025/02/24 14:35:14 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/21 01:47:44 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,38 @@ void	ft_freearr(char **arr, size_t size)
 		if (arr[i])
 			free(arr[i]);
 	free(arr);
+}
+
+size_t	ft_arrsize(char **arr)
+{
+	size_t	size;
+
+	size = 0;
+	if (!arr)
+		return (size);
+	while (arr[size])
+		size++;
+	return (size);
+}
+
+char	**ft_arrdup(char **src, size_t size)
+{
+	char	**dup;
+	size_t	i;
+
+	i = 0;
+	if (!src || ft_arrsize(src) != size)
+		return (NULL);
+	dup = malloc(sizeof(char *) * (size + 1));
+	if (!dup)
+		return (NULL);
+	while (i < size)
+	{
+		dup[i] = ft_strdup(src[i]);
+		if (!dup[i])
+			return (ft_freearr(dup, i), NULL);
+		i++;
+	}
+	dup[i] = NULL;
+	return (dup);
 }

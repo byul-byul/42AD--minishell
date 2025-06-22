@@ -5,46 +5,45 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/15 10:49:40 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/18 19:49:54 by bhajili          ###   ########.fr        #
+#    Created: 2025/06/22 20:08:31 by bhajili           #+#    #+#              #
+#    Updated: 2025/06/22 20:09:15 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Directories
-SRC_DIR        = .
-OBJ_DIR        = ./objs
-LEXER_DIR      = ../lexer
-LEXER_OBJ_DIR  = $(LEXER_DIR)/objs
+SRC_DIR     = .
+OBJ_DIR     = ./objs
+LIBFT_DIR   = ../../libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
 # Sources & Objects
-SRCS    = expander.c
-OBJS    = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+SRCS        = env_utils_00.c \
+              env_utils_01.c
+
+OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Include shared flags (optional)
 include ../../Makefile.inc
 
 # Rules
-all: lexer_objs $(OBJ_DIR) $(OBJS)
+all: $(LIBFT) $(OBJ_DIR) $(OBJS)
 
-# Compile lexer source files
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(LEXER_DIR) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
-# Build lexer_utils
-lexer_objs:
-	$(MAKE) -C $(LEXER_DIR)
-
-# Clean only expander objs
 clean:
 	rm -rf $(OBJ_DIR)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
-# Clean expander + lexer
 fclean: clean
-	$(MAKE) -C $(LEXER_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re lexer_objs
+.PHONY: all clean fclean re
