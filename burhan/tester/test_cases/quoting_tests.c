@@ -6,11 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:26:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/15 21:34:38 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:53:51 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tester.h"
+#include "../tester.h"
 
 const t_test_case quoting_tests[] =
 {

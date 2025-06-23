@@ -6,11 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/14 21:11:25 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:53:56 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tester.h"
+#include "../tester.h"
 
 const t_test_case redirection_tests[] =
 {

@@ -6,11 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:54:18 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/16 15:15:34 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:53:46 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tester.h"
+#include "../tester.h"
 
 const t_test_case invalid_quotes_tests[] =
 {

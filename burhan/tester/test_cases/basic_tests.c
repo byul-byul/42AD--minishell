@@ -6,11 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/16 22:35:09 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 13:45:20 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tester.h"
+#include "../tester.h"
 
 const t_test_case basic_tests[] =
 {
@@ -247,7 +247,59 @@ const t_test_case basic_tests[] =
 		.expected_expander = "",
 		.expected_parser = "NULL",
 		.expected_ast = "[EMPTY]"
+	},
+	{
+	.input = "echo \"\"",
+	.expected_lexer = "WORD -> 'echo', WORD -> ''",
+	.expected_expander = "WORD -> 'echo', WORD -> ''",
+	.expected_parser = "echo \"\"",
+	.expected_ast =
+		"CMD\n"
+		"├── echo\n"
+		"└── "
+	},
+	{
+		.input = "ls \"\"",
+		.expected_lexer = "WORD -> 'ls', WORD -> ''",
+		.expected_expander = "WORD -> 'ls', WORD -> ''",
+		.expected_parser = "ls \"\"",
+		.expected_ast =
+			"CMD\n"
+			"├── ls\n"
+			"└── "
+	},
+	{
+		.input = "ls a \"\" b",
+		.expected_lexer = "WORD -> 'ls', WORD -> 'a', WORD -> '', WORD -> 'b'",
+		.expected_expander = "WORD -> 'ls', WORD -> 'a', WORD -> '', WORD -> 'b'",
+		.expected_parser = "ls a \"\" b",
+		.expected_ast =
+			"CMD\n"
+			"├── ls\n"
+			"├── a\n"
+			"├── \n"
+			"└── b"
+	},
+	{
+		.input = "true false",
+		.expected_lexer = "WORD -> 'true', WORD -> 'false'",
+		.expected_expander = "WORD -> 'true', WORD -> 'false'",
+		.expected_parser = "true false",
+		.expected_ast =
+			"CMD\n"
+			"├── true\n"
+			"└── false"
+	},
+	{
+		.input = "a;b;c",
+		.expected_lexer = "WORD -> 'a;b;c'",
+		.expected_expander = "WORD -> 'a;b;c'",
+		.expected_parser = "a;b;c",
+		.expected_ast =
+			"CMD\n"
+			"└── a;b;c"
 	}
+
 };
 
 const t_test_block basic_block = {

@@ -6,11 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 20:33:24 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/22 23:12:48 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:48:44 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tester.h"
+#include "../tester.h"
 
 int g_test_num = 1;
 int g_failed_tests[1024];

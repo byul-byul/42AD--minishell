@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 17:40:21 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/22 21:30:02 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/23 13:05:29 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ LEXER_DIR       = ../srcs/lexer
 EXPANDER_DIR    = ../srcs/expander
 PARSER_DIR      = ../srcs/parser
 ENV_DIR         = ../srcs/env
+
+TEST_CASES_DIR  = ./test_cases
+TESTERS_DIR     = ./testers
 
 LIBFT               = $(LIBFT_DIR)/libft.a
 
@@ -34,22 +37,22 @@ PARSER_TESTER_NAME    = parser_tester
 ENV_TESTER_NAME       = env_tester
 
 # Test files
-COMMON_TEST_SRCS = basic_tests.c \
-                   dollar_tests.c \
-                   quoting_tests.c \
-                   invalid_quoting_tests.c \
-                   redirection_tests.c
+TEST_CASES_SRC   = $(TEST_CASES_DIR)/basic_tests.c \
+                   $(TEST_CASES_DIR)/dollar_tests.c \
+                   $(TEST_CASES_DIR)/quoting_tests.c \
+                   $(TEST_CASES_DIR)/invalid_quoting_tests.c \
+                   $(TEST_CASES_DIR)/redirection_tests.c
 
-LEXER_ONLY_SRCS    = lexer_tester.c
-EXPANDER_ONLY_SRCS = expander_tester.c
-PARSER_ONLY_SRCS   = parser_tester.c
-ENV_ONLY_SRCS      = env_tester.c
+LEXER_TESTER_SRC    = $(TESTERS_DIR)/lexer_tester.c
+EXPANDER_TESTER_SRC = $(TESTERS_DIR)/expander_tester.c
+PARSER_TESTER_SRC   = $(TESTERS_DIR)/parser_tester.c
+ENV_TESTER_SRC      = $(TESTERS_DIR)/env_tester.c
 
 # Combine
-LEXER_TEST_SRCS    = $(LEXER_ONLY_SRCS) $(COMMON_TEST_SRCS)
-EXPANDER_TEST_SRCS = $(EXPANDER_ONLY_SRCS) $(COMMON_TEST_SRCS)
-PARSER_TEST_SRCS   = $(PARSER_ONLY_SRCS) $(COMMON_TEST_SRCS)
-ENV_TEST_SRCS      = $(ENV_ONLY_SRCS)
+LEXER_TEST_SRCS    = $(LEXER_TESTER_SRC) $(TEST_CASES_SRC)
+EXPANDER_TEST_SRCS = $(EXPANDER_TESTER_SRC) $(TEST_CASES_SRC)
+PARSER_TEST_SRCS   = $(PARSER_TESTER_SRC) $(TEST_CASES_SRC)
+ENV_TEST_SRCS      = $(ENV_TESTER_SRC)
 
 # Object file paths
 LEXER_OBJS    = $(LEXER_TEST_SRCS:%.c=$(OBJ_DIR)/%.o)
@@ -71,13 +74,12 @@ RM        = rm -f
 # Default rule
 all: lexer_test expander_test parser_test
 
-# Compile object files
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+# Create all necessary obj subdirs automatically
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# Build lib and source modules
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 

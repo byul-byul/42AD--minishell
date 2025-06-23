@@ -6,14 +6,13 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 07:17:31 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/16 16:02:24 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:53:41 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // dollar_block.c
 
-#include "tester.h"
-#include <stdlib.h>
+#include "../tester.h"
 
 const t_test_case dollar_tests[] =
 {
