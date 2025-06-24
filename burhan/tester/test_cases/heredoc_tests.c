@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 03:23:09 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:41:12 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,32 +302,59 @@ const t_test_case heredoc_tests[] =
 	{
 		.input = "cat <<'EOF\n'",
 		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> 'EOF\n'",
-		.expected_parser = "[CMD] cat << 'EOF\\n'"
+		.expected_expander = "WORD -> 'cat', HEREDOC -> '<<', WORD -> 'EOF\n'",
+		.expected_parser = "[CMD] cat << 'EOF\\n'",
+		.expected_ast =
+			"CMD\n"
+			"├── cat\n"
+			"└── << 'EOF\\n'"
 	},
 	{
 		.input = "cat <<$HOME",
 		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '$HOME'",
-		.expected_parser = "[CMD] cat << $HOME"
+		.expected_expander = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '$HOME'",
+		.expected_parser = "[CMD] cat << $HOME",
+		.expected_ast =
+			"CMD\n"
+			"├── cat\n"
+			"└── << $HOME"
 	},
 	{
 		.input = "cat << \"\t\"",
 		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '\t'",
-		.expected_parser = "[CMD] cat << \"\\t\""
+		.expected_expander = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '\t'",
+		.expected_parser = "[CMD] cat << \"\\t\"",
+		.expected_ast =
+			"CMD\n"
+			"├── cat\n"
+			"└── << \"\\t\""
 	},
 	{
 		.input = "cat <<123abc",
 		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '123abc'",
-		.expected_parser = "[CMD] cat << 123abc"
+		.expected_expander = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '123abc'",
+		.expected_parser = "[CMD] cat << 123abc",
+		.expected_ast =
+			"CMD\n"
+			"├── cat\n"
+			"└── << 123abc"
 	},
 	{
 		.input = "cat <<'$USER_home'",
 		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '$USER_home'",
-		.expected_parser = "[CMD] cat << '$USER_home'"
+		.expected_expander = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '$USER_home'",
+		.expected_parser = "[CMD] cat << '$USER_home'",
+		.expected_ast =
+			"CMD\n"
+			"├── cat\n"
+			"└── << '$USER_home'"
 	},
 	{
 		.input = "cat <<\"unterminated",
 		.expected_lexer = "NULL",
-		.expected_parser = "NULL"
+		.expected_expander = "",
+		.expected_parser = "NULL",
+		.expected_ast = "[EMPTY]"
 	}
 };
 

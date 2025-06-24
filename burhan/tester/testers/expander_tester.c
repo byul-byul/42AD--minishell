@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 21:18:24 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:48:06 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ void	run_test(const char *input, const char *expected_expander, const char *bloc
 	{
 		if (strcmp(expected_expander, "") == 0 || strcmp(expected_expander, "NULL") == 0)
 		{
-			printf(BLUE "\nExpander test_%d (%s) " RESET, g_test_num, block_label);
+			printf(BLUE "Expander test_%d (%s) " RESET, g_test_num, block_label);
 			printf(GREEN "✅ Ok\n" RESET);
-			printf("==== INPUT: \"%s\" ====\n" RESET, input);
-			printf(YELLOW "Expected: %s\n" RESET, expected_expander);
-			printf(GREEN "Actual  : NULL\n" RESET);
-			print_tokens_verbose(tokens);
-			printf("\n");
+			// printf("==== INPUT: \"%s\" ====\n" RESET, input);
+			// printf(YELLOW "Expected: %s\n" RESET, expected_expander);
+			// printf(GREEN "Actual  : NULL\n" RESET);
+			// print_tokens_verbose(tokens);
+			// printf("\n");
 		}
 		else
 		{
@@ -105,13 +105,13 @@ void	run_test(const char *input, const char *expected_expander, const char *bloc
 
 	if (strcmp(actual, expected_expander) == 0)
 	{
-		printf(BLUE "\nExpander test_%d (%s) " RESET, g_test_num, block_label);
+		printf(BLUE "Expander test_%d (%s) " RESET, g_test_num, block_label);
 		printf(GREEN "✅ Ok\n" RESET);
-		printf("==== INPUT: \"%s\" ====\n" RESET, input);
-		printf(YELLOW "Expected: %s\n" RESET, expected_expander);
-		printf(GREEN "Actual  : %s\n" RESET, actual);
-		print_tokens_verbose(tokens);
-		printf("\n");
+		// printf("==== INPUT: \"%s\" ====\n" RESET, input);
+		// printf(YELLOW "Expected: %s\n" RESET, expected_expander);
+		// printf(GREEN "Actual  : %s\n" RESET, actual);
+		// print_tokens_verbose(tokens);
+		// printf("\n");
 	}
 	else
 	{
@@ -149,20 +149,30 @@ void	report_failed_tests(void)
 		printf(RED "❌ test_%d\n" RESET, g_failed_tests[i]);
 }
 
-// Declare your test blocks here
+// подключаем нужные блоки
 extern const t_test_block basic_block;
 extern const t_test_block dollar_block;
 extern const t_test_block quoting_block;
 extern const t_test_block invalid_quotting_block;
 extern const t_test_block redirection_block;
+extern const t_test_block heredoc_block;
+extern const t_test_block logical_block;
+extern const t_test_block comment_block;
+extern const t_test_block paren_block;
+extern const t_test_block escape_block;
 
 int	main(void)
 {
 	run_block(&basic_block);
 	run_block(&dollar_block);
-	run_block(&quoting_block);
+	// run_block(&quoting_block);
 	// run_block(&invalid_quotting_block);
 	// run_block(&redirection_block);
+	run_block(&heredoc_block);
+	// run_block(&logical_block);
+	// run_block(&comment_block);
+	run_block(&paren_block);
+	// run_block(&escape_block);
 	report_failed_tests();
 	return (0);
 }

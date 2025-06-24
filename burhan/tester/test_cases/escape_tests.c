@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 13:49:50 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:20:04 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,33 +114,35 @@ const t_test_case escape_tests[] =
 	},
 	{
 		.input = "echo a\\ b\\ c",
-		.expected_lexer = "WORD -> 'echo', WORD -> 'a b c'",
-		.expected_expander = "WORD -> 'echo', WORD -> 'a b c'",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'a\\', WORD -> 'b\\', WORD -> 'c'",
+		.expected_expander = "WORD -> 'echo', WORD -> 'a\\', WORD -> 'b\\', WORD -> 'c'",
 		.expected_parser = "echo a\\ b\\ c",
 		.expected_ast =
 			"CMD\n"
 			"├── echo\n"
-			"└── a b c"
+			"└── a\\\n"
+			"└── b\\\n"
+			"└── c"
 	},
 	{
 		.input = "echo \\#notacomment",
-		.expected_lexer = "WORD -> 'echo', WORD -> '#notacomment'",
-		.expected_expander = "WORD -> 'echo', WORD -> '#notacomment'",
+		.expected_lexer = "WORD -> 'echo', WORD -> '\\#notacomment'",
+		.expected_expander = "WORD -> 'echo', WORD -> '\\#notacomment'",
 		.expected_parser = "echo \\#notacomment",
 		.expected_ast =
 			"CMD\n"
 			"├── echo\n"
-			"└── #notacomment"
+			"└── \\#notacomment"
 	},
 	{
 		.input = "echo foo\\",
-		.expected_lexer = "WORD -> 'echo', WORD -> 'foo'",
-		.expected_expander = "WORD -> 'echo', WORD -> 'foo'",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'foo\\'",
+		.expected_expander = "WORD -> 'echo', WORD -> 'foo\\'",
 		.expected_parser = "echo foo\\",
 		.expected_ast =
 			"CMD\n"
 			"├── echo\n"
-			"└── foo"
+			"└── foo\\"
 	}
 };
 

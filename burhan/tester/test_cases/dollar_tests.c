@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 07:17:31 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 13:12:01 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:35:57 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,11 +314,11 @@ const t_test_case dollar_tests[] =
 	{
 		.input = "\"a\"'$b'\"c\"",
 		.expected_lexer = "WORD -> 'a$bc'",
-		.expected_expander = "WORD -> 'abc'",
-		.expected_parser = "[CMD] abc",
+		.expected_expander = "WORD -> 'a$bc'",
+		.expected_parser = "[CMD] a$bc",
 		.expected_ast =
 			"AST_NODE_CMD\n"
-			"  CMD: abc\n"
+			"  CMD: a$bc\n"
 	}
 };
 

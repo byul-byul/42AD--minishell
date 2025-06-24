@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:05:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 14:22:06 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:48:35 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,11 +203,30 @@ void	report_failed_tests(void)
 		printf(RED "❌ test_%d\n" RESET, g_failed_tests[i]);
 }
 
+// подключаем нужные блоки
 extern const t_test_block basic_block;
+extern const t_test_block dollar_block;
+extern const t_test_block quoting_block;
+extern const t_test_block invalid_quotting_block;
+extern const t_test_block redirection_block;
+extern const t_test_block heredoc_block;
+extern const t_test_block logical_block;
+extern const t_test_block comment_block;
+extern const t_test_block paren_block;
+extern const t_test_block escape_block;
 
 int	main(void)
 {
 	run_block(&basic_block);
+	run_block(&dollar_block);
+	// run_block(&quoting_block);
+	// run_block(&invalid_quotting_block);
+	// run_block(&redirection_block);
+	run_block(&heredoc_block);
+	// run_block(&logical_block);
+	// run_block(&comment_block);
+	run_block(&paren_block);
+	// run_block(&escape_block);
 	report_failed_tests();
 	return (0);
 }
