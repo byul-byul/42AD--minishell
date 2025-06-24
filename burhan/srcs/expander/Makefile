@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/15 10:49:40 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/18 19:49:54 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/23 21:05:43 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ LEXER_DIR      = ../lexer
 LEXER_OBJ_DIR  = $(LEXER_DIR)/objs
 
 # Sources & Objects
-SRCS    = expander.c
+SRCS    = expander_00.c \
+          expander_01.c
+
 OBJS    = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Include shared flags (optional)

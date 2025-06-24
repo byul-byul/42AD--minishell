@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 12:49:08 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 21:18:24 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	run_test(const char *input, const char *expected_expander, const char *bloc
 	while (tmp)
 	{
 		sprintf(tmp_buf, "%s -> '%s'", get_type_name(tmp->type), tmp->value);
-		strcat(actual, tmp_buf);
+		ft_strcat(actual, tmp_buf);
 		if (tmp->next)
-			strcat(actual, ", ");
+			ft_strcat(actual, ", ");
 		tmp = tmp->next;
 	}
 
@@ -159,8 +159,8 @@ extern const t_test_block redirection_block;
 int	main(void)
 {
 	run_block(&basic_block);
-	// run_block(&dollar_block);
-	// run_block(&quoting_block);
+	run_block(&dollar_block);
+	run_block(&quoting_block);
 	// run_block(&invalid_quotting_block);
 	// run_block(&redirection_block);
 	report_failed_tests();

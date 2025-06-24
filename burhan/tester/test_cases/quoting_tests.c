@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:26:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 12:53:51 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 21:49:34 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,67 @@ const t_test_case quoting_tests[] =
 		.input = "\" \"",
 		.expected_lexer = "WORD -> ' '",
 		.expected_parser = "[CMD] \" \""
+	},
+	{
+		.input = "echo \"$EMPTY\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> '$EMPTY'",
+		.expected_parser = "[CMD] echo \"$EMPTY\""
+	},
+	{
+		.input = "echo \">\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> '>'",
+		.expected_parser = "[CMD] echo \">\""
+	},
+	{
+		.input = "echo '<'",
+		.expected_lexer = "WORD -> 'echo', WORD -> '<'",
+		.expected_parser = "[CMD] echo '<'"
+	},
+	{
+		.input = "echo hello >\"output.txt\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> 'hello', REDIR_OUT -> '>', WORD -> 'output.txt'",
+		.expected_parser = "[CMD] echo hello >\"output.txt\""
+	},
+	{
+		.input = "\"|\"",
+		.expected_lexer = "WORD -> '|'",
+		.expected_parser = "[CMD] \"|\""
+	},
+	{
+		.input = "\"&&\"",
+		.expected_lexer = "WORD -> '&&'",
+		.expected_parser = "[CMD] \"&&\""
+	},
+	{
+		.input = "\"||\"",
+		.expected_lexer = "WORD -> '||'",
+		.expected_parser = "[CMD] \"||\""
+	},
+	{
+		.input = "'\"'",
+		.expected_lexer = "WORD -> '\"'",
+		.expected_parser = "[CMD] '\"'"
+	},
+	{
+		.input = "\"'\"",
+		.expected_lexer = "WORD -> '''",
+		.expected_parser = "[CMD] \"'\""
+	},
+	{
+		.input = "'\"'\"'\"'",
+		.expected_lexer = "WORD -> '\"''\"'",
+		.expected_parser = "[CMD] '\"'\"'\"'"
+	},
+	{
+		.input = "\"$USER:$HOME\"",
+		.expected_lexer = "WORD -> '$USER:$HOME'",
+		.expected_parser = "[CMD] \"$USER:$HOME\""
+	},
+	{
+		.input = "echo \"\" \"\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> '', WORD -> ''",
+		.expected_parser = "[CMD] echo \"\" \"\""
 	}
-
 };
 
 const t_test_block quoting_block = {

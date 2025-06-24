@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:54:18 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 12:53:46 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/23 22:10:47 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ const t_test_case invalid_quotes_tests[] =
 		.input = "echo \"unterminated",
 		.expected_lexer = "NULL",
 		.expected_parser = "NULL"
-	},
+	}
 };
 
 const t_test_block invalid_quotting_block = {

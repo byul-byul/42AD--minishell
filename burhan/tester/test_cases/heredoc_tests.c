@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic_tests.c                                      :+:      :+:    :+:   */
+/*   heredoc_tests.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 03:15:56 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 03:23:09 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../tester.h"
 
-const t_test_case basic_tests[] =
+const t_test_case heredoc_tests[] =
 {
 	// SIMPLE COMMANDS
 	{
@@ -249,14 +249,14 @@ const t_test_case basic_tests[] =
 		.expected_ast = "[EMPTY]"
 	},
 	{
-	.input = "echo \"\"",
-	.expected_lexer = "WORD -> 'echo', WORD -> ''",
-	.expected_expander = "WORD -> 'echo', WORD -> ''",
-	.expected_parser = "echo \"\"",
-	.expected_ast =
-		"CMD\n"
-		"├── echo\n"
-		"└── "
+		.input = "echo \"\"",
+		.expected_lexer = "WORD -> 'echo', WORD -> ''",
+		.expected_expander = "WORD -> 'echo', WORD -> ''",
+		.expected_parser = "echo \"\"",
+		.expected_ast =
+			"CMD\n"
+			"├── echo\n"
+			"└── "
 	},
 	{
 		.input = "ls \"\"",
@@ -298,13 +298,42 @@ const t_test_case basic_tests[] =
 		.expected_ast =
 			"CMD\n"
 			"└── a;b;c"
+	},
+	{
+		.input = "cat <<'EOF\n'",
+		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> 'EOF\n'",
+		.expected_parser = "[CMD] cat << 'EOF\\n'"
+	},
+	{
+		.input = "cat <<$HOME",
+		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '$HOME'",
+		.expected_parser = "[CMD] cat << $HOME"
+	},
+	{
+		.input = "cat << \"\t\"",
+		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '\t'",
+		.expected_parser = "[CMD] cat << \"\\t\""
+	},
+	{
+		.input = "cat <<123abc",
+		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '123abc'",
+		.expected_parser = "[CMD] cat << 123abc"
+	},
+	{
+		.input = "cat <<'$USER_home'",
+		.expected_lexer = "WORD -> 'cat', HEREDOC -> '<<', WORD -> '$USER_home'",
+		.expected_parser = "[CMD] cat << '$USER_home'"
+	},
+	{
+		.input = "cat <<\"unterminated",
+		.expected_lexer = "NULL",
+		.expected_parser = "NULL"
 	}
-
 };
 
-const t_test_block basic_block = {
-	.block_name = "BASIC TESTS",
-	.block_label = "basic",
-	.cases = basic_tests,
-	.count = sizeof(basic_tests) / sizeof(basic_tests[0])
+const t_test_block heredoc_block = {
+	.block_name = "HEREDOC TESTS",
+	.block_label = "heredoc",
+	.cases = heredoc_tests,
+	.count = sizeof(heredoc_tests) / sizeof(heredoc_tests[0])
 };

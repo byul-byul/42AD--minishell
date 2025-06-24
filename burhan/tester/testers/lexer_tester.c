@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 12:49:27 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 03:34:27 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_tokens_verbose(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf("token: %-16s | type: %-13s | heredoc_expand: %d | expanded: %d | ",
+		printf("token: %-16s | type: %-13s | heredoc_expand: %d | expanded: %d |\n",
 			tokens->value,
 			get_type_name(tokens->type),
 			tokens->heredoc_expand,
@@ -151,14 +151,18 @@ extern const t_test_block dollar_block;
 extern const t_test_block quoting_block;
 extern const t_test_block invalid_quotting_block;
 extern const t_test_block redirection_block;
+extern const t_test_block heredoc_block;
+extern const t_test_block logical_block;
 
 int	main(void)
 {
 	run_block(&basic_block);
-	// run_block(&dollar_block);
-	// run_block(&quoting_block);
-	// run_block(&invalid_quotting_block);
-	// run_block(&redirection_block);
+	run_block(&dollar_block);
+	run_block(&quoting_block);
+	run_block(&invalid_quotting_block);
+	run_block(&redirection_block);
+	run_block(&heredoc_block);
+	run_block(&logical_block);
 	report_failed_tests();
 	return (0);
 }
