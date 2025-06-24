@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:06:07 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 03:34:27 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:39:36 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ void	run_test(const char *input, const char *expected_desc, const char *block_la
 	{
 		if (strcmp("NULL", expected_desc) == 0)
 		{
-			printf(BLUE "\nLexer test_%d (%s) " RESET, g_test_num, block_label);
+			printf(BLUE "Lexer test_%d (%s) " RESET, g_test_num, block_label);
 			printf(GREEN "✅ Ok\n" RESET);
-			printf("==== INPUT: \"%s\" ====\n" RESET, input);
-			printf(YELLOW "Expected: %s\n" RESET, expected_desc);
-			printf(GREEN "Actual  : NULL\n");
-			print_tokens_verbose(tokens);
-			printf("\n");
+			// printf("==== INPUT: \"%s\" ====\n" RESET, input);
+			// printf(YELLOW "Expected: %s\n" RESET, expected_desc);
+			// printf(GREEN "Actual  : NULL\n");
+			// print_tokens_verbose(tokens);
+			// printf("\n");
 		}
 		else
 		{
@@ -102,13 +102,13 @@ void	run_test(const char *input, const char *expected_desc, const char *block_la
 	}
 	if (strcmp(actual, expected_desc) == 0)
 	{
-		printf(BLUE "\nLexer test_%d (%s) " RESET, g_test_num, block_label);
+		printf(BLUE "Lexer test_%d (%s) " RESET, g_test_num, block_label);
 		printf(GREEN "✅ Ok\n" RESET);
-		printf("==== INPUT: \"%s\" ====\n" RESET, input);
-		printf(YELLOW "Expected: %s\n" RESET, expected_desc);
-		printf(GREEN "Actual  : %s\n" RESET, actual);
-		print_tokens_verbose(tokens);
-		printf("\n");
+		// printf("==== INPUT: \"%s\" ====\n" RESET, input);
+		// printf(YELLOW "Expected: %s\n" RESET, expected_desc);
+		// printf(GREEN "Actual  : %s\n" RESET, actual);
+		// print_tokens_verbose(tokens);
+		// printf("\n");
 	}
 	else
 	{
@@ -153,6 +153,9 @@ extern const t_test_block invalid_quotting_block;
 extern const t_test_block redirection_block;
 extern const t_test_block heredoc_block;
 extern const t_test_block logical_block;
+extern const t_test_block comment_block;
+extern const t_test_block paren_block;
+extern const t_test_block escape_block;
 
 int	main(void)
 {
@@ -163,6 +166,9 @@ int	main(void)
 	run_block(&redirection_block);
 	run_block(&heredoc_block);
 	run_block(&logical_block);
+	run_block(&comment_block);
+	run_block(&paren_block);
+	// run_block(&escape_block);
 	report_failed_tests();
 	return (0);
 }

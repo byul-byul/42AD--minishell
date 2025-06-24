@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 07:17:31 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 22:15:35 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:12:01 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ const t_test_case dollar_tests[] =
 			"├── echo\n"
 			"└── $*"
 	},
-
 	// EMPTY DOLLAR
 	{
 		.input = "echo $",
@@ -97,7 +96,6 @@ const t_test_case dollar_tests[] =
 			"├── echo\n"
 			"└── $"
 	},
-
 	// MULTIPLE VARIABLES TOGETHER
 	{
 		.input = "echo $VAR$VAR2",
@@ -119,7 +117,6 @@ const t_test_case dollar_tests[] =
 			"├── echo\n"
 			"└── "
 	},
-
 	// WITH CURLY BRACES
 	{
 		.input = "echo ${USER}",
@@ -151,7 +148,6 @@ const t_test_case dollar_tests[] =
 			"├── echo\n"
 			"└── ${USER}"
 	},
-
 	// INSIDE QUOTES
 	{
 		.input = "echo '$USER'",
@@ -193,7 +189,6 @@ const t_test_case dollar_tests[] =
 			"├── echo\n"
 			"└── $USER$HOME"
 	},
-
 	// ESCAPED DOLLARS
 	{
 		.input = "echo \\$USER",
@@ -215,7 +210,6 @@ const t_test_case dollar_tests[] =
 			"├── echo\n"
 			"└── $?"
 	},
-
 	// MIXED / COMPLEX CASES
 	{
 		.input = "echo \"Path: $PATH\"",
@@ -286,7 +280,6 @@ const t_test_case dollar_tests[] =
 			"CMD\n"
 			"└── 0"
 	},
-
 	// MERGED VARIABLE CASES
 	{
 		.input = "echo \"$VARtext\"",
@@ -327,7 +320,6 @@ const t_test_case dollar_tests[] =
 			"AST_NODE_CMD\n"
 			"  CMD: abc\n"
 	}
-
 };
 
 const t_test_block dollar_block = {

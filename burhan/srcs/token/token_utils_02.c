@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 03:41:01 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:42:27 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,52 +57,16 @@ static int	extract_word_token(char **input, char **value, char **quote_map)
 		if (ft_isquote(**input))
 		{
 			if (!extract_quoted(input, **input, value, quote_map))
-			{
-				free(*value);
-				free(*quote_map);
-				return (0);
-			}
-			continue;
+				return (free(*value), free(*quote_map), 0);
+			continue ;
 		}
 		if (!ft_safeappendchar(value, **input)
 			|| !ft_safeappendchar(quote_map, '0'))
-		{
-			free(*value);
-			free(*quote_map);
-			return (0);
-		}
+			return (free(*value), free(*quote_map), 0);
 		(*input)++;
 	}
 	return (1);
 }
-
-// static int	extract_word_token(char **input, char **value, char **quote_map)
-// {
-// 	if (!input || !*input)
-// 		return (0);
-// 	*value = ft_strdup("");
-// 	if (!*value)
-// 		return (0);
-// 	*quote_map = ft_strdup("");
-// 	if (!*quote_map)
-// 		return (free(*value), 0);
-// 	while (**input && !ft_isspace(**input) && !is_meta_token(**input))
-// 	{
-// 		if (ft_isquote(**input))
-// 		{
-// 			if (!extract_quoted(input, **input, value, quote_map))
-// 				return (free(*value), free(*quote_map), 0);
-// 		}
-// 		else
-// 		{
-// 			if (!ft_safeappendchar(value, **input)
-// 				|| !ft_safeappendchar(quote_map, '0'))
-// 				return (free(*value), free(*quote_map), 0);
-// 			(*input)++;
-// 		}
-// 	}
-// 	return (1);
-// }
 
 static char	*extract_meta_token(char **input)
 {

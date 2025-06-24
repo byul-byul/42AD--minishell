@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 17:40:21 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/24 03:28:26 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/24 13:26:34 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,10 @@ TEST_CASES_SRC   = $(TEST_CASES_DIR)/basic_tests.c \
                    $(TEST_CASES_DIR)/invalid_quoting_tests.c \
                    $(TEST_CASES_DIR)/redirection_tests.c \
                    $(TEST_CASES_DIR)/heredoc_tests.c \
-                   $(TEST_CASES_DIR)/logical_tests.c
+                   $(TEST_CASES_DIR)/logical_tests.c \
+                   $(TEST_CASES_DIR)/comment_tests.c \
+                   $(TEST_CASES_DIR)/paren_tests.c \
+                   $(TEST_CASES_DIR)/escape_tests.c
 
 LEXER_TESTER_SRC    = $(TESTERS_DIR)/lexer_tester.c
 EXPANDER_TESTER_SRC = $(TESTERS_DIR)/expander_tester.c

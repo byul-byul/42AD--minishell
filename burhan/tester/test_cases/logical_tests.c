@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 05:25:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 03:38:06 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 11:36:21 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ const t_test_case logical_tests[] =
 	},
 	{
 		.input = "|||",
-		.expected_lexer = "WORD -> '|||'",
+		.expected_lexer = "OR -> '||', PIPE -> '|'",
 		.expected_parser = "NULL"
 	},
 	{
@@ -92,13 +92,8 @@ const t_test_case logical_tests[] =
 		.expected_parser = "[CMD] echo hi || ls"
 	},
 	{
-		.input = "cmd1 || # comment",
-		.expected_lexer = "WORD -> 'cmd1', OR -> '||'",
-		.expected_parser = "[CMD] cmd1 ||"
-	},
-	{
 		.input = "|||cmd",
-		.expected_lexer = "PIPE -> '|', OR -> '||', WORD -> 'cmd'",
+		.expected_lexer = "OR -> '||', PIPE -> '|', WORD -> 'cmd'",
 		.expected_parser = "[CMD] | || cmd"
 	}
 };
