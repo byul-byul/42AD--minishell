@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:13:52 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/22 11:57:43 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/25 09:21:08 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,11 @@ typedef struct s_env
 	int			is_actual;
 }			t_env;
 
-// Инициализация и очистка
 t_env	*env_init(char **envp);
+char	*env_getvalue(t_env *env, const char *key);
 void	env_free(t_env *env);
-
-// Получение и изменение переменных
-char	*env_get(t_env *env, const char *key);
-int		env_set(t_env *env, const char *key, const char *value);
-int		env_unset(t_env *env, const char *key);
-
-// Преобразование в формат, совместимый с execve()
+int		env_remove_envvar(t_env *env, const char *key);
 char	**env_to_envp_array(t_env *env);
-
-// Отладочная функция
 void	env_print(t_env *env);
 
 #endif
