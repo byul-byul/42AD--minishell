@@ -6,57 +6,36 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 09:21:32 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/25 10:39:55 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_wrapper.h"
 
-static void	free_envvar(t_env_var *envvar)
+char	*env_getvalue(t_env *env, const char *key)
 {
-	if (envvar)
+	t_env_var	*curr;
+
+	if (!env || !key)
+		return (NULL);
+	curr = env->var_list;
+	while (curr)
 	{
-		if (envvar->key)
-			free(envvar->key);
-		if (envvar->value)
-			free(envvar->value);
-		free(envvar);
+		if (ft_strcmp(curr->key, key) == 0)
+			return (curr->value);
+		curr = curr->next;
 	}
+	return (NULL);
 }
 
-static void	free_varlist(t_env_var *head)
-{
-	t_env_var	*tmp;
-
-	if (!head)
-		return ;
-	while (head)
-	{
-		tmp = head->next;
-		free_envvar(head);
-		head = tmp;
-	}
-}
-
-void	env_free(t_env *env)
-{
-	if (!env)
-		return ;
-	if (env->envp)
-		ft_freearr(env->envp, env->size);
-	if (env->var_list)
-		free_varlist(env->var_list);
-	free(env);
-}
-
-int	env_remove_envvar(t_env *env, const char *key)
+int	env_varlist_pop(t_env_var **head, const char *key)
 {
 	t_env_var	*curr;
 	t_env_var	*prev;
 
-	if (!env || !key)
+	if (!head || !key)
 		return (0);
-	curr = env->var_list;
+	curr = *head;
 	prev = NULL;
 	while (curr)
 	{
@@ -65,14 +44,63 @@ int	env_remove_envvar(t_env *env, const char *key)
 			if (prev)
 				prev->next = curr->next;
 			else
-				env->var_list = curr->next;
+				*head = curr->next;
 			free_envvar(curr);
-			env->size--;
-			env->is_actual = 0;
 			return (1);
 		}
 		prev = curr;
 		curr = curr->next;
 	}
 	return (0);
+}
+
+int	env_varlist_remove(t_env *env, const char *key)
+{
+	int	res;
+
+	res = 0;
+	if (!env || !key)
+		return (0);
+	res = env_varlist_pop(&env->var_list, key);
+	if (res)
+	{
+		env->size--;
+		env->is_actual = 0;
+	}
+	return (res);
+}
+
+int	env_varlist_push(t_env_var **head, t_env_var *envvar)
+{
+	t_env_var	*curr;
+
+	if (!head || !envvar)
+		return (0);
+	if (!*head)
+		*head = envvar;
+	else
+	{
+		curr = *head;
+		while (curr->next)
+			curr = curr->next;
+		curr->next = envvar;
+	}
+	envvar->next = NULL;
+	return (1);
+}
+
+int	env_varlist_add(t_env *env, t_env_var *envvar)
+{
+	int	res;
+
+	res = 0;
+	if (!env || !envvar)
+		return (0);
+	res = env_varlist_push(&env->var_list, envvar);
+	if (res)
+	{
+		env->is_actual = 0;
+		env->size++;
+	}
+	return (res);
 }

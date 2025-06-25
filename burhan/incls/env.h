@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:13:52 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 09:21:08 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:46:56 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@ typedef struct s_env
 	int			is_actual;
 }			t_env;
 
-t_env	*env_init(char **envp);
-char	*env_getvalue(t_env *env, const char *key);
-void	env_free(t_env *env);
-int		env_remove_envvar(t_env *env, const char *key);
-char	**env_to_envp_array(t_env *env);
-void	env_print(t_env *env);
+t_env		*env_init(char **envp);
+t_env_var	*env_varinit(char *keyvalue);
+char		**env_reassemble_envp(t_env *env);
+int			env_varlist_add(t_env *env, t_env_var *envvar);
+int			env_varlist_push(t_env_var **head, t_env_var *envvar);
+int			env_varlist_remove(t_env *env, const char *key);
+int			env_varlist_pop(t_env_var **head, const char *key);
+char		*env_getvalue(t_env *env, const char *key);
+void		env_free(t_env *env);
+void		env_print(t_env *env);
 
 #endif
