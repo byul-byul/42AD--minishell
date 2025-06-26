@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:32:30 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/20 21:54:28 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:28:14 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 # define SIGNALS_H
 
 # include <signal.h>
+# include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# include "libft.h"
 
 extern volatile sig_atomic_t	g_sigint;
 

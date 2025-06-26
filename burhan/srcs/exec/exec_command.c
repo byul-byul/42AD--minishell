@@ -6,11 +6,13 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 19:51:22 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 12:48:50 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/26 14:10:14 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_wrapper.h"
+
+int	g_exit_status = 0;
 
 int	set_exit_status(int status)
 {

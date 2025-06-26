@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:05:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 15:48:35 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:40:13 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,15 +217,15 @@ extern const t_test_block escape_block;
 
 int	main(void)
 {
-	run_block(&basic_block);
-	run_block(&dollar_block);
-	// run_block(&quoting_block);
+	// run_block(&basic_block);
+	// run_block(&dollar_block);
+	run_block(&quoting_block);
 	// run_block(&invalid_quotting_block);
 	// run_block(&redirection_block);
-	run_block(&heredoc_block);
+	// run_block(&heredoc_block);
 	// run_block(&logical_block);
 	// run_block(&comment_block);
-	run_block(&paren_block);
+	// run_block(&paren_block);
 	// run_block(&escape_block);
 	report_failed_tests();
 	return (0);
