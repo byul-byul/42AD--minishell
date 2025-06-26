@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:13:52 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 12:46:56 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/26 12:44:25 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int			env_varlist_remove(t_env *env, const char *key);
 int			env_varlist_pop(t_env_var **head, const char *key);
 char		*env_getvalue(t_env *env, const char *key);
 void		env_free(t_env *env);
+void		free_envvar(t_env_var *envvar);
 void		env_print(t_env *env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 12:43:17 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/26 12:42:17 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static t_env_var	*varlist_init(char **envp, size_t size)
 	var_list = NULL;
 	while (i < size)
 	{
-		res = env_varlist_push(&var_list, envvar_init(envp[i]));
+		res = env_varlist_push(&var_list, env_varinit(envp[i]));
 		if (!res)
 			return (NULL);
 		i++;

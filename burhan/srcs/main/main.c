@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.h                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/15 10:21:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 14:16:55 by bhajili          ###   ########.fr       */
+/*   Created: 2025/05/14 20:43:16 by bhajili           #+#    #+#             */
+/*   Updated: 2025/06/26 13:00:25 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANDER_H
-# define EXPANDER_H
+#include "minishell_wrapper.h"
 
-# include "lexer.h"
-
-t_token	*expander(t_token *token_list, int exit_status);
-char	*expand_token_value(const char *value, const char *quote_map,
-			int last_exit_status);
-#endif
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	return (minishell(envp));
+}

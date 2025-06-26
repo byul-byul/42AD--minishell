@@ -5,20 +5,21 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/24 21:55:36 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/26 13:20:40 by bhajili          ###   ########.fr        #
+#    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
+#    Updated: 2025/06/26 13:23:35 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Directories
 SRC_DIR        = .
 OBJ_DIR        = ./objs
-EXPANDER_DIR      = ../expander
-EXPANDER_OBJ_DIR  = $(EXPANDER_DIR)/objs
+EXEC_DIR      = ../exec
+EXEC_OBJ_DIR  = $(EXEC_DIR)/objs
 
 # Sources & Objects
-SRCS        = parser.c \
-			  parser_utils_00.c
+SRCS        = main.c \
+              minishell.c \
+			  utils_00.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
@@ -26,27 +27,27 @@ OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 include ../../Makefile.inc
 
 # Default rule
-all: expander_objs $(OBJ_DIR) $(OBJS)
+all: exec_objs $(OBJ_DIR) $(OBJS)
 
-# Compile parser source files
+# Compile main source files
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(EXPANDER_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(EXEC_DIR) -c $< -o $@
 
-# Build expander_objs
-expander_objs:
-	$(MAKE) -C $(EXPANDER_DIR)
+# Build exec_objs
+exec_objs:
+	$(MAKE) -C $(EXEC_DIR)
 
-# Clean only parser objs
+# Clean only main objs
 clean:
 	rm -rf $(OBJ_DIR)
 
-# Clean parser + expander
+# Clean main + exec
 fclean: clean
-	$(MAKE) -C $(EXPANDER_DIR) fclean
+	$(MAKE) -C $(EXEC_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re expander_objs
+.PHONY: all clean fclean re exec_objs

@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 20:29:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 12:57:17 by bhajili          ###   ########.fr       */
+/*   Created: 2025/06/17 01:07:25 by bhajili           #+#    #+#             */
+/*   Updated: 2025/06/26 12:50:46 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXEC_H
+# define EXEC_H
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
-# include "exec.h"
-# include "utils.h"
+# include "env.h"
+# include "parser.h"
+# include "signals.h"
 
-typedef struct s_minishell
+typedef enum e_status_code
 {
-	t_env		*env;
-	t_token		*token_list;
-	t_ast_node	*ast;
-}				t_minishell;
+	DEFAULT_STATUS,
+	REDIR_STATUS
+}				t_status_code;
 
-int		minishell(char **envp);
-void	print_message_by_code(int msg_code, char *msg_part);
-void	clean_shell(t_minishell *sh, int clean_env);
+extern int	g_exit_status;
+
+int		exec_ast(t_ast_node *node, t_env *env);
+int		exec_command(t_command *cmd, t_env *env);
+
+void	print_error(int error_code);
 
 #endif

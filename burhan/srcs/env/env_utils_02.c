@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 12:44:27 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/26 12:44:12 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	env_print(t_env *env)
 	}
 }
 
-static void	free_envvar(t_env_var *envvar)
+void	free_envvar(t_env_var *envvar)
 {
 	if (envvar)
 	{

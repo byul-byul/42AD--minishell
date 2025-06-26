@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:20:23 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/23 21:38:50 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/25 14:16:43 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@
 // 	return (1);
 // }
 
-void	expander(t_token *token_list, int exit_status)
+t_token	*expander(t_token *token_list, int exit_status)
 {
 	char	*tmp;
 	char	*expanded;
+	t_token	*head;
 
+	head = token_list;
 	while (token_list)
 	{
 		if (token_list->type == WORD && token_list->value
@@ -55,7 +57,7 @@ void	expander(t_token *token_list, int exit_status)
 			expanded = expand_token_value(token_list->value,
 					token_list->quote_map, exit_status);
 			if (!expanded)
-				return ;
+				return (NULL);
 			if (ft_strcmp(tmp, expanded))
 				token_list->expanded = 1;
 			token_list->value = expanded;
@@ -65,4 +67,5 @@ void	expander(t_token *token_list, int exit_status)
 		}
 		token_list = token_list->next;
 	}
+	return (head);
 }
