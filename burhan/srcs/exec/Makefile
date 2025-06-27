@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 09:53:44 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/26 12:53:31 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/27 02:22:34 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ SIGNALS_OBJ_DIR = $(SIGNALS_DIR)/objs
 
 # Sources & Objects
 SRCS        = exec_manager.c \
-              exec_command.c
+              exec_command.c \
+              exec_builtin_00.c \
+              exec_builtin_01.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

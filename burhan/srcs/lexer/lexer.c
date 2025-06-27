@@ -6,11 +6,17 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 12:07:53 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/27 03:22:39 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_wrapper.h"
+
+void	print_lexer_result(char *input, t_token *token_list)
+{
+	ft_printf(C_BLUE "lexer() for input \"%s\" returned:\n" C_RESET, input);
+	print_token_list(token_list);
+}
 
 static t_token	*lexing_input(char *input)
 {

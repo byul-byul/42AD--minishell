@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/15 13:41:06 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/18 19:43:48 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/27 03:23:17 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 # Sources & Objects
 SRCS        = token_utils_00.c \
               token_utils_01.c \
-              token_utils_02.c
+              token_utils_02.c \
+              token_utils_03.c 
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

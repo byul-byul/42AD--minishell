@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:53:50 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/26 14:03:17 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/27 02:58:39 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,11 @@ build_modules:
 $(NAME):
 	$(eval OBJS := $(shell find $(SRC_DIR) -type f -path "*/objs/*.o"))
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+
+# Step 2: Collect objs AFTER build and link in DEBUG MODE
+debug: all
+	$(eval OBJS := $(shell find $(SRC_DIR) -type f -path "*/objs/*.o"))
+	$(CC) $(CFLAGS) -DPROGRAM_MODE=DEBUG_MODE $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 # Step 3: libft
 libft:

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:20:23 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 14:16:43 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/27 03:29:58 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,17 @@
 // 	return (1);
 // }
 
-t_token	*expander(t_token *token_list, int exit_status)
+void	print_expander_result(t_token *token_list)
 {
-	char	*tmp;
-	char	*expanded;
-	t_token	*head;
+	ft_printf(C_BLUE "expander() returned:\n" C_RESET);
+	print_token_list(token_list);
+}
+
+t_token	*expander(t_token *token_list, int exit_status, t_env *env)
+{
+	char			*tmp;
+	char			*expanded;
+	t_token			*head;
 
 	head = token_list;
 	while (token_list)
@@ -55,9 +61,9 @@ t_token	*expander(t_token *token_list, int exit_status)
 		{
 			tmp = token_list->value;
 			expanded = expand_token_value(token_list->value,
-					token_list->quote_map, exit_status);
+					token_list->quote_map, exit_status, env);
 			if (!expanded)
-				return (NULL);
+				return (free(tmp), NULL);
 			if (ft_strcmp(tmp, expanded))
 				token_list->expanded = 1;
 			token_list->value = expanded;

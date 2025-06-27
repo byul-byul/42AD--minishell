@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/24 11:32:26 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/27 03:02:17 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ t_token_type	get_token_type(char *value, char *quote_map)
 
 void	init_token(t_token *token)
 {
-	token->error = 0;
 	token->type = WORD;
 	token->value = NULL;
 	token->quote_map = NULL;

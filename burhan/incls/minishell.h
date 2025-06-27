@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:29:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 12:57:17 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/27 02:53:07 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_minishell
 	t_ast_node	*ast;
 }				t_minishell;
 
-int		minishell(char **envp);
+int		run_minishell(char **envp);
 void	print_message_by_code(int msg_code, char *msg_part);
 void	clean_shell(t_minishell *sh, int clean_env);
 

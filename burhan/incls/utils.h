@@ -6,14 +6,27 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 12:00:11 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/27 03:37:58 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-#define EXIT_CODE_SIGNALLED				999
+# define PROD_MODE 0
+# define DEBUG_MODE 1
+
+# ifndef PROGRAM_MODE
+#  define PROGRAM_MODE DEBUG_MODE
+# endif
+
+#if PROGRAM_MODE == DEBUG_MODE
+# define DEBUG_PRINT(x) x
+#else
+# define DEBUG_PRINT(x)
+#endif
+
+# define EXIT_CODE_SIGNALLED				999
 
 // Prompts and UI
 # define MSH_MSG_DEF_PROMPT				"minishell$ "

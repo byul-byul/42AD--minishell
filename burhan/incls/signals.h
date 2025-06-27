@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:32:30 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 13:28:14 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/27 00:28:57 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-extern volatile sig_atomic_t	g_sigint;
+extern volatile sig_atomic_t	g_exit_status;
 
 void	setup_child_signals(void);
 void	setup_shell_signals(void);
