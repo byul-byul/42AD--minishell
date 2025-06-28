@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 12:42:17 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/27 05:12:31 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ char	**env_reassemble_envp(t_env *env)
 	if (!envp)
 		return (NULL);
 	curr = env->var_list;
-	i = -1;
+	i = 0;
 	while (curr)
 	{
-		envp[++i] = concatenate_envvar_keyvalue(curr);
+		envp[i] = concatenate_envvar_keyvalue(curr);
 		if (!envp[i])
 			return (ft_freearr(envp, i), NULL);
 		curr = curr->next;
+		i++;
 	}
 	envp[i] = NULL;
 	free(env->envp);

@@ -6,40 +6,48 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:19:08 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 21:09:42 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/28 14:10:34 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_wrapper.h"
 
-int	exec_subshell(t_ast_node *node)
+int	exec_and(t_ast_node *left, t_ast_node *right, t_env *env)
 {
-	(void)node;
-	ft_putstr("exec_subshell(): MOCK was launced\n");
-	return (1);
+	int	status;
+
+	status = exec_ast(left, env);
+	if (status == 0)
+		return (exec_ast(right, env));
+	return (status);
 }
 
-int	exec_or(t_ast_node *left, t_ast_node *right)
+int	exec_or(t_ast_node *left, t_ast_node *right, t_env *env)
 {
-	(void)left;
-	(void)right;
-	ft_putstr("exec_or(): MOCK was launced\n");
-	return (1);
+	int	status;
+
+	status = exec_ast(left, env);
+	if (status != 0)
+		return (exec_ast(right, env));
+	return (status);
 }
 
-int	exec_and(t_ast_node *left, t_ast_node *right)
+int	exec_subshell(t_ast_node *node, t_env *env)
 {
-	(void)left;
-	(void)right;
-	ft_putstr("exec_and(): MOCK was launced\n");
-	return (1);
-}
+	pid_t	pid;
+	int		status;
 
-int	exec_pipe(t_ast_node *left, t_ast_node *right)
-{
-	(void)left;
-	(void)right;
-	ft_putstr("exec_pipe(): MOCK was launced\n");
+	pid = fork();
+	if (pid == -1)
+		return (perror("fork"), 1);
+	if (pid == 0)
+	{
+		int code = exec_ast(node, env);
+		exit(code);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
 	return (1);
 }
 
@@ -50,12 +58,12 @@ int	exec_ast(t_ast_node *node, t_env *env)
 	if (node->type == NODE_COMMAND)
 		return (exec_command(node->command, env));
 	else if (node->type == NODE_PIPE)
-		return (exec_pipe(node->left, node->right));
+		return (exec_pipe(node->left, node->right, env));
 	else if (node->type == NODE_AND)
-		return (exec_and(node->left, node->right));
+		return (exec_and(node->left, node->right, env));
 	else if (node->type == NODE_OR)
-		return (exec_or(node->left, node->right));
+		return (exec_or(node->left, node->right, env));
 	else if (node->type == NODE_SUBSHELL)
-		return (exec_subshell(node->left));
+		return (exec_subshell(node->left, env));
 	return (0);
 }
