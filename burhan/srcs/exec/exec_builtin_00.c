@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 01:34:54 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 02:27:23 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 03:31:39 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	run_echo(t_command *cmd)
 		ft_putchar('\n');
 	return (0);
 }
-
 
 int	is_builtin(char *cmd)
 {

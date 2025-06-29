@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 04:51:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/28 14:13:23 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 04:12:31 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char *resolve_path(const char *cmd_name, t_env *env)
 		free(full_path);
 		i++;
 	}
-	ft_freearr(paths, -1);
+	ft_freearr(paths, ft_arrsize(paths));
 	return (NULL);
 }
 

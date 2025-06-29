@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 05:12:31 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 03:20:38 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ char	**env_reassemble_envp(t_env *env)
 	envp[i] = NULL;
 	free(env->envp);
 	env->envp = envp;
-	env->is_actual = 1;
-	return (envp);
+	return (env->is_actual = 1, envp);
 }
 
 t_env_var	*env_varinit(char *keyvalue)

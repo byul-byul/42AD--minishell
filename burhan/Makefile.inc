@@ -1,6 +1,6 @@
 # Compiler & flags
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -Iincludes -Ilibft
+CFLAGS	= -Wall -Wextra -Werror -Iincludes -Ilibft -g
 
 # Generic build rule for object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c

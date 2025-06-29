@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 03:37:58 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 03:16:43 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 #  define PROGRAM_MODE DEBUG_MODE
 # endif
 
-#if PROGRAM_MODE == DEBUG_MODE
-# define DEBUG_PRINT(x) x
-#else
-# define DEBUG_PRINT(x)
-#endif
+// # if PROGRAM_MODE == DEBUG_MODE
+// #  define DEBUG_PRINT(x) x
+// # else
+// #  define DEBUG_PRINT(x)
+// # endif
 
 # define EXIT_CODE_SIGNALLED				999
 

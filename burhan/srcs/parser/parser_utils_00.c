@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:30:55 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 04:29:19 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 04:04:25 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	free_command(t_command *cmd)
 {
-	int	i;
+	int		i;
 	t_redir	*redir;
 	t_redir	*tmp;
 
 	if (!cmd)
-		return;
+		return ;
+	i = -1;
 	if (cmd->argv)
 	{
-		for (i = 0; cmd->argv[i]; i++)
+		while (cmd->argv[++i])
 			free(cmd->argv[i]);
 		free(cmd->argv);
 	}
@@ -37,7 +38,8 @@ void	free_command(t_command *cmd)
 	free(cmd);
 }
 
-t_ast_node	*create_ast_node(t_node_type type, t_ast_node *left, t_ast_node *right)
+t_ast_node	*create_ast_node(t_node_type type, t_ast_node *left,
+				t_ast_node *right)
 {
 	t_ast_node	*node;
 
@@ -72,7 +74,7 @@ void	parser_error(const char *msg, const char *token_value)
 void	free_ast(t_ast_node *node)
 {
 	if (!node)
-		return;
+		return ;
 	free_ast(node->left);
 	free_ast(node->right);
 	if (node->type == NODE_COMMAND && node->command)

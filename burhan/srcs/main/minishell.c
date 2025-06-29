@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:35:16 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 04:31:30 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 03:19:31 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,17 @@ static int	init_minishell(t_minishell *sh, char **envp)
 
 static int	handle_input(t_minishell *sh, char *line, int prev_exit_code)
 {
-	// sh->token_list = expander(lexer(line), prev_exit_code, sh->env);
 	sh->token_list = lexer(line);
-	DEBUG_PRINT(print_lexer_result(line, sh->token_list));
+	if (PROGRAM_MODE == DEBUG_MODE)
+		print_lexer_result(line, sh->token_list);
 	sh->token_list = expander(sh->token_list, prev_exit_code, sh->env);
-	DEBUG_PRINT(print_expander_result(sh->token_list));
+	if (PROGRAM_MODE == DEBUG_MODE)
+		print_expander_result(sh->token_list);
 	if (!sh->token_list)
 		return (ERR_CODE_MALLOC);
 	sh->ast = parser(sh->token_list);
-	DEBUG_PRINT(print_parser_result(sh->ast));
+	if (PROGRAM_MODE == DEBUG_MODE)
+		print_parser_result(sh->ast);
 	if (!sh->ast)
 		return (ERR_CODE_MALLOC);
 	return (exec_ast(sh->ast, sh->env));

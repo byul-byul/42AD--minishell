@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:20:23 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 01:20:27 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 06:51:32 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ static int	is_escaped(const char *str, size_t i)
 static int	handle_escape(char **res, const char *val,
 						const char *qmap, size_t *i)
 {
+	if (!res || !val || !qmap || !i)
+		return (0);
 	if (val[*i] == '\\' && qmap[*i] != '1')
 	{
 		(*i)++;
