@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 11:25:06 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/29 11:41:56 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ include ../../Makefile.inc
 # Rules
 all: dependencies $(OBJ_DIR) $(OBJS)
 
-# Compile parser source files
+# Compile core source files
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
@@ -41,11 +41,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 dependencies:
 	$(MAKE) -C $(EXEC_DIR)
 
-# Clean only parser objs
+# Clean only core objs
 clean:
 	rm -rf $(OBJ_DIR)
 
-# Clean parser + dependencies
+# Clean core + dependencies
 fclean: clean
 	$(MAKE) -C $(EXEC_DIR) fclean
 

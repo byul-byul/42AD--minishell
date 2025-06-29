@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/15 10:49:40 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 10:54:00 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/29 11:42:29 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ include ../../Makefile.inc
 # Rules
 all: dependencies $(OBJ_DIR) $(OBJS)
 
-# Compile lexer source files
+# Compile expander source files
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 

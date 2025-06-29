@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 11:17:50 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/29 11:36:00 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 dependencies:
 	$(MAKE) -C $(TOKEN_DIR)
 
-# Clean only expander objs
+# Clean only lexer objs
 clean:
 	rm -rf $(OBJ_DIR)
 
-# Clean expander + dependencies
+# Clean lexer + dependencies
 fclean: clean
 	$(MAKE) -C $(TOKEN_DIR) fclean
 

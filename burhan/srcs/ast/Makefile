@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 10:42:19 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 11:26:52 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/29 11:43:30 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ LIBFT_DIR      = ../../libft
 
 # Sources & Objects
 SRCS           = ast_utils_00.c
-
 OBJS           = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Include shared flags (optional)

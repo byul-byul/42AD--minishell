@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/22 20:08:31 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 11:09:51 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/29 11:29:24 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,6 @@
 SRC_DIR     = .
 OBJ_DIR     = ./objs
 LIBFT_DIR   = ../../libft
-
-# Libft
-# LIBFT       = $(LIBFT_DIR)/libft.a
 
 # Sources & Objects
 SRCS        = env_utils_00.c \
