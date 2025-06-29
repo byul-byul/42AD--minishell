@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:13:52 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 12:44:25 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 09:20:43 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_env
 	char		**envp;
 	size_t		size;
 	int			is_actual;
+	int			last_status;
 }			t_env;
 
 t_env		*env_init(char **envp);

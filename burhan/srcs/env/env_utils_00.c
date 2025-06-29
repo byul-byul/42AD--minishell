@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 03:20:38 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 09:21:20 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_env	*env_init(char **envp)
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return (NULL);
+	env->last_status = 0;
 	env->var_list = NULL;
 	env->envp = NULL;
 	env->size = ft_arrsize(envp);

@@ -5,24 +5,20 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/15 13:33:47 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 11:25:06 by bhajili          ###   ########.fr        #
+#    Created: 2025/06/29 10:42:19 by bhajili           #+#    #+#              #
+#    Updated: 2025/06/29 11:26:52 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Directories
 SRC_DIR        = .
 OBJ_DIR        = ./objs
-EXEC_DIR       = ../exec
-
-EXEC_OBJ_DIR  = $(EXEC_DIR)/objs
+LIBFT_DIR      = ../../libft
 
 # Sources & Objects
-SRCS    = main.c \
-          minishell.c \
-          utils_00.c
+SRCS           = ast_utils_00.c
 
-OBJS    = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS           = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Include shared flags (optional)
 include ../../Makefile.inc
@@ -30,24 +26,24 @@ include ../../Makefile.inc
 # Rules
 all: dependencies $(OBJ_DIR) $(OBJS)
 
-# Compile parser source files
+# Compile ast source files
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(EXEC_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
 # Build dependencies
 dependencies:
-	$(MAKE) -C $(EXEC_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
-# Clean only parser objs
+# Clean only ast objs
 clean:
 	rm -rf $(OBJ_DIR)
 
-# Clean parser + dependencies
+# Clean ast + dependencies
 fclean: clean
-	$(MAKE) -C $(EXEC_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:10:47 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/21 01:46:49 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 09:12:58 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_arg
 
 size_t	ft_arrlen(t_cchr **arr, size_t size);
 size_t	ft_arrsize(char **arr);
-void	ft_freearr(char **arr, size_t size);
+void	ft_freearr(char **arr, ssize_t size);
 char	**ft_arrdup(char **src, size_t size);
 
 int		ft_isascii(int c);

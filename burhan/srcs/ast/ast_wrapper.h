@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils_00.c                                  :+:      :+:    :+:   */
+/*   ast_wrapper.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 21:30:55 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 10:38:46 by bhajili          ###   ########.fr       */
+/*   Created: 2025/06/29 10:36:31 by bhajili           #+#    #+#             */
+/*   Updated: 2025/06/29 10:36:51 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_wrapper.h"
 
-void	parser_error(const char *msg, const char *token_value)
-{
-	if (token_value)
-	{
-		write(2, "minishell: ", 11);
-		write(2, msg, ft_strlen(msg));
-		write(2, " '", 2);
-		write(2, token_value, ft_strlen(token_value));
-		write(2, "'\n", 2);
-	}
-	else
-	{
-		write(2, "minishell: ", 11);
-		write(2, msg, ft_strlen(msg));
-		write(2, "\n", 1);
-	}
-}
+#ifndef AST_WRAPPER_H
+# define AST_WRAPPER_H
+
+# include "../../incls/ast.h"
+
+#endif

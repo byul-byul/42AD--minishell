@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:20:23 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 06:51:32 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 09:24:46 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	append_env_var(char **str, const char *value, size_t *i, t_env *env)
 }
 
 static int	expand_dollar_sign(char **result, const char *value,
-								size_t *i, int last_exit_status, t_env *env)
+								size_t *i, t_env *env)
 {
 	char	*exit_str;
 	int		res;
@@ -48,7 +48,7 @@ static int	expand_dollar_sign(char **result, const char *value,
 	if (value[*i + 1] == '?')
 	{
 		*i += 2;
-		exit_str = ft_itoa(last_exit_status);
+		exit_str = ft_itoa(env->last_status);
 		if (!exit_str)
 			return (0);
 		res = ft_safeappendstr(result, exit_str);
@@ -62,39 +62,38 @@ static int	expand_dollar_sign(char **result, const char *value,
 	return ((*i)++, 1);
 }
 
-static int	is_escaped(const char *str, size_t i)
-{
-	int	count;
+// static int	is_escaped(const char *str, size_t i)
+// {
+// 	int	count;
 
-	count = 0;
-	if (i == 0)
-		return (0);
-	while (i-- > 0 && str[i] == '\\')
-		count++;
-	return (count % 2 == 1);
-}
+// 	count = 0;
+// 	if (i == 0)
+// 		return (0);
+// 	while (i-- > 0 && str[i] == '\\')
+// 		count++;
+// 	return (count % 2 == 1);
+// }
 
-static int	handle_escape(char **res, const char *val,
-						const char *qmap, size_t *i)
-{
-	if (!res || !val || !qmap || !i)
-		return (0);
-	if (val[*i] == '\\' && qmap[*i] != '1')
-	{
-		(*i)++;
-		if (val[*i])
-		{
-			if (!ft_safeappendchar(res, val[*i]))
-				return (0);
-			(*i)++;
-		}
-		return (1);
-	}
-	return (0);
-}
+// static int	handle_escape(char **res, const char *val,
+// 						const char *qmap, size_t *i)
+// {
+// 	if (!res || !val || !qmap || !i)
+// 		return (0);
+// 	if (val[*i] == '\\' && qmap[*i] != '1')
+// 	{
+// 		(*i)++;
+// 		if (val[*i])
+// 		{
+// 			if (!ft_safeappendchar(res, val[*i]))
+// 				return (0);
+// 			(*i)++;
+// 		}
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
-char	*expand_token_value(const char *val, const char *qmap,
-			int status, t_env *env)
+char	*expand_token_value(const char *val, const char *qmap, t_env *env)
 {
 	char	*res;
 	size_t	i;
@@ -107,14 +106,12 @@ char	*expand_token_value(const char *val, const char *qmap,
 	i = 0;
 	while (val[i])
 	{
-		if (ft_isdollarsign(val[i]) && val[i + 1] && qmap[i] != '1'
-			&& !is_escaped(val, i))
+		if (ft_isdollarsign(val[i]) && val[i + 1] && qmap[i] != '1')
 		{
-			if (!expand_dollar_sign(&res, val, &i, status, env))
+			if (!expand_dollar_sign(&res, val, &i, env))
 				return (free(res), NULL);
 		}
-		else if (!handle_escape(&res, val, qmap, &i)
-			&& (!ft_safeappendchar(&res, val[i++])))
+		else if (!ft_safeappendchar(&res, val[i++]))
 			return (free(res), NULL);
 	}
 	return (res);

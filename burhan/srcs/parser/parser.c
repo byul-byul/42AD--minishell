@@ -6,17 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:56:39 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 03:25:37 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:40:56 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_wrapper.h"
-
-int	is_redirect_token(t_token_type type)
-{
-	return (type == REDIR_IN || type == REDIR_OUT
-		|| type == HEREDOC || type == APPEND);
-}
 
 t_redir	*parse_redirection(t_token **token_list)
 {

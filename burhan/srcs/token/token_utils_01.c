@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 03:14:17 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:41:13 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,10 @@ int	is_token_operator(int c)
 int	is_meta_token(int c)
 {
 	return (ft_isparentheses(c) || is_token_operator(c));
+}
+
+int	is_redirect_token(t_token_type type)
+{
+	return (type == REDIR_IN || type == REDIR_OUT
+		|| type == HEREDOC || type == APPEND);
 }

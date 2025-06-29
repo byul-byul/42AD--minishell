@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/22 20:08:31 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/26 12:42:53 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/29 11:09:51 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@
 SRC_DIR     = .
 OBJ_DIR     = ./objs
 LIBFT_DIR   = ../../libft
-LIBFT       = $(LIBFT_DIR)/libft.a
+
+# Libft
+# LIBFT       = $(LIBFT_DIR)/libft.a
 
 # Sources & Objects
 SRCS        = env_utils_00.c \
@@ -27,24 +29,27 @@ OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 include ../../Makefile.inc
 
 # Rules
-all: $(LIBFT) $(OBJ_DIR) $(OBJS)
+all: dependencies $(OBJ_DIR) $(OBJS)
 
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
-
+# Compile env source files
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
+# Build dependencies
+dependencies:
+	$(MAKE) -C $(LIBFT_DIR)
+
+# Clean only env objs
 clean:
 	rm -rf $(OBJ_DIR)
-	$(MAKE) -C $(LIBFT_DIR) clean
 
+# Clean env + dependencies
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re dependencies

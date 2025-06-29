@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 09:53:44 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/28 14:11:44 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/29 10:50:38 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 include ../../Makefile.inc
 
 # Default rule
-all: deps $(OBJ_DIR) $(OBJS)
+all: dependencies $(OBJ_DIR) $(OBJS)
 
 # Compile exec source files
 $(OBJ_DIR):
@@ -45,7 +45,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -I$(ENV_DIR) -I$(PARSER_DIR) -I$(SIGNALS_DIR) -c $< -o $@
 
 # Build dependencies
-deps:
+dependencies:
 	$(MAKE) -C $(ENV_DIR)
 	$(MAKE) -C $(PARSER_DIR)
 	$(MAKE) -C $(SIGNALS_DIR)
@@ -62,4 +62,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re deps
+.PHONY: all clean fclean re dependencies

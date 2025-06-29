@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:23:02 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 04:13:04 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 09:12:12 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ size_t	ft_arrlen(t_cchr **arr, size_t size)
 	return (arrlen);
 }
 
-void	ft_freearr(char **arr, size_t size)
+void	ft_freearr(char **arr, ssize_t size)
 {
-	size_t	i;
+	ssize_t	i;
 
 	i = -1;
 	if (!arr)

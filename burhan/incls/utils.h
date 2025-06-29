@@ -6,25 +6,20 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 03:16:43 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:22:02 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-# define PROD_MODE 0
-# define DEBUG_MODE 1
+# define SUCCESS	0
+# define PROD_MODE	0
+# define DEBUG_MODE	1
 
 # ifndef PROGRAM_MODE
 #  define PROGRAM_MODE DEBUG_MODE
 # endif
-
-// # if PROGRAM_MODE == DEBUG_MODE
-// #  define DEBUG_PRINT(x) x
-// # else
-// #  define DEBUG_PRINT(x)
-// # endif
 
 # define EXIT_CODE_SIGNALLED				999
 
@@ -83,7 +78,7 @@ typedef enum e_error_code
 	ERR_CODE_NOT_EXECUTABLE,
 	ERR_CODE_FORK_FAILED,
 	ERR_CODE_EXECVE_FAILED,
-	ERR_CODE_ENV_INIT,
+	ERR_CODE_ENVINIT_FAILED,
 	ERR_CODE_MALLOC,
 	ERR_CODE_READLINE_FAILED,
 }	t_error_code;

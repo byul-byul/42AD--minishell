@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 12:44:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 03:45:04 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:41:27 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void			clean_token_list(t_token *token_list);
 int				is_heredoc_expand(t_token *prev, const char *quote_map);
 int				is_token_operator(int c);
 int				is_meta_token(int c);
+int				is_redirect_token(t_token_type type);
 void			extract_token_value(char **input, t_token *token);
 void			print_token_list(t_token *list);
 

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 04:51:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 04:12:31 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 08:59:17 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char *resolve_path(const char *cmd_name, t_env *env)
 		if (!full_path)
 			return (ft_freearr(paths, -1), NULL);
 		if (access(full_path, X_OK) == 0)
-			return (ft_freearr(paths, -1), full_path);
+			return (ft_freearr(paths, ft_arrsize(paths)), full_path);
 		free(full_path);
 		i++;
 	}

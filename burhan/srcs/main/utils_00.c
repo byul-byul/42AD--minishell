@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:39:32 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 13:02:41 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:17:51 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	print_err_msg_group_01(int msg_code, const char *msg_part)
 		ft_printf(MSH_ERR_MSG_FORK_FAILED);
 	else if (ERR_CODE_EXECVE_FAILED == msg_code)
 		ft_printf(MSH_ERR_MSG_EXECVE_FAILED);
-	else if (ERR_CODE_ENV_INIT == msg_code)
+	else if (ERR_CODE_ENVINIT_FAILED == msg_code)
 		ft_printf(MSH_ERR_MSG_ENV_INIT);
 	else if (ERR_CODE_MALLOC == msg_code)
 		ft_printf(MSH_ERR_MSG_MALLOC);
