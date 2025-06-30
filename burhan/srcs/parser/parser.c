@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:56:39 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 10:40:56 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/30 23:12:46 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_redir	*parse_redirection(t_token **token_list)
 	*token_list = (*token_list)->next;
 	if (!*token_list || (*token_list)->type != WORD)
 	{
-		parser_error("Syntax error near unexpected token", op->value);
+		print_parser_error("Syntax error near unexpected token", op->value);
 		return (NULL);
 	}
 	file = *token_list;
@@ -111,7 +111,7 @@ t_command	*parse_simple_command(t_token **token_list)
 	if (!cmd->argv || !cmd->argv[0])
 	{
 		free_command(cmd);
-		parser_error("Expected command", NULL);
+		print_parser_error("Expected command", NULL);
 		return (NULL);
 	}
 	return (cmd);
@@ -125,7 +125,7 @@ t_ast_node	*parse_subshell(t_token **token_list)
 
 	if (!*token_list || (*token_list)->type != OPEN_PAREN)
 	{
-		parser_error("Expected '('", NULL);
+		print_parser_error("Expected '('", NULL);
 		return (NULL);
 	}
 	*token_list = (*token_list)->next;
@@ -134,7 +134,7 @@ t_ast_node	*parse_subshell(t_token **token_list)
 		return (NULL);
 	if (!*token_list || (*token_list)->type != CLOSE_PAREN)
 	{
-		parser_error("Expected ')'", NULL);
+		print_parser_error("Expected ')'", NULL);
 		free_ast(subtree);
 		return (NULL);
 	}
@@ -175,7 +175,7 @@ t_ast_node	*parse_pipe(t_token **token_list)
 		right = parse_command(token_list);
 		if (!right)
 		{
-			parser_error("Syntax error near unexpected token '|'", NULL);
+			print_parser_error("Syntax error near unexpected token '|'", NULL);
 			free_ast(left);
 			return (NULL);
 		}
@@ -198,7 +198,7 @@ t_ast_node	*parse_logical_and(t_token **token_list)
 		right = parse_pipe(token_list);
 		if (!right)
 		{
-			parser_error("Syntax error near unexpected token '&&'", NULL);
+			print_parser_error("Syntax error near unexpected token '&&'", NULL);
 			free_ast(left);
 			return (NULL);
 		}
@@ -221,7 +221,7 @@ t_ast_node	*parse_logical_or(t_token **token_list)
 		right = parse_logical_and(token_list);
 		if (!right)
 		{
-			parser_error("Syntax error near unexpected token '||'", NULL);
+			print_parser_error("Syntax error near unexpected token '||'", NULL);
 			free_ast(left);
 			return (NULL);
 		}
@@ -241,7 +241,7 @@ t_ast_node	*parser(t_token *token_list)
 	ast = parse_logical_or(&current);
 	if (current)
 	{
-		parser_error("Syntax error near unexpected token", current->value);
+		print_parser_error("Syntax error near unexpected token", current->value);
 		if (ast)
 		{
 			free_ast(ast);

@@ -5,26 +5,20 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/24 21:55:36 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/30 23:12:06 by bhajili          ###   ########.fr        #
+#    Created: 2025/06/30 18:11:07 by bhajili           #+#    #+#              #
+#    Updated: 2025/06/30 18:15:40 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Directories
-SRC_DIR        = .
-OBJ_DIR        = ./objs
-AST_DIR        = ../ast
-EXPANDER_DIR   = ../expander
-UTILS_DIR      = ../utils
-
-AST_OBJ_DIR  = $(AST_DIR)/objs
-EXPANDER_OBJ_DIR    = $(EXPANDER_DIR)/objs
+SRC_DIR     = .
+OBJ_DIR     = ./objs
+LIBFT_DIR   = ../../libft
 
 # Sources & Objects
-SRCS    = parser.c \
-          parser_utils_00.c
+SRCS        = common_utils_00.c
 
-OBJS    = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Include shared flags (optional)
 include ../../Makefile.inc
@@ -32,28 +26,24 @@ include ../../Makefile.inc
 # Rules
 all: dependencies $(OBJ_DIR) $(OBJS)
 
-# Compile parser source files
+# Compile token source files
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(AST_DIR) -I$(EXPANDER_DIR) -I$(UTILS_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
 # Build dependencies
 dependencies:
-	$(MAKE) -C $(AST_DIR)
-	$(MAKE) -C $(EXPANDER_DIR)
-	$(MAKE) -C $(UTILS_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
-# Clean only parser objs
+# Clean only token objs
 clean:
 	rm -rf $(OBJ_DIR)
 
-# Clean parser + dependencies
+# Clean token + dependencies
 fclean: clean
-	$(MAKE) -C $(AST_DIR) fclean
-	$(MAKE) -C $(EXPANDER_DIR) fclean
-	$(MAKE) -C $(UTILS_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

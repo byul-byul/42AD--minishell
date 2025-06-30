@@ -6,67 +6,57 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:35:16 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/30 16:42:42 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/30 23:27:15 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_wrapper.h"
 
+static int	exit_minishell(t_minishell *sh, int exit_code)
+{
+	clean_shell(sh, TRUE);
+	minishell_printf(exit_code, NULL);
+	return (exit_code);
+}
+
 static int	handle_input(t_minishell *sh, char *line)
 {
 	sh->token_list = lexer(line);
+	if (!sh->token_list)
+		return (ERR_CODE_LEXER_FAILED);
 	if (PROGRAM_MODE == DEBUG_MODE)
 		print_lexer_result(line, sh->token_list);
 	sh->token_list = expander(sh->token_list, sh->env);
+	if (!sh->token_list)
+		return (ERR_CODE_EXPANDER_FAILED);
 	if (PROGRAM_MODE == DEBUG_MODE)
 		print_expander_result(sh->token_list);
-	if (!sh->token_list)
-		return (ERR_CODE_MALLOC);
 	sh->ast = parser(sh->token_list);
+	if (!sh->ast)
+		return (ERR_CODE_PARSER_FAILED);
 	if (PROGRAM_MODE == DEBUG_MODE)
 		print_parser_result(sh->ast);
-	if (!sh->ast)
-		return (ERR_CODE_MALLOC);
 	return (exec_ast(sh->ast, sh->env));
-}
-
-static int	exit_minishell(t_minishell *sh, int msg_code)
-{
-	clean_shell(sh, TRUE);
-	print_message_by_code(msg_code, NULL);
-	return (msg_code);
 }
 
 static int	read_input(char **line)
 {
 	if (!line)
 		return (ERR_CODE_READLINE_FAILED);
-	print_message_by_code(MSH_CODE_PROMPT, NULL);
-	if (*line)
-		free(*line);
+	printf_msg_by_code(MSH_CODE_PROMPT, NULL);
 	*line = readline("");
 	if (*line && **line)
 		add_history(*line);
 	return (SUCCESS);
 }
 
-// static char	*read_input(void)
-// {
-// 	char	*line;
-
-// 	print_message_by_code(MSH_CODE_PROMPT, NULL);
-// 	line = readline("");
-// 	if (line && *line)
-// 		add_history(line);
-// 	return (line);
-// }
-
 static int	init_minishell(t_minishell *sh, char **envp)
 {
 	if (!sh)
-		return (ERR_CODE_ENVINIT_FAILED);
+		return (ERR_CODE_UNKNOWN);
 	sh->ast = NULL;
 	sh->token_list = NULL;
+	sh->input = NULL;
 	sh->env = env_init(envp);
 	if (!sh->env)
 		return (ERR_CODE_ENVINIT_FAILED);
@@ -75,40 +65,20 @@ static int	init_minishell(t_minishell *sh, char **envp)
 
 int	run_minishell(char **envp)
 {
-	char		*line;
+	int			res;
 	t_minishell	sh;
 
-	line = NULL;
-	if (init_minishell(&sh, envp))
-		return (exit_minishell(&sh, ERR_CODE_ENVINIT_FAILED));
+	res = init_minishell(&sh, envp);
+	if (SUCCESS != res)
+		return (exit_minishell(&sh, res));
 	while (TRUE)
 	{
-		sh.env->last_status = read_input(&line);
+		sh.env->last_status = read_input(&sh.input);
 		if (SUCCESS != sh.env->last_status)
 			return (exit_minishell(&sh, sh.env->last_status));
-		sh.env->last_status = handle_input(&sh, line);
+		sh.env->last_status = handle_input(&sh, sh.input);
 		clean_shell(&sh, FALSE);
 		if (EXIT_CODE_SIGNALLED == sh.env->last_status)
 			return (exit_minishell(&sh, sh.env->last_status));
 	}
 }
-
-// int	run_minishell(char **envp)
-// {
-// 	char		*line;
-// 	t_minishell	sh;
-
-// 	if (init_minishell(&sh, envp))
-// 		return (exit_minishell(&sh, ERR_CODE_ENV_INIT));
-// 	while (TRUE)
-// 	{
-// 		line = read_input();
-// 		if (!line)
-// 			return (exit_minishell(&sh, ERR_CODE_READLINE_FAILED));
-// 		sh.env->last_status = handle_input(&sh, line);
-// 		free(line);
-// 		clean_shell(&sh, FALSE);
-// 		if (EXIT_CODE_SIGNALLED == sh.env->last_status)
-// 			return (exit_minishell(&sh, MSH_CODE_EXIT_EOF));
-// 	}
-// }

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:10:47 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 09:13:10 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/30 23:22:58 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,12 @@ int		ft_power(int nb, int power);
 int		ft_numlen(t_ll num, int base_len);
 
 void	ft_putchar(char c);
-void	ft_putstr(char *s);
-void	ft_putendl(char *s);
+void	ft_putstr(t_cchr *s);
+void	ft_putendl(t_cchr *s);
 void	ft_putnbr(int n);
 void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(t_cchr *s, int fd);
+void	ft_putendl_fd(t_cchr *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putnbr_base(t_ll nbr, t_cchr *base);
 void	ft_putnbr_base_fd(t_ll nbr, t_cchr *base, int fd);

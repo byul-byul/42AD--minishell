@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils_01.c                                  :+:      :+:    :+:   */
+/*   utils_wrapper.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 04:29:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 10:36:19 by bhajili          ###   ########.fr       */
+/*   Created: 2025/06/30 18:04:07 by bhajili           #+#    #+#             */
+/*   Updated: 2025/06/30 18:04:25 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_wrapper.h"
+#ifndef UTILS_WRAPPER_H
+# define UTILS_WRAPPER_H
 
-void	print_parser_result(t_ast_node *ast)
-{
-	ft_printf(C_BLUE "parser() returned AST:\n" C_RESET);
-	print_ast_tree(ast, 0);
-}
+# include "../../incls/utils.h"
+
+#endif

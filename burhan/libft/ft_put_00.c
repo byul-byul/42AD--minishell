@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 09:49:45 by bhajili           #+#    #+#             */
-/*   Updated: 2024/08/27 10:40:28 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/30 23:20:49 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	ft_putchar(char c)
 	ft_putchar_fd(c, 1);
 }
 
-void	ft_putstr(char *s)
+void	ft_putstr(t_cchr *s)
 {
 	ft_putstr_fd(s, 1);
 }
 
-void	ft_putendl(char *s)
+void	ft_putendl(t_cchr *s)
 {
 	ft_putendl_fd(s, 1);
 }
