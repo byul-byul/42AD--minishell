@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 10:35:44 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 11:14:50 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:32:54 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,18 @@ void	free_ast(t_ast_node *node)
 
 static void	print_ast_node_type(t_ast_node *node)
 {
+	int	i;
+
+	i = 0;
 	if (node->type == NODE_COMMAND)
 	{
 		ft_printf(C_RED "COMMAND:" C_RESET " ");
-		for (int i = 0; node->command->argv && node->command->argv[i]; i++)
+		while (node->command->argv && node->command->argv[i])
 		{
 			ft_printf("%s", node->command->argv[i]);
 			if (node->command->argv[i + 1])
 				ft_putchar(' ');
+			i++;
 		}
 	}
 	else if (node->type == NODE_PIPE)

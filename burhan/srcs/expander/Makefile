@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/15 10:49:40 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 11:42:29 by bhajili          ###   ########.fr        #
+#    Updated: 2025/06/30 13:56:07 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LEXER_OBJ_DIR  = $(LEXER_DIR)/objs
 ENV_OBJ_DIR    = $(ENV_DIR)/objs
 
 # Sources & Objects
-SRCS    = expander_00.c \
+SRCS    = expander.c \
           expander_01.c
 
 OBJS    = $(SRCS:%.c=$(OBJ_DIR)/%.o)

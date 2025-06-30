@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 10:29:03 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 11:15:00 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 18:33:24 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_ast_node
 
 t_ast_node	*create_ast_node(t_node_type type,
 				t_ast_node *left, t_ast_node *right);
-void		free_ast(t_ast_node *node);;
+void		free_ast(t_ast_node *node);
 void		print_ast_tree(t_ast_node *node, int depth);
 void		free_command(t_command *cmd);
 

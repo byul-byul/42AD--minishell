@@ -6,11 +6,22 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:39:32 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 10:17:51 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:46:28 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_wrapper.h"
+
+static void	print_err_msg_group_02(int msg_code, const char *msg_part)
+{
+	(void)msg_part;
+	if (ERR_CODE_ENVINIT_FAILED == msg_code)
+		ft_printf(MSH_ERR_MSG_ENV_INIT);
+	else if (ERR_CODE_MALLOC == msg_code)
+		ft_printf(MSH_ERR_MSG_MALLOC);
+	else if (ERR_CODE_READLINE_FAILED == msg_code)
+		ft_printf(MSH_ERR_MSG_READLINE_FAILED);
+}
 
 static void	print_err_msg_group_01(int msg_code, const char *msg_part)
 {
@@ -34,12 +45,6 @@ static void	print_err_msg_group_01(int msg_code, const char *msg_part)
 		ft_printf(MSH_ERR_MSG_FORK_FAILED);
 	else if (ERR_CODE_EXECVE_FAILED == msg_code)
 		ft_printf(MSH_ERR_MSG_EXECVE_FAILED);
-	else if (ERR_CODE_ENVINIT_FAILED == msg_code)
-		ft_printf(MSH_ERR_MSG_ENV_INIT);
-	else if (ERR_CODE_MALLOC == msg_code)
-		ft_printf(MSH_ERR_MSG_MALLOC);
-	else if (ERR_CODE_READLINE_FAILED == msg_code)
-		ft_printf(MSH_ERR_MSG_READLINE_FAILED);
 }
 
 static void	print_work_msg_group_01(int msg_code, char *msg_part)
@@ -69,14 +74,13 @@ void	print_message_by_code(int msg_code, char *msg_part)
 {
 	if (msg_code < 0)
 	{
-		if (msg_code <= GROUP_01)
+		if (msg_code < ERR_CODE_GROUP_01)
 			print_err_msg_group_01(msg_code, msg_part);
+		else if (msg_code < ERR_CODE_GROUP_02)
+			print_err_msg_group_02(msg_code, msg_part);
 	}
 	else
-	{
-		if (msg_code <= GROUP_01)
-			print_work_msg_group_01(msg_code, msg_part);
-	}
+		print_work_msg_group_01(msg_code, msg_part);
 }
 
 void	clean_shell(t_minishell *sh, int clean_env)

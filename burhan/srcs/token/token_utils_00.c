@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/27 03:02:17 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/30 13:50:24 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_token_type	get_token_type(char *value, char *quote_map)
 	return (WORD);
 }
 
-void	init_token(t_token *token)
+static void	init_token(t_token *token)
 {
 	token->type = WORD;
 	token->value = NULL;
@@ -66,16 +66,26 @@ void	init_token(t_token *token)
 	token->next = NULL;
 }
 
+t_token	*create_token(void)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	init_token(token);
+	return (token);
+}
+
 t_token	*fetch_token(char **input)
 {
 	t_token	*token;
 
 	if (!input || !*input)
 		return (NULL);
-	token = malloc(sizeof(t_token));
+	token = create_token();
 	if (!token)
 		return (NULL);
-	init_token(token);
 	while (ft_isspace(**input))
 		(*input)++;
 	extract_token_value(input, token);

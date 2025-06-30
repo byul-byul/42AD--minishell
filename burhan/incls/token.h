@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 12:44:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 10:41:27 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/30 13:16:21 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ typedef enum e_token_type
 	CLOSE_PAREN
 }			t_token_type;
 
+// .quote_map:
+// - has the same len as .value and filled by '0', '1' or '2'
+// - '0' - no quouting; '1' - single quoting; '2' - double quoting
+// - ex: .value = [echo "Hello" 'world']; .quote_map = [00000022222000111110]
 typedef struct s_token
 {
 	char			*value;
@@ -45,7 +49,7 @@ typedef struct s_token
 }				t_token;
 
 t_token			*fetch_token(char **input);
-void			init_token(t_token *token);
+t_token			*create_token(void);
 t_token_type	get_token_type(char *value, char *quote_map);
 void			clean_token_list(t_token *token_list);
 int				is_heredoc_expand(t_token *prev, const char *quote_map);

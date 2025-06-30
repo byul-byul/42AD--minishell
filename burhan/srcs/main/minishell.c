@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:35:16 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 10:26:18 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:42:42 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	run_minishell(char **envp)
 // {
 // 	char		*line;
 // 	t_minishell	sh;
-	
+
 // 	if (init_minishell(&sh, envp))
 // 		return (exit_minishell(&sh, ERR_CODE_ENV_INIT));
 // 	while (TRUE)

@@ -1,8 +1,10 @@
-# Compiler & flags
-CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -Iincludes -Ilibft -g
+# Makefile.inc — shared flags only (no rules!)
 
-# Generic build rule for object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+# Compiler
+CC      = cc
+
+# Common flags
+CFLAGS  = -Wall -Wextra -Werror -g
+
+# Includes
+INCLUDES = -Iincludes -Ilibft

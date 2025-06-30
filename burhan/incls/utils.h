@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 10:22:02 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:37:39 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ typedef enum e_error_code
 
 typedef enum e_msg_group
 {
-	GROUP_01,
+	ERR_CODE_GROUP_01 = -90,
+	ERR_CODE_GROUP_02 = -80,
 }	t_msg_group;
 
 #endif

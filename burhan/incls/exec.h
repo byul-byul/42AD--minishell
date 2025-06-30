@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:07:25 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/28 14:10:13 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/06/29 18:19:49 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <limits.h>
 # include <fcntl.h>
 
-# include "env.h"
 # include "parser.h"
 # include "signals.h"
 

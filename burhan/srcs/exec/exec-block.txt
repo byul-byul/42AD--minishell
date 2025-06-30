@@ -369,6 +369,10 @@ relative or an absolute path).
 • Avoid using more than one global variable to indicate a received signal. Consider
 the implications: this approach ensures that your signal handler will not access your
 main data structures.
+Be careful. This global variable cannot provide any other
+information or data access than the number of a received signal.
+Therefore, using "norm" type structures in the global scope is
+forbidden. 
 • Not interpret unclosed quotes or special characters which are not required by the
 subject such as \ (backslash) or ; (semicolon).
 • Handle ’ (single quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence.
@@ -399,13 +403,46 @@ foreground pipeline.
 ◦ env with no options or arguments
 ◦ exit with no options
 
-Be careful. This global variable cannot provide any other
-information or data access than the number of a received signal.
-Therefore, using "norm" type structures in the global scope is
-forbidden. 
-
 
 Bonus part
 Your program has to implement:
 • && and || with parenthesis for priorities.
 • Wildcards * should work for the current working directory.
+
+
+
+всего 9 модулей.
+Каждый модуль это отдельная папка с мейкфайлом, который собирает объект файлы текущего модуля и при наличии объект файлы модулей, от которых текущий модуль зависит.
+Все 9 модулей лежат в папке srcs/.
+На одном уровне с srcs/ лежат:
+- папка libft - папка моей библиотеки, которая разрешена сабжектом
+- папка incls - с хэдер файлами
+- Makefile
+- Makefile.inc
+
+Независимые модули (могут зависеть только от libft):
+- ast - отвечает за сущность ast и работу с ним
+- env - отвечает за работу с окружением
+- token - отвечает за сущность токен и работу с ним
+- signals - отвечает за работу с сигналами
+
+Зависимые модули (зависят от одного или более других модулей)
+- lexer - зависит от токен, получает инпут и строит токен лист
+- экспандер - зависит от лексер и энв, получает список токенов, обновляет его, раскрыв доллар, возвращает список токенов
+- парсер - зависит от аст и экспандера, получает токен лист и строит аст дерево
+- exec - зависит от парсера и сигналов, получает аст дерево и рекурсивно исполняет каждую ноду
+- main - центральный модуль, зависит от exec, запускает основной цикл
+
+
+
+
+
+теперь когда у тебя есть понимание архитектуры, предлагаю тебе взять в руки управление.
+Веди себя как строгий и требовательный ментор.
+Твоя цель проверить проект, выявить слабости, несоответствие сабжекту, ошибки, утечки и помочь их исправить, чтобы проект был полностью готов к защите.
+
+Твой план работы:
+1. ознакомиться в достаточной степени с кодом: только хэдер файлы? только основные функции? или вообще все? решаешь ТЫ!.
+2. фиксировать свои замечания в единый чеклист. Мы не побежим сразу все фиксить. Сначала соберем все замечания и подозрения в едином месте.
+3. Ты предложишь мне собрать проект и начать тестировать его, опираясь на список, полученный в п.2. Ты будешь вести диалог. Ты будешь говорить, что делать, что проверить, что отправить тебе, чтобы ты посмотрел, проверил.
+4. Всегда будь корректен, краток, требователен. Инициатива на твоей стороне. Твой единственный референс - это сабжект из 4ых частей, который я тебе уже отправил.
