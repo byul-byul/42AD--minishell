@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:30:55 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/30 17:54:52 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 01:19:48 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_parser_error(const char *msg, const char *token_value)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(msg, 2);
-		ft_putstr_fd(" '", 2);
+		ft_putstr_fd(" `", 2);
 		ft_putstr_fd(token_value, 2);
 		ft_putstr_fd("'\n", 2);
 	}

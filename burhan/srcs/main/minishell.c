@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:35:16 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/30 23:27:15 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 01:52:07 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 static int	exit_minishell(t_minishell *sh, int exit_code)
 {
 	clean_shell(sh, TRUE);
-	minishell_printf(exit_code, NULL);
+	print_msg_by_code(exit_code, NULL);
 	return (exit_code);
 }
 
 static int	handle_input(t_minishell *sh, char *line)
 {
+	if (!ft_strlen(line))
+		return (ft_putchar_fd('\n', 1), SUCCESS);
 	sh->token_list = lexer(line);
 	if (!sh->token_list)
 		return (ERR_CODE_LEXER_FAILED);
@@ -43,7 +45,7 @@ static int	read_input(char **line)
 {
 	if (!line)
 		return (ERR_CODE_READLINE_FAILED);
-	printf_msg_by_code(MSH_CODE_PROMPT, NULL);
+	ft_putstr_fd(MWM_DEFAULT_PROMPT, 1);
 	*line = readline("");
 	if (*line && **line)
 		add_history(*line);
