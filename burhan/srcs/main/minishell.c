@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:35:16 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 01:52:07 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 23:52:01 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	exit_minishell(t_minishell *sh, int exit_code)
 static int	handle_input(t_minishell *sh, char *line)
 {
 	if (!ft_strlen(line))
-		return (ft_putchar_fd('\n', 1), SUCCESS);
+		return (SUCCESS);
 	sh->token_list = lexer(line);
 	if (!sh->token_list)
 		return (ERR_CODE_LEXER_FAILED);
@@ -45,9 +45,13 @@ static int	read_input(char **line)
 {
 	if (!line)
 		return (ERR_CODE_READLINE_FAILED);
-	ft_putstr_fd(MWM_DEFAULT_PROMPT, 1);
-	*line = readline("");
-	if (*line && **line)
+	*line = readline(MWM_DEFAULT_PROMPT);
+	if (!*line)
+	{
+		ft_putstr_fd(MWM_EXIT_ON_EOF, STDOUT_FILENO);
+		return (EXIT_CODE_SIGNALLED);
+	}
+	if (**line)
 		add_history(*line);
 	return (SUCCESS);
 }
@@ -73,6 +77,7 @@ int	run_minishell(char **envp)
 	res = init_minishell(&sh, envp);
 	if (SUCCESS != res)
 		return (exit_minishell(&sh, res));
+	setup_shell_signals();
 	while (TRUE)
 	{
 		sh.env->last_status = read_input(&sh.input);

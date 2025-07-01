@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:05:49 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 04:40:33 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 00:01:28 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static const char	*get_msg_by_code(int msg_code)
 		return (get_msg_by_code_00(msg_code));
 	else if (msg_code < MSG_GROUP_10)
 		return (get_msg_by_code_10(msg_code));
+	else if (msg_code == EXIT_CODE_SIGNALLED)
+		return (MWM_EMPTY);
 	return (MEM_UNKNOWN);
 }
 

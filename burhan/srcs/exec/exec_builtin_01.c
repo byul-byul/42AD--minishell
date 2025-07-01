@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 01:34:54 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 03:16:45 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 01:25:24 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,20 @@ static int	handle_export_arg(char *arg, t_env *env)
 {
 	char		*sep;
 	char		*key;
-	t_env_var	*new_var;
 
 	sep = ft_strchr(arg, '=');
 	if (!sep)
-	{
-		ft_putendl_fd("minishell: export: invalid format", 2);
-		return (1);
-	}
-	key = ft_strndup(arg, sep - arg);
+		key = ft_strdup(arg);
+	else
+		key = ft_strndup(arg, sep - arg);
 	if (!is_valid_key(key))
 	{
-		free(key);
 		ft_putendl_fd("minishell: export: not a valid identifier", 2);
-		return (1);
+		return (free(key), 1);
 	}
-	new_var = env_varinit(arg);
-	if (!new_var || !env_varlist_add(env, new_var))
-	{
-		free(key);
-		return (1);
-	}
-	free(key);
-	return (0);
+	if (!env_varlist_add(env, env_varinit(arg)))
+		return (free(key), 1);
+	return (free(key), 0);
 }
 
 int	run_export(t_command *cmd, t_env *env)
@@ -49,7 +40,7 @@ int	run_export(t_command *cmd, t_env *env)
 		return (1);
 	if (!cmd->argv[1])
 	{
-		env_print(env);
+		env_print(env, TRUE);
 		return (0);
 	}
 	i = 1;

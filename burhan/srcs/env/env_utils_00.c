@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 09:21:20 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 01:03:03 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_env_var	*env_varinit(char *keyvalue)
 		envvar->value = ft_strdup(separator + 1);
 	}
 	else
-		return (free(envvar), NULL);
+		envvar->key = ft_strdup(keyvalue);
 	return (envvar);
 }
 

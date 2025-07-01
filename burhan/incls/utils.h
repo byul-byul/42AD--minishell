@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 17:25:27 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 22:48:10 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 // MWM - minishell work message
 // Prompts and UI;
+# define MWM_EMPTY				""
 # define MWM_UNKNOWN			"unknown message\n"
 # define MWM_DEFAULT_PROMPT		"minishell$ "
 # define MWM_DEFAULT_PREFIX		"minishell: "

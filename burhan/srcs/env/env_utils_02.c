@@ -6,13 +6,13 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/26 12:44:12 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 01:24:37 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_wrapper.h"
 
-void	env_print(t_env *env)
+void	env_print(t_env *env, int print_empty_var)
 {
 	t_env_var	*curr;
 
@@ -23,6 +23,8 @@ void	env_print(t_env *env)
 	{
 		if (curr->value)
 			ft_printf("%s=%s\n", curr->key, curr->value);
+		else if (print_empty_var)
+			ft_printf("%s=\n", curr->key);
 		curr = curr->next;
 	}
 }

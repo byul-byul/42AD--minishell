@@ -1,4 +1,3 @@
-✅❌
 MANDATORY
 Compile
 - [✅] Use "make -n" to see if compilation use "-Wall -Wextra -Werror". If not, select the "invalid compilation" flag.
@@ -15,35 +14,35 @@ Simple Command & global variables
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 Arguments
-- [❔] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes or double quotes.
-- [❔] Repeat multiple times with different commands and arguments.
+- [✅] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes or double quotes.
+- [✅] Repeat multiple times with different commands and arguments.
 - [❔] If something crashes, select the "crash" flag.
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 echo
-- [❔] Execute the echo command with or without arguments, or the -n option.
-- [❔] Repeat multiple times with different arguments.
+- [✅] Execute the echo command with or without arguments, or the -n option.
+- [✅] Repeat multiple times with different arguments.
 - [❔] If something crashes, select the "crash" flag.
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 exit
-- [❔] Execute exit command with or without arguments.
-- [❔] Repeat multiple times with different arguments.
-- [❔] Don't forget to relaunch the minishell
+- [✅] Execute exit command with or without arguments.
+- [✅] Repeat multiple times with different arguments.
+- [❔] Don't forget to relaunch the minishell.
 - [❔] If something crashes, select the "crash" flag.
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 Return value of a process
-- [❔] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes and double quotes. Then execute echo $?
-- [❔] Check the printed value. You can do the same in bash in order to compare the results.
+- [✅] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes and double quotes. Then execute echo $?
+- [❔❌] Check the printed value. You can do the same in bash in order to compare the results.  ❌: have not been tested properly
 - [❔] Repeat multiple times with different commands and arguments. Try some wrong commands like '/bin/ls filethatdoesntexist'
 - [❔] Try anything like expr $? + $?
 - [❔] If something crashes, select the "crash" flag.
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 Signals
-- [❔] ctrl-C in an empty prompt should display a new line with a new prompt.
-- [❔] ctrl-\ in an empty prompt should not do anything.
+- [✅] ctrl-C in an empty prompt should display a new line with a new prompt.
+- [✅] ctrl-\ in an empty prompt should not do anything.
 - [❔] ctrl-D in an empty prompt should quit minishell --> RELAUNCH!
 - [❔] ctrl-C in a prompt after you wrote some stuff should display a new line with a new prompt.
 - [❔] The buffer should be clean too. Press "Enter" to make sure nothing from the previous line is executed.
@@ -57,8 +56,7 @@ Signals
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 Double Quotes
-- [❔] Execute a simple command with arguments and, this time, use also double quotes (you should try to
-- [❔] include whitespaces too).
+- [❔] Execute a simple command with arguments and, this time, use also double quotes (you should try to include whitespaces too).
 - [❔] Try a command like : echo "cat lol.c | cat > lol.c"
 - [❔] Try anything except $.
 - [❔] If something crashes, select the "crash" flag.

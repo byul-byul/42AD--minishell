@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:16:45 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/25 10:39:55 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 00:58:18 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	env_varlist_add(t_env *env, t_env_var *envvar)
 	res = 0;
 	if (!env || !envvar)
 		return (0);
+	env_varlist_remove(env, envvar->key);
 	res = env_varlist_push(&env->var_list, envvar);
 	if (res)
 	{

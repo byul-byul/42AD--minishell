@@ -6,13 +6,13 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:36:20 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/30 17:45:54 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 00:09:55 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals_wrapper.h"
 
-volatile sig_atomic_t	g_sigint = 0;
+volatile sig_atomic_t	g_exit_status = 0;
 
 void	setup_child_signals(void)
 {
@@ -23,12 +23,22 @@ void	setup_child_signals(void)
 void	sigint_handler(int sig)
 {
 	(void)sig;
-	g_sigint = 1;
-	write(1, "\n", 1);
+	g_exit_status = 130;
+	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_redisplay();
+	rl_done = 1; // <-- ключевая строка
 }
+
+// void	sigint_handler(int sig)
+// {
+// 	(void)sig;
+// 	g_exit_status = 130;
+// 	write(STDOUT_FILENO, "\n", 1);
+// 	rl_replace_line("", 0);
+// 	rl_on_new_line();
+// 	rl_redisplay();
+// }
 
 void	setup_shell_signals(void)
 {
