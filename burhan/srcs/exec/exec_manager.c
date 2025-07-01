@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:19:08 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/28 14:10:34 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 03:12:19 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ int	exec_subshell(t_ast_node *node, t_env *env)
 {
 	pid_t	pid;
 	int		status;
+	int		code;
 
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
-		int code = exec_ast(node, env);
+		code = exec_ast(node, env);
 		exit(code);
 	}
 	waitpid(pid, &status, 0);

@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 09:53:44 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/29 10:50:38 by bhajili          ###   ########.fr        #
+#    Updated: 2025/07/01 03:20:46 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ SRCS        = exec_manager.c \
               exec_command.c \
               exec_builtin_00.c \
               exec_builtin_01.c \
+              exec_builtin_02.c \
 			  exec_external_00.c \
+			  exec_external_01.c \
 			  exec_pipe.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)

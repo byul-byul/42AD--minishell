@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 19:51:22 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/28 13:50:31 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 03:18:33 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	open_redir_file(t_redir *redir)
 	else if (redir->type == APPEND)
 		fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redir->type == HEREDOC)
-		fd = open(redir->filename, O_RDONLY); // heredoc файл уже должен быть создан ранее
+		fd = open(redir->filename, O_RDONLY);
 	else
 		return (-1);
 	if (fd < 0)

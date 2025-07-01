@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 01:12:13 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 02:19:10 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@
 
 // MWM - minishell work message
 // Prompts and UI;
+# define MWM_UNKNOWN			"unknown message\n"
 # define MWM_DEFAULT_PROMPT		"minishell$ "
 # define MWM_DEFAULT_PREFIX		"minishell: "
 # define MWM_EXIT_ON_EOF		"exit\n"
-# define MWM_UNKNOWN			"unknown message\n"
 
 // MEM - minishell error message
 // Errors;
@@ -42,6 +42,9 @@
 # define MEM_EXPANDER_FAILED	"expander() returned NULL\n"
 # define MEM_PARSER_FAILED		"parser() returned NULL\n"
 
+# define MEM_PARSER_SYNTAX_00	"syntax error near unexpected token `"
+# define MEM_PARSER_SYNTAX_01	"expected `"
+
 typedef enum e_msg_group
 {
 	MSG_GROUP_00 = 10,
@@ -50,6 +53,7 @@ typedef enum e_msg_group
 
 typedef enum e_msg_code
 {
+	MSH_CODE_UNKNOWN,
 	MSH_CODE_DEF_PROMPT,
 	MSH_CODE_DEF_PREFIX,
 	MSH_CODE_EXIT_ON_EOF,
@@ -63,6 +67,8 @@ typedef enum e_error_code
 	ERR_CODE_LEXER_FAILED,
 	ERR_CODE_EXPANDER_FAILED,
 	ERR_CODE_PARSER_FAILED,
+	ERR_CODE_PARSER_SYNTAX_00,
+	ERR_CODE_PARSER_SYNTAX_01,
 }	t_error_code;
 
 void	print_msg_by_code(int msg_code, const char *msg_part);
