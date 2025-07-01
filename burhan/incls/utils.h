@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 02:19:10 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/01 04:42:03 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # ifndef PROGRAM_MODE
 #  define PROGRAM_MODE DEBUG_MODE
 # endif
-
 
 // MWM - minishell work message
 // Prompts and UI;
