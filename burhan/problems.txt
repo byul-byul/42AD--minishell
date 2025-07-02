@@ -1,3 +1,4 @@
 1. prompt 'minishell$' is wasting with other messages during exploring history
 2. Simple Command & global variables: - [❌] Test only spaces or tabs. ❌: tabs are not working
 3. Ctrl+C after command 'grep something' does not show prompt messages.
+4. echo $USER' --> not the same as in bash

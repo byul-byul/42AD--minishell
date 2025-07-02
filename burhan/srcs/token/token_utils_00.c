@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/30 13:50:24 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:53:27 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	init_token(t_token *token)
 	token->next = NULL;
 }
 
-t_token	*create_token(void)
+t_token	*create_token(t_token_type type, const char *value)
 {
 	t_token	*token;
 
@@ -74,6 +74,8 @@ t_token	*create_token(void)
 	if (!token)
 		return (NULL);
 	init_token(token);
+	token->type = type;
+	token->value = ft_strdup(value);
 	return (token);
 }
 
@@ -83,7 +85,7 @@ t_token	*fetch_token(char **input)
 
 	if (!input || !*input)
 		return (NULL);
-	token = create_token();
+	token = create_token(WORD, NULL);
 	if (!token)
 		return (NULL);
 	while (ft_isspace(**input))

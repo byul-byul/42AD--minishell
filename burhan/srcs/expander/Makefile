@@ -6,7 +6,7 @@
 #    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/15 10:49:40 by bhajili           #+#    #+#              #
-#    Updated: 2025/07/02 02:37:21 by bhajili          ###   ########.fr        #
+#    Updated: 2025/07/02 14:41:30 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ ENV_OBJ_DIR    = $(ENV_DIR)/objs
 
 # Sources & Objects
 SRCS    = expander.c \
-          expand_dollar.c
+          expand_dollar.c \
+          expand_wildcard.c
 
 OBJS    = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

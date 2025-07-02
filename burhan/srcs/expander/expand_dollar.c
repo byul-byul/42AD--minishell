@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 02:34:41 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 03:15:43 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:23:59 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,42 @@ int	expand_dollar_sign(char **res, const char *val, size_t *i, t_env *env)
 	return ((*i)++, 1);
 }
 
+static char	*expand_token_value(const char *val, const char *qmap, t_env *env)
+{
+	char	*res;
+	size_t	i;
+
+	if (!val || !qmap)
+		return (NULL);
+	res = ft_strdup("");
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (val[i])
+	{
+		if (ft_isdollarsign(val[i]) && val[i + 1] && qmap[i] != '1')
+		{
+			if (!expand_dollar_sign(&res, val, &i, env))
+				return (free(res), NULL);
+		}
+		else if (!ft_safeappendchar(&res, val[i++]))
+			return (free(res), NULL);
+	}
+	return (res);
+}
+
+int	handle_dollar_expansion(t_token *token, t_env *env)
+{
+	char			*tmp;
+	char			*expanded;
+
+	tmp = token->value;
+	expanded = expand_token_value(token->value, token->quote_map, env);
+	if (!expanded)
+		return (free(tmp), 0);
+	if (ft_strcmp(tmp, expanded))
+		token->expanded = 1;
+	token->value = expanded;
+	token->type = get_token_type(token->value, token->quote_map);
+	return (free(tmp), 1);
+}
