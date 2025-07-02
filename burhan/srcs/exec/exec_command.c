@@ -6,15 +6,11 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 19:51:22 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 03:18:33 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:30:25 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_wrapper.h"
-
-#include <fcntl.h>
-#include <unistd.h>
-#include <errno.h>
 
 int	open_redir_file(t_redir *redir)
 {
@@ -29,7 +25,7 @@ int	open_redir_file(t_redir *redir)
 	else if (redir->type == APPEND)
 		fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redir->type == HEREDOC)
-		fd = open(redir->filename, O_RDONLY);
+		return (redir->fd);
 	else
 		return (-1);
 	if (fd < 0)

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 10:29:03 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 18:33:24 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:29:36 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum e_node_type
 
 typedef struct s_redir
 {
+	int				fd;
 	int				type;
 	char			*filename;
 	int				heredoc_expand;

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:07:25 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 03:20:11 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:23:41 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/wait.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # include "parser.h"
 # include "signals.h"
@@ -39,9 +40,8 @@ int		run_unset(t_command *cmd, t_env *env);
 int		run_env(t_env *env);
 int		run_exit(t_command *cmd);
 int		is_valid_key(const char *key);
-
+int		handle_heredocs(t_command *cmd);
 int		exec_pipe(t_ast_node *left, t_ast_node *right, t_env *env);
-
 void	print_error(int error_code);
 
 #endif

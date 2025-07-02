@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:19:08 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 03:12:19 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:21:38 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ int	exec_ast(t_ast_node *node, t_env *env)
 	if (!node)
 		return (1);
 	if (node->type == NODE_COMMAND)
+	{
+		if (handle_heredocs(node->command))
+			return (1);
 		return (exec_command(node->command, env));
+	}
 	else if (node->type == NODE_PIPE)
 		return (exec_pipe(node->left, node->right, env));
 	else if (node->type == NODE_AND)

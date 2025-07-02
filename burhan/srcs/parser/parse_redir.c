@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:56:39 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 03:10:25 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:18:27 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static t_redir	*parse_redirection(t_token **token_list)
 		return (NULL);
 	redir->type = op->type;
 	redir->filename = ft_strdup(file->value);
+	redir->heredoc_expand = file->heredoc_expand;
 	return (redir);
 }
 
