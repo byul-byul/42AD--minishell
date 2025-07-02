@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 04:51:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 00:04:27 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:38:04 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,11 @@ void	print_exec_error(const char *cmd, const char *msg)
 	ft_putstr_fd("\n", 2);
 }
 
-// static int	handle_child_exec(char *path, t_command *cmd, t_env *env)
-// {
-// 	char	**envp;
-
-// 	envp = env_reassemble_envp(env);
-// 	execve(path, cmd->argv, envp);
-// 	perror("execve");
-// 	exit(126);
-// }
-
 static int	handle_child_exec(char *path, t_command *cmd, t_env *env)
 {
 	char	**envp;
 
-	setup_child_signals(); // <--- ВАЖНО: сбрасываем SIGINT/SIGQUIT
+	setup_child_signals();
 	envp = env_reassemble_envp(env);
 	execve(path, cmd->argv, envp);
 	perror("execve");

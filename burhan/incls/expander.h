@@ -6,15 +6,15 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:21:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 15:19:12 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:35:12 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-#include <dirent.h>
-#include <fnmatch.h>
+# include <dirent.h>
+# include <fnmatch.h>
 
 # include "lexer.h"
 # include "env.h"

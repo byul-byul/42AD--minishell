@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:56:39 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 03:09:48 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:36:48 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,50 +65,6 @@ static t_command	*parse_simple_command(t_token **token_list)
 		return (NULL);
 	return (cmd);
 }
-
-// t_command	*parse_simple_command(t_token **token_list)
-// {
-// 	t_command	*cmd;
-// 	t_list		*argv_list;
-// 	t_redir		*redir;
-
-// 	cmd = ft_calloc(1, sizeof(t_command));
-// 	if (!cmd)
-// 		return (NULL);
-// 	argv_list = NULL;
-// 	cmd->redirections = NULL;
-
-// 	while (*token_list)
-// 	{
-// 		if ((*token_list)->type == WORD)
-// 		{
-// 			ft_lstadd_back(&argv_list, ft_lstnew(ft_strdup((*token_list)->value)));
-// 			*token_list = (*token_list)->next;
-// 		}
-// 		else if (is_redirect_token((*token_list)->type))
-// 		{
-// 			redir = parse_redirection(token_list);
-// 			if (!redir)
-// 			{
-// 				free_command(cmd);
-// 				ft_lstclear(&argv_list, free);
-// 				return (NULL);
-// 			}
-// 			add_redir_back(&cmd->redirections, redir);
-// 		}
-// 		else
-// 			break;
-// 	}
-// 	cmd->argv = list_to_str_array(argv_list);
-// 	ft_lstclear(&argv_list, free);
-// 	if (!cmd->argv || !cmd->argv[0])
-// 	{
-// 		free_command(cmd);
-// 		// print_parser_error(ERR_CODE_PARSER_SYNTAX_01, NULL);
-// 		return (NULL);
-// 	}
-// 	return (cmd);
-// }
 
 t_ast_node	*parse_command(t_token **token_list)
 {

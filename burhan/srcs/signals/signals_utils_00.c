@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:36:20 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 00:09:55 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:37:44 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sigint_handler(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_done = 1; // <-- ключевая строка
+	rl_done = 1;
 }
 
 // void	sigint_handler(int sig)
