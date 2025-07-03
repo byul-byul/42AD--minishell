@@ -2,3 +2,34 @@
 2. Simple Command & global variables: - [❌] Test only spaces or tabs. ❌: tabs are not working
 3. Ctrl+C after command 'grep something' does not show prompt messages.
 4. echo $USER' --> not the same as in bash
+
+
+
+new problems:
+1. ctrl+D shows exit on new line with prompt and then one more prompt on new line:
+minishell$ 
+minishell$ exit
+minishell: %
+
+it should show only exit on the same line
+
+2. cat the ctrl+c shows two prompts:
+minishell$ cat
+^C
+minishell$ 
+minishell$ 
+
+should show only one
+
+3.
+minishell$ echo $'USER'
+bhajili
+minishell$ echo $"USER"
+bhajili
+
+
+bash-3.2$ echo $'USER'
+USER
+bash-3.2$ echo $"USER"
+USER
+

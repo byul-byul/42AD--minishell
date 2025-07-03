@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:35:16 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/03 06:47:00 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 10:36:22 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ static int	read_input(char **line)
 	*line = readline(MWM_DEFAULT_PROMPT);
 	if (!*line)
 	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		ft_putstr_fd(MWM_EXIT_ON_EOF, STDOUT_FILENO);
 		return (EXIT_CODE_SIGNALLED);
 	}
@@ -78,6 +81,7 @@ int	run_minishell(char **envp)
 	if (SUCCESS != res)
 		return (exit_minishell(&sh, res));
 	setup_shell_signals();
+	signal(SIGQUIT, SIG_IGN);
 	while (TRUE)
 	{
 		sh.env->last_status = read_input(&sh.input);

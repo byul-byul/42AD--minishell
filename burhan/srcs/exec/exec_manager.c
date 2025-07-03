@@ -6,19 +6,38 @@
 /*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:19:08 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/03 07:11:10 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 16:03:06 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_wrapper.h"
 
+// int	handle_and_return_status(int status)
+// {
+// 	if (WIFEXITED(status))
+// 		return (WEXITSTATUS(status));
+// 	else if (WIFSIGNALED(status))
+// 	{
+// 		g_exit_status = 128 + WTERMSIG(status);
+// 		return (g_exit_status);
+// 	}
+// 	return (1);
+// }
+
 int	handle_and_return_status(int status)
 {
+	int	sig;
+
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 	{
-		g_exit_status = 128 + WTERMSIG(status);
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+		else if (sig == SIGQUIT)
+			write(STDOUT_FILENO, "Quit: 3\n", 8);
+		g_exit_status = 128 + sig;
 		return (g_exit_status);
 	}
 	return (1);

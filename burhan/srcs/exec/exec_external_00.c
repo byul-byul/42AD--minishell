@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 04:51:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/03 09:20:59 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 10:26:45 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static int	handle_child_exec(char *path, t_command *cmd, t_env *env)
 {
 	char	**envp;
 
+	signal(SIGQUIT, SIG_DFL);
 	setup_child_signals();
 	envp = env_reassemble_envp(env);
 	execve(path, cmd->argv, envp);

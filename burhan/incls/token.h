@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 12:44:13 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 14:57:19 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:54:50 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TOKEN_H
 
 # include "libft.h"
+# include "signals.h"
 
 # define C_RESET   "\033[0m"
 # define C_BLUE    "\033[34m"

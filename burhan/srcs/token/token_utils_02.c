@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils_02.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:15:01 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 14:56:15 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 15:04:56 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token_wrapper.h"
+
+static int	append_to_value_and_map(char **input, char qchar, char **value,
+				char **quote_map)
+{
+	return (!ft_safeappendchar(value, **input)
+		|| !ft_safeappendchar(quote_map, qchar));
+}
 
 static int	extract_quoted(char **input, char quote,
 				char **value, char **quote_map)
@@ -30,16 +37,15 @@ static int	extract_quoted(char **input, char quote,
 		if (quote == '"' && **input == '\\' && *(*input + 1))
 		{
 			(*input)++;
-			if (!ft_safeappendchar(value, **input)
-				|| !ft_safeappendchar(quote_map, qchar))
+			if (append_to_value_and_map(input, qchar, value, quote_map))
 				return (0);
 		}
-		else if (!ft_safeappendchar(value, **input)
-			|| !ft_safeappendchar(quote_map, qchar))
+		else if (append_to_value_and_map(input, qchar, value, quote_map))
 			return (0);
 		(*input)++;
 	}
-	return (0);
+	ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
+	return (g_exit_status = 258, 0);
 }
 
 static int	extract_word_token(char **input, char **value, char **quote_map)

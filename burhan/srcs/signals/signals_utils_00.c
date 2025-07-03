@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:36:20 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/03 07:23:04 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 10:49:18 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ void	sigint_handler(int sig)
 	rl_on_new_line();
 	rl_redisplay();
 }
+
+// void	sigint_handler(int sig)
+// {
+// 	(void)sig;
+// 	write(STDOUT_FILENO, "\n", 1);
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// 	g_exit_status = 130;
+// }
 
 void	sigquit_handler(int sig)
 {
