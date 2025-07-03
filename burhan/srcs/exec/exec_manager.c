@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   exec_manager.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:19:08 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 16:21:38 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 07:11:10 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_wrapper.h"
+
+int	handle_and_return_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+	{
+		g_exit_status = 128 + WTERMSIG(status);
+		return (g_exit_status);
+	}
+	return (1);
+}
 
 int	exec_and(t_ast_node *left, t_ast_node *right, t_env *env)
 {
@@ -47,9 +59,7 @@ int	exec_subshell(t_ast_node *node, t_env *env)
 		exit(code);
 	}
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (1);
+	return (handle_and_return_status(status));
 }
 
 int	exec_ast(t_ast_node *node, t_env *env)

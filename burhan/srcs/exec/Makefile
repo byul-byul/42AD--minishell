@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
+#    By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 09:53:44 by bhajili           #+#    #+#              #
-#    Updated: 2025/07/02 16:31:38 by bhajili          ###   ########.fr        #
+#    Updated: 2025/07/03 07:02:49 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,9 @@ SRC_DIR         = .
 OBJ_DIR         = ./objs
 ENV_DIR         = ../env
 PARSER_DIR      = ../parser
-SIGNALS_DIR     = ../signals
 
 ENV_OBJ_DIR     = $(ENV_DIR)/objs
 PARSER_OBJ_DIR  = $(PARSER_DIR)/objs
-SIGNALS_OBJ_DIR = $(SIGNALS_DIR)/objs
 
 # Sources & Objects
 SRCS        = exec_manager.c \
@@ -45,13 +43,12 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(ENV_DIR) -I$(PARSER_DIR) -I$(SIGNALS_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(ENV_DIR) -I$(PARSER_DIR) -c $< -o $@
 
 # Build dependencies
 dependencies:
 	$(MAKE) -C $(ENV_DIR)
 	$(MAKE) -C $(PARSER_DIR)
-	$(MAKE) -C $(SIGNALS_DIR)
 
 # Clean only exec objs
 clean:
@@ -61,7 +58,6 @@ clean:
 fclean: clean
 	$(MAKE) -C $(ENV_DIR) fclean
 	$(MAKE) -C $(PARSER_DIR) fclean
-	$(MAKE) -C $(SIGNALS_DIR) fclean
 
 re: fclean all
 

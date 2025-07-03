@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 02:34:41 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 14:23:59 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 07:05:33 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	expand_dollar_sign(char **res, const char *val, size_t *i, t_env *env)
 	if (val[*i + 1] == '?')
 	{
 		*i += 2;
-		exit_str = ft_itoa(env->last_status);
+		exit_str = ft_itoa(g_exit_status);
 		if (!exit_str)
 			return (0);
 		result = ft_safeappendstr(res, exit_str);

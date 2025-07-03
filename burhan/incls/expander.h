@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:21:38 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 15:35:12 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 06:50:54 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # include "lexer.h"
 # include "env.h"
+# include "signals.h"
 
 # define DOLLAR_SIGN	'$'
 # define WILDCARD_SIGN	'*'

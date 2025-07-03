@@ -3,24 +3,29 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+         #
+#    By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/26 13:53:50 by bhajili           #+#    #+#              #
-#    Updated: 2025/06/27 02:58:39 by bhajili          ###   ########.fr        #
+#    Updated: 2025/07/03 04:08:55 by bhajili          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Directories
-SRC_DIR      := srcs
-MAIN_DIR     := $(SRC_DIR)/main
-LIBFT        := ./libft/libft.a
-INCLUDES     := -I./incls
+SRC_DIR      = srcs
+MAIN_DIR     = $(SRC_DIR)/main
+LIBFT        = ./libft/libft.a
+INCLUDES     = -I./incls
+
+# Readline utils
+RLFLAGS      = -lreadline -lhistory
+RLDIR        = -L/opt/vagrant/embedded/lib
+RLINC        = -I/opt/vagrant/embedded/include/readline/readline.h
 
 # Compiler flags
 include Makefile.inc
 
 # Executable name
-NAME         := minishell
+NAME         = minishell
 
 # Default rule
 all: libft build_modules $(NAME)
@@ -31,13 +36,13 @@ build_modules:
 
 # Step 2: Collect objs AFTER build and link
 $(NAME):
-	$(eval OBJS := $(shell find $(SRC_DIR) -type f -path "*/objs/*.o"))
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	$(eval OBJS = $(shell find $(SRC_DIR) -type f -path "*/objs/*.o"))
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(RLDIR) $(RLINC) $(RLFLAGS) -o $(NAME)
 
 # Step 2: Collect objs AFTER build and link in DEBUG MODE
 debug: all
-	$(eval OBJS := $(shell find $(SRC_DIR) -type f -path "*/objs/*.o"))
-	$(CC) $(CFLAGS) -DPROGRAM_MODE=DEBUG_MODE $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	$(eval OBJS = $(shell find $(SRC_DIR) -type f -path "*/objs/*.o"))
+	$(CC) $(CFLAGS) -DPROGRAM_MODE=DEBUG_MODE $(OBJS) $(LIBFT) $(RLDIR) $(RLINC) $(RLFLAGS) -o $(NAME)
 
 # Step 3: libft
 libft:
@@ -46,7 +51,7 @@ libft:
 # Cleaning
 clean:
 	@find $(SRC_DIR) -type d -name objs | xargs rm -rf
-	@$(MAKE) -C libft clean
+	@$(MAKE) -C libft fclean
 
 fclean: clean
 	@rm -f $(NAME)

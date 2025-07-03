@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:35:16 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 23:52:01 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 06:47:00 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	run_minishell(char **envp)
 		if (SUCCESS != sh.env->last_status)
 			return (exit_minishell(&sh, sh.env->last_status));
 		sh.env->last_status = handle_input(&sh, sh.input);
+		g_exit_status = sh.env->last_status;
 		clean_shell(&sh, FALSE);
 		if (EXIT_CODE_SIGNALLED == sh.env->last_status)
 			return (exit_minishell(&sh, sh.env->last_status));

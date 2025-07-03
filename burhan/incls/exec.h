@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 01:07:25 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 16:23:41 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 07:10:42 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <errno.h>
 
 # include "parser.h"
-# include "signals.h"
 
 typedef enum e_status_code
 {
@@ -42,6 +41,6 @@ int		run_exit(t_command *cmd);
 int		is_valid_key(const char *key);
 int		handle_heredocs(t_command *cmd);
 int		exec_pipe(t_ast_node *left, t_ast_node *right, t_env *env);
-void	print_error(int error_code);
+int		handle_and_return_status(int status);
 
 #endif

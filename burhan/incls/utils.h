@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:37:51 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 15:50:54 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 04:02:47 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define DEBUG_MODE				1
 
 # ifndef PROGRAM_MODE
-#  define PROGRAM_MODE DEBUG_MODE
+#  define PROGRAM_MODE PROD_MODE
 # endif
 
 // MWM - minishell work message

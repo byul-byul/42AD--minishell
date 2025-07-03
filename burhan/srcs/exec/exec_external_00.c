@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_00.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 04:51:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 15:38:04 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 07:11:34 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,5 @@ int	exec_external(t_command *cmd, t_env *env)
 		handle_child_exec(path, cmd, env);
 	free(path);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (1);
+	return (handle_and_return_status(status));
 }

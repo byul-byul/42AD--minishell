@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_00.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 01:34:54 by bhajili           #+#    #+#             */
-/*   Updated: 2025/06/29 03:31:39 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 06:55:07 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,23 +90,25 @@ int	is_builtin(char *cmd)
 int	exec_builtin(t_command *cmd, t_env *env)
 {
 	char	*name;
+	int		res;
 
+	res = 1;
 	if (!cmd || !cmd->argv || !cmd->argv[0])
-		return (1);
+		return (res);
 	name = cmd->argv[0];
 	if (!ft_strcmp(name, "echo"))
-		return (run_echo(cmd));
+		res = run_echo(cmd);
 	else if (!ft_strcmp(name, "cd"))
-		return (run_cd(cmd, env));
+		res = run_cd(cmd, env);
 	else if (!ft_strcmp(name, "pwd"))
-		return (run_pwd());
+		res = run_pwd();
 	else if (!ft_strcmp(name, "export"))
-		return (run_export(cmd, env));
+		res = run_export(cmd, env);
 	else if (!ft_strcmp(name, "unset"))
-		return (run_unset(cmd, env));
+		res = run_unset(cmd, env);
 	else if (!ft_strcmp(name, "env"))
-		return (run_env(env));
+		res = run_env(env);
 	else if (!ft_strcmp(name, "exit"))
-		return (run_exit(cmd));
-	return (1);
+		res = run_exit(cmd);
+	return (res);
 }

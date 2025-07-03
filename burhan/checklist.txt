@@ -6,16 +6,58 @@ Compile
 
 Simple Command & global variables
 - [✅] Execute a simple command with an absolute path like /bin/ls, or any other command without any options.
-- [❔] How many global variables are used? Why? Ask the evaluated student to give you a concrete example of why it feels mandatory or logical.
-- [❔] Check the global variable. This global variable cannot provide any other information or data access than the number of a received signal.
-- [✅] Test an empty command.
-- [❌] Test only spaces or tabs. ❌: tabs are not working
-- [❔] If something crashes, select the "crash" flag.
-- [❔] If something doesn't work, select the "incomplete work" flag.
-
+    1. Command: /bin/ls
+        Expected: Lists current directory contents.
+    2. Command: /bin/pwd
+        Expected: Prints current working directory.
+    3. Command: /bin/echo hello
+        Expected: hello
+- [❌] How many global variables are used? Why? Ask the evaluated student to give you a concrete example of why it feels mandatory or logical.
+    1.✅ Action: Run minishell, press Ctrl+C
+        Expected: Shell doesn't exit. Global variable (e.g., g_exit_status) updated with SIGINT code.
+    2.❌ Action: Run a blocking command (e.g., cat) and send Ctrl+\
+        Expected: Shell handles SIGQUIT. Global var reflects it if used.
+    3.❌ Action: Check if variable affects exit status after signal
+       Command: ./minishell → press Ctrl+C → type echo $?
+        Expected: Returns 131 (signal exit code for SIGINT)
+- [❌] Check the global variable. This global variable cannot provide any other information or data access than the number of a received signal.
+    1.✅ Inspect: Is the global variable only storing the signal code?
+        Expected: Variable (e.g., g_exit_status = 2) only represents SIGINT, not command data or status.
+    2.❌ Action: Set global var manually in code to invalid value (e.g., g_exit_status = 999)
+        Expected: Shell behaves incorrectly → proves it’s tied only to signal codes.
+    3.❌ Action: Trigger SIGINT and observe how the shell reacts (e.g., resets prompt, doesn’t exit)
+        Expected: Shell reads g_exit_status = SIGINT (2) only to decide prompt behavior, not for logic branching.
+- [❌] Test an empty command.
+    1.✅ Input: (Just press Enter)
+        Expected: No output or error, just new prompt.
+    2.❌ Input: "" (empty string in quotes)
+        Expected: No output or error, just new prompt.
+    3.❌ Input: '' (same as above but with single quotes)
+        Expected: No output or error.
+- [❌] Test only spaces or tabs.
+    1.✅ Input: (5 spaces)
+        Expected: No output, prompt returns.
+    2.❌ Input: \t\t (2 tabs)
+        Expected: No output, prompt returns.
+    3.❌ Input: \t \t (mix of spaces and tabs)
+        Expected: No output, prompt returns.
+- [✅] If something crashes, select the "crash" flag.
+    1.✅ Input: unset PATH → then try: ls
+        Expected: Should fail gracefully (e.g., "command not found"), not crash.
+    2.✅ Input: export VERYLONG=$(yes | head -n 100000)
+        Expected: Should handle large env vars without crashing.
+    3.✅ Action: Pipe invalid memory (e.g., echo test | ./minishell) if supported
+        Expected: Should handle input without segmentation fault.
+- [❌] If something doesn't work, select the "incomplete work" flag.
+    1.❔❌ Input: ls |
+        Expected: Syntax error. If nothing happens or no error shown → incomplete.
+    2.✅ Input: cd
+        Expected: Should go to $HOME. If not → incomplete.
+    3.❌ Input: echo hello >
+        Expected: Syntax error. If shell hangs or does nothing → incomplete.
 Arguments
-- [✅] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes or double quotes.
-- [✅] Repeat multiple times with different commands and arguments.
+- [❔] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes or double quotes.
+- [❔] Repeat multiple times with different commands and arguments.
 - [❔] If something crashes, select the "crash" flag.
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
