@@ -12,35 +12,35 @@ Simple Command & global variables
         Expected: Prints current working directory.
     3. Command: /bin/echo hello
         Expected: hello
-- [❌] How many global variables are used? Why? Ask the evaluated student to give you a concrete example of why it feels mandatory or logical.
+- [✅] How many global variables are used? Why? Ask the evaluated student to give you a concrete example of why it feels mandatory or logical.
     1.✅ Action: Run minishell, press Ctrl+C
         Expected: Shell doesn't exit. Global variable (e.g., g_exit_status) updated with SIGINT code.
-    2.❌ Action: Run a blocking command (e.g., cat) and send Ctrl+\
+    2.✅ Action: Run a blocking command (e.g., cat) and send Ctrl+\
         Expected: Shell handles SIGQUIT. Global var reflects it if used.
-    3.❌ Action: Check if variable affects exit status after signal
+    3.✅ Action: Check if variable affects exit status after signal
        Command: ./minishell → press Ctrl+C → type echo $?
-        Expected: Returns 131 (signal exit code for SIGINT)
+        Expected: Returns 130 (signal exit code for SIGINT)
 - [❌] Check the global variable. This global variable cannot provide any other information or data access than the number of a received signal.
     1.✅ Inspect: Is the global variable only storing the signal code?
         Expected: Variable (e.g., g_exit_status = 2) only represents SIGINT, not command data or status.
     2.❌ Action: Set global var manually in code to invalid value (e.g., g_exit_status = 999)
         Expected: Shell behaves incorrectly → proves it’s tied only to signal codes.
-    3.❌ Action: Trigger SIGINT and observe how the shell reacts (e.g., resets prompt, doesn’t exit)
+    3.✅ Action: Trigger SIGINT and observe how the shell reacts (e.g., resets prompt, doesn’t exit)
         Expected: Shell reads g_exit_status = SIGINT (2) only to decide prompt behavior, not for logic branching.
-- [❌] Test an empty command.
+- [✅] Test an empty command.
     1.✅ Input: (Just press Enter)
         Expected: No output or error, just new prompt.
-    2.❌ Input: "" (empty string in quotes)
-        Expected: No output or error, just new prompt.
-    3.❌ Input: '' (same as above but with single quotes)
-        Expected: No output or error.
-- [❌] Test only spaces or tabs.
+    2.✅ Input: "" (empty string in quotes)
+        Expected:  : command not found.
+    3.✅ Input: '' (same as above but with single quotes)
+        Expected:  : command not found.
+- [✅] Test only spaces or tabs.
     1.✅ Input: (5 spaces)
         Expected: No output, prompt returns.
-    2.❌ Input: \t\t (2 tabs)
-        Expected: No output, prompt returns.
-    3.❌ Input: \t \t (mix of spaces and tabs)
-        Expected: No output, prompt returns.
+    2.✅ Action: press tab 1 time
+        Expected: No output.
+    3.✅ Action: press tab 2 or more times
+        Expected: ls of current dir.
 - [✅] If something crashes, select the "crash" flag.
     1.✅ Input: unset PATH → then try: ls
         Expected: Should fail gracefully (e.g., "command not found"), not crash.
@@ -48,17 +48,38 @@ Simple Command & global variables
         Expected: Should handle large env vars without crashing.
     3.✅ Action: Pipe invalid memory (e.g., echo test | ./minishell) if supported
         Expected: Should handle input without segmentation fault.
-- [❌] If something doesn't work, select the "incomplete work" flag.
-    1.❔❌ Input: ls |
+- [✅] If something doesn't work, select the "incomplete work" flag.
+    1.✅ Input: ls |
         Expected: Syntax error. If nothing happens or no error shown → incomplete.
     2.✅ Input: cd
         Expected: Should go to $HOME. If not → incomplete.
-    3.❌ Input: echo hello >
+    3.✅ Input: echo hello >
         Expected: Syntax error. If shell hangs or does nothing → incomplete.
+
 Arguments
-- [❔] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes or double quotes.
-- [❔] Repeat multiple times with different commands and arguments.
+- [✅] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes or double quotes.
+    1.✅ Command: /bin/echo hello world
+        Expected: hello world
+    2.✅ Command: /bin/ls -a -l
+        Expected: Detailed list of all files, including hidden ones
+    3.✅ Command: /bin/mkdir testdir
+        Expected: Creates a new directory named testdir
+- [✅] Repeat multiple times with different commands and arguments.
+    1.✅ Command: /bin/touch a b c
+        Expected: /bin/touch: No such file or directory
+    2.✅ Command: /bin/rm a b c
+        Expected:   rm: a: No such file or directory
+                    rm: b: No such file or directory
+                    rm: c: No such file or directory
+    3.✅ Command: /bin/echo 1 2 3 4 5
+        Expected: 1 2 3 4 5
 - [❔] If something crashes, select the "crash" flag.
+    1.✅ Command: export TEST
+        Expected: Crash — missing = in export should be handled gracefully, but some implementations crash if not validated properly.
+    2.✅ Command: unset (with no arguments)
+        Expected: Should be handled safely. Some implementations dereference null/invalid pointers → crash if no argument check.
+    3.❌ Command: echo $((2 + ))
+        Expected: Bash prints: bash: ((: 2 + : syntax error: operand expected
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 echo
@@ -69,14 +90,19 @@ echo
 
 exit
 - [✅] Execute exit command with or without arguments.
+    1. ./minishell -c "exit 42"; echo $? 
+    2. exit 42
+    should see:
+        exit
+        42
 - [✅] Repeat multiple times with different arguments.
 - [❔] Don't forget to relaunch the minishell.
 - [❔] If something crashes, select the "crash" flag.
 - [❔] If something doesn't work, select the "incomplete work" flag.
 
 Return value of a process
-- [✅] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes and double quotes. Then execute echo $?
-- [❔❌] Check the printed value. You can do the same in bash in order to compare the results.  ❌: have not been tested properly
+- [❔] Execute a simple command with an absolute path like /bin/ls, or any other command with arguments but without any quotes and double quotes. Then execute echo $?
+- [❔] Check the printed value. You can do the same in bash in order to compare the results.
 - [❔] Repeat multiple times with different commands and arguments. Try some wrong commands like '/bin/ls filethatdoesntexist'
 - [❔] Try anything like expr $? + $?
 - [❔] If something crashes, select the "crash" flag.

@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 04:51:33 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/03 07:11:34 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 09:20:59 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,26 @@ static int	handle_child_exec(char *path, t_command *cmd, t_env *env)
 	exit(126);
 }
 
+static int	print_error_and_return_status(char *argvalue)
+{
+	if (ft_strchr(argvalue, '/'))
+		print_exec_error(argvalue, "No such file or directory");
+	else
+		print_exec_error(argvalue, "command not found");
+	return (127);
+}
+
 int	exec_external(t_command *cmd, t_env *env)
 {
 	pid_t	pid;
 	int		status;
 	char	*path;
 
+	if (!cmd || !cmd->argv || !cmd->argv[0][0])
+		return (print_exec_error(cmd->argv[0], "command not found"), 127);
 	path = resolve_path(cmd->argv[0], env);
 	if (!path)
-	{
-		print_exec_error(cmd->argv[0], "command not found");
-		return (127);
-	}
+		return (print_error_and_return_status(cmd->argv[0]));
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork"), free(path), 1);

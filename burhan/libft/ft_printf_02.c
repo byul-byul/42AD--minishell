@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 13:28:10 by bhajili           #+#    #+#             */
-/*   Updated: 2024/12/26 13:29:02 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 09:28:17 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static void	print_space(t_arg *arg, int delta)
 {
-	if ((((!flag_check(arg, FLAG_ZERO) || arg->prec > -1) && \
-		!flag_check(arg, FLAG_DASH)) && !flag_check(arg, FLAG_PRNT)) || \
-		(flag_check(arg, FLAG_DASH) && flag_check(arg, FLAG_PRNT)))
+	if ((((!flag_check(arg, FLAG_ZERO) || arg->prec > -1)
+				&& !flag_check(arg, FLAG_DASH)) && !flag_check(arg, FLAG_PRNT))
+		|| (flag_check(arg, FLAG_DASH) && flag_check(arg, FLAG_PRNT)))
 		arg->res += putchar_len_times(arg->width - delta, ' ');
 }
 
 static void	print_zero(t_arg *arg, int delta, int count)
 {
-	if (flag_check(arg, FLAG_ZERO) && !flag_check(arg, FLAG_DASH) && \
-		arg->prec <= -1)
+	if (flag_check(arg, FLAG_ZERO) && !flag_check(arg, FLAG_DASH)
+		&& arg->prec <= -1)
 		arg->res += putchar_len_times(arg->width - delta, '0');
 	arg->res += putchar_len_times(arg->prec - count, '0');
 }

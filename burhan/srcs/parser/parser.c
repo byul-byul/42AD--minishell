@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:56:39 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/01 03:10:42 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 08:03:03 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ t_ast_node	*parser(t_token *token_list)
 		return (NULL);
 	current = token_list;
 	ast = parse_logical_or(&current);
+	if (ast == NULL)
+		return (NULL);
 	if (current)
 	{
 		print_parser_error(ERR_CODE_PARSER_SYNTAX_00, current->value);
