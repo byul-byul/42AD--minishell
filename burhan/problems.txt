@@ -5,15 +5,14 @@
 
 
 
-new problems:
-1. ctrl+D shows exit on new line with prompt and then one more prompt on new line:
+5. ctrl+D shows exit on new line with prompt and then one more prompt on new line:
 minishell$ 
 minishell$ exit
 minishell: %
 
 it should show only exit on the same line
 
-2. cat the ctrl+c shows two prompts:
+6. cat the ctrl+c shows two prompts:
 minishell$ cat
 ^C
 minishell$ 
@@ -21,7 +20,7 @@ minishell$
 
 should show only one
 
-3.
+7.
 minishell$ echo $'USER'
 bhajili
 minishell$ echo $"USER"
@@ -33,3 +32,5 @@ USER
 bash-3.2$ echo $"USER"
 USER
 
+
+8 .< input.txt grep word | sort

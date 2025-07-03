@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:56:39 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 15:36:48 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:36:42 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,14 @@ static int	finalize_command(t_command *cmd, t_list *argv_list)
 {
 	cmd->argv = list_to_str_array(argv_list);
 	ft_lstclear(&argv_list, free);
-	if (!cmd->argv || !cmd->argv[0])
+	if (!cmd->argv)
 	{
 		free_command(cmd);
-		// print_parser_error(ERR_CODE_PARSER_SYNTAX_01, NULL);
+		return (1);
+	}
+	if (!cmd->argv[0] && !cmd->redirections)
+	{
+		free_command(cmd);
 		return (1);
 	}
 	return (0);

@@ -186,16 +186,53 @@ Environment path
     5.  ls
     Expected: FAKE LS from testdir1
 Redirection
-- [❔] Execute commands with redirections < and/or >
-- [❔] Repeat multiple times with different commands and arguments and sometimes change > with >>
+- [✅] Execute commands with redirections < and/or >
+    1.✅ Command: echo "hello" > file1.txt
+        Expected: file1.txt contains hello
+    2.✅ Command: cat < file1.txt
+        Expected: prints hello
+    3.✅ Command: echo "line2" >> file1.txt
+        Expected: file1.txt now contains:
+    4.✅ Command: cat < file1.txt > file2.txt
+        Expected: file2.txt has same content as file1.txt
+    5.✅ Command: > file3.txt
+        Expected: creates empty file file3.txt
+    6.✅ Command: > > file4.txt
+        Expected: syntax error
+    7.✅ Command: echo start > out.txt > out2.txt
+        Expected: out2.txt contains start, out.txt is empty (Bash behavior)
+    8.✅ Command: cat << EOF (Then type)
+        line1
+        line2
+        EOF
+       Expected: prints:
+        line1
+        line2
+    9.✅ Command: cat << EOF > heredoc.txt (Then type)
+        hi
+        EOF
+       Expected: heredoc.txt contains hi
+    10.✅ Command: cat <<EOF | wc -l (Then type)
+        line1
+        line2
+        EOF
+       Expected: 2
+- [✅] Repeat multiple times with different commands and arguments and sometimes change > with >>
 - [❔] Check if multiple tries of the same redirections fail.
 - [❔] Test << redirection (it doesn't have to update the history).
 
 Pipes
-- [❔] Execute commands with pipes like 'cat file | grep bla | more'
+- [✅] Execute commands with pipes like 'cat file | grep bla | more'
+    1.✅ Command: cat file.txt | grep hello | wc -l
+        Expexted: Should print number of lines in file.txt containing “hello”.
+    2.✅ Command: ls nonexistent | grep test | wc -l
+        Expected: ls: nonexistent: No such file or directory
+                                                0
 - [❔] Repeat multiple times with different commands and arguments.
-- [❔] Try some wrong commands like 'ls filethatdoesntexist | grep bla | more'
+- [✅] Try some wrong commands like 'ls filethatdoesntexist | grep bla | more'
 - [❔] Try to mix pipes and redirections.
+    1. Command: input.txt | grep word > result.txt
+        Expected: 
 
 Go Crazy and history
 - [❔] Type a command line, then use ctrl-C and press "Enter". The buffer should be clean and there should be nothing left to execute.

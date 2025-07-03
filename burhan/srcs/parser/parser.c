@@ -6,7 +6,7 @@
 /*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:56:39 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/03 08:03:03 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:37:13 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,13 @@ t_ast_node	*parse_subshell(t_token **token_list)
 	t_ast_node	*node;
 
 	if (!*token_list || (*token_list)->type != OPEN_PAREN)
-	{
-		// print_parser_error(ERR_CODE_PARSER_SYNTAX_01, "(");
 		return (NULL);
-	}
 	*token_list = (*token_list)->next;
 	subtree = parse_logical_or(token_list);
 	if (!subtree)
 		return (NULL);
 	if (!*token_list || (*token_list)->type != CLOSE_PAREN)
 	{
-		// print_parser_error(ERR_CODE_PARSER_SYNTAX_01, ")");
 		free_ast(subtree);
 		return (NULL);
 	}

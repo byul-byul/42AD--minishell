@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bhajili <bhajili@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: bhajili <bhajili@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:40:53 by bhajili           #+#    #+#             */
-/*   Updated: 2025/07/02 15:17:40 by bhajili          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:34:52 by bhajili          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	is_unquoted_wildcard(const char *val, const char *qmap)
 	i = 0;
 	while (val[i])
 	{
-		if (val[i] == '*' && qmap[i] != '1')
+		if (val[i] == '*' && qmap[i] != '1' && qmap[i] != '2')
 			return (1);
 		i++;
 	}
