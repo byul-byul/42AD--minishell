@@ -1,0 +1,48 @@
+valgrind --track-fds=yes --trace-children=yes --track-origins=yes --leak-check=full --leak-resolution=high -s --show-leak-kinds=all --suppressions=bin.supp ./minishell 
+1-
+ls
+==931== Memcheck, a memory error detector
+==931== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==931== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==931== Command: /usr/bin/ls
+==931== 
+Makefile  Makefile.inc	bin.supp  checklist.txt  incls	libft  minishell  problems.txt	srcs
+==931== 
+==931== FILE DESCRIPTORS: 3 open (1 std) at exit.
+==931== Open file descriptor 4: /dev/pts/0
+==931==    <inherited from parent>
+==931== 
+==931== Open file descriptor 3: /dev/pts/0
+==931==    <inherited from parent>
+==931== 
+
+
+2- using env or export then exiting has lots of still reachable bytes
+
+3- minishell$ export PWD=hi2 && echo $PWD
+hi
+
+4- &&
+bash: syntax error
+minishell: nothing
+mini exit code: 106
+bash exit: 258 
+fix it for all syntax errors
+
+5- 
+bash-3.2$ mkdir -p d1/d2/d3/d4
+bash-3.2$ cd d1/d2/d3/d4/
+bash-3.2$ rm -rf ../../../d2/
+bash-3.2$ cd ..
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+minishell doesnt do the same
+
+6- valgrind --track-fds=yes --trace-children=yes --track-origins=yes --leak-check=full --leak-resolution=high --show-leak-kinds=all --suppressions=$PWD/bin.supp ./minishell
+cat * | ./minishell
+leaks
+
+7- cd into a directory, OLDPWD didnt change
+
+8- SHLVL doesnt change
+
+9- ls bin.supp && (cat Makefile || cat env) && echo * // leaks

@@ -1,0 +1,32 @@
+{
+   <leak-in-bin-wildcard>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/bin/*
+}
+
+{
+   <leak-in-usr-bin-wildcard>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/bin/*
+}
+
+{
+   <leak-in-readline>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:readline
+   ...
+}
+
+{
+   <leak-in-usr-lib-wildcard>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/lib/*
+}
